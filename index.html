@@ -834,33 +834,49 @@
 
     <!-- BIO MODAL -->
     <div id="bio-modal" class="custom-modal" onclick="closeBioModal(event)">
-        <div id="bio-content" class="glass-panel w-full max-w-sm md:max-w-4xl m-4 transform scale-95 transition-all duration-300 rounded-2xl overflow-hidden flex flex-col md:flex-row bg-black/90 border border-red-500/30">
-            <div class="w-full md:w-5/12 aspect-[4/5] relative bg-gray-900 group">
+        <!-- PERBAIKAN: 
+             1. width diubah jadi w-[90%] agar tidak terlalu mepet.
+             2. max-h-[90vh] dan overflow-y-auto agar bisa di-scroll jika konten panjang.
+             3. max-w-sm dihapus diganti max-w-4xl agar konsisten.
+        -->
+        <div id="bio-content" class="glass-panel w-[90%] md:w-full max-w-4xl max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-visible transform scale-95 transition-all duration-300 rounded-2xl flex flex-col md:flex-row bg-black/90 border border-red-500/30 shadow-2xl relative">
+            
+            <!-- PERBAIKAN IMAGE: 
+                 1. h-64: Membatasi tinggi gambar di HP (sekitar 250px) agar teks di bawahnya terlihat.
+                 2. md:h-auto: Di laptop kembali otomatis mengikuti aspek rasio.
+            -->
+            <div class="w-full md:w-5/12 h-64 md:h-auto md:aspect-[4/5] relative bg-gray-900 group shrink-0">
                 <!-- LOADER FOR BIO MODAL -->
                 <div id="modal-img-loader" class="img-loading-skeleton">
                     <i class="fas fa-spinner fa-spin text-red-900 text-4xl"></i>
                 </div>
                 
-                <!-- PERUBAHAN: Menghapus 'group-hover:scale-105' agar tidak zoom otomatis -->
-                <img id="modal-img" src="" alt="Profile Photo" class="relative z-10 w-full h-full object-cover opacity-0 transition-opacity duration-500" onerror="this.src='https://placehold.co/400x500?text=No+Image';">
+                <img id="modal-img" src="" alt="Profile Photo" class="relative z-10 w-full h-full object-cover transition-opacity duration-500 opacity-0" onerror="this.src='https://placehold.co/400x500?text=No+Image';">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/90 z-20 pointer-events-none"></div>
+                
+                <!-- Tombol Close Alternatif (Floating di gambar untuk akses cepat di HP) -->
+                <button onclick="closeBioModal(null, true)" class="md:hidden absolute top-4 right-4 z-50 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-            <div class="w-full md:w-7/12 p-8 flex flex-col justify-center text-left relative">
-                <div class="absolute top-0 right-0 p-6 opacity-10">
+
+            <!-- PERBAIKAN KONTEN: Padding dikurangi (p-6) di HP, p-8 di Laptop -->
+            <div class="w-full md:w-7/12 p-6 md:p-8 flex flex-col justify-center text-left relative bg-black/50 md:bg-transparent">
+                <div class="absolute top-0 right-0 p-6 opacity-10 hidden md:block">
                     <i class="fas fa-fingerprint text-8xl text-red-600"></i>
                 </div>
                 
-                <div class="mb-8 relative z-10">
-                    <h2 id="modal-name" class="text-3xl md:text-5xl font-bold text-white font-tech mb-2 tracking-wide leading-tight drop-shadow-lg">Name Here</h2>
+                <div class="mb-6 md:mb-8 relative z-10">
+                    <h2 id="modal-name" class="text-2xl md:text-5xl font-bold text-white font-tech mb-2 tracking-wide leading-tight drop-shadow-lg">Name Here</h2>
                     <div class="flex items-center gap-3">
-                        <span class="px-3 py-1 bg-red-900/40 border border-red-500/30 rounded text-red-400 font-mono text-sm tracking-wider" id="modal-nim">NIM: 00000000</span>
+                        <span class="px-3 py-1 bg-red-900/40 border border-red-500/30 rounded text-red-400 font-mono text-xs md:text-sm tracking-wider" id="modal-nim">NIM: 00000000</span>
                     </div>
                 </div>
 
                 <div class="space-y-4 relative z-10">
                     <!-- Instagram Row -->
                     <div class="bio-info-row group">
-                        <div class="bio-icon-box">
+                        <div class="bio-icon-box w-10 h-10 md:w-12 md:h-12 text-lg md:text-xl">
                             <i class="fab fa-instagram"></i>
                         </div>
                         <div class="flex-grow pt-1">
@@ -871,18 +887,18 @@
 
                     <!-- Bio Row -->
                     <div class="bio-info-row group">
-                        <div class="bio-icon-box">
+                        <div class="bio-icon-box w-10 h-10 md:w-12 md:h-12 text-lg md:text-xl">
                             <i class="fas fa-quote-left"></i>
                         </div>
                         <div class="flex-grow pt-1">
                             <span class="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">About Me</span>
                             <!-- FIX: Added text-justify -->
-                            <p id="modal-bio" class="text-gray-300 font-light leading-relaxed text-lg italic pr-4 text-justify">"..."</p>
+                            <p id="modal-bio" class="text-gray-300 font-light leading-relaxed text-sm md:text-lg italic pr-2 md:pr-4 text-justify">"..."</p>
                         </div>
                     </div>
                 </div>
 
-                <button onclick="closeBioModal(null, true)" class="mt-10 self-start px-8 py-3 border border-red-600 text-red-500 rounded-lg hover:bg-red-600 hover:text-white transition-all text-sm font-bold tracking-widest uppercase flex items-center gap-2 group">
+                <button onclick="closeBioModal(null, true)" class="mt-8 md:mt-10 self-start px-6 md:px-8 py-2 md:py-3 border border-red-600 text-red-500 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs md:text-sm font-bold tracking-widest uppercase flex items-center gap-2 group mb-2">
                     <span>Close Profile</span>
                     <i class="fas fa-times group-hover:rotate-90 transition-transform"></i>
                 </button>
