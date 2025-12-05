@@ -1213,6 +1213,131 @@
             video.pause();
             video.currentTime = 0; // Reset to start
         }
+
+        // --- 6. NAVIGATION HISTORY MANAGEMENT (FIX BACK BUTTON) ---
+        
+        // Setup initial history state on load
+        window.addEventListener('load', function() {
+            history.replaceState({ page: 'home' }, '', '#home');
+        });
+
+        // Listen for Back Button (Popstate)
+        window.addEventListener('popstate', function(event) {
+            const state = event.state;
+            
+            // 1. Force Close All Modals (UI Cleanup)
+            document.getElementById('bio-modal').classList.remove('active');
+            document.getElementById('media-modal').classList.remove('active');
+            
+            const gallery = document.getElementById('family-gallery');
+            gallery.classList.remove('open');
+            document.body.style.overflow = 'auto'; // Restore scroll
+            
+            // Stop any playing media
+            const mediaContainer = document.getElementById('media-container');
+            if(mediaContainer) mediaContainer.innerHTML = '';
+
+            // 2. Handle Tab Switching based on history
+            if (state && state.page) {
+                // If the state is a main tab, switch to it without pushing new history
+                if (['home', 'structure', 'documentation'].includes(state.page)) {
+                    _switchTabUI(state.page);
+                }
+            } else {
+                // Default fallback
+                _switchTabUI('home');
+            }
+        });
+
+        // Override original functions to include History Push
+        
+        // Helper: Only updates UI, doesn't touch history (used by popstate)
+        function _switchTabUI(tabId) {
+            const sections = document.querySelectorAll('main section');
+            sections.forEach(section => {
+                section.classList.remove('active-section');
+                section.classList.add('hidden-section');
+                setTimeout(() => {
+                    if(!section.classList.contains('active-section')){
+                        section.style.display = 'none';
+                    }
+                }, 0); 
+            });
+            const target = document.getElementById(tabId);
+            if (target) {
+                target.style.display = 'block'; 
+                void target.offsetWidth; 
+                target.classList.remove('hidden-section');
+                target.classList.add('active-section');
+            }
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        // Main Navigation Function
+        function switchTab(tabId) {
+            _switchTabUI(tabId);
+            // Push state so back button works
+            history.pushState({ page: tabId }, '', '#' + tabId);
+        }
+
+        // Modified Toggle Family Gallery
+        const originalToggleFamilyGallery = toggleFamilyGallery; // Save ref if needed logic differs
+        toggleFamilyGallery = function() {
+            const gallery = document.getElementById('family-gallery');
+            const isOpen = gallery.classList.contains('open');
+            
+            if (isOpen) {
+                // If open, user clicked close button/overlay -> Go Back in history
+                history.back(); 
+            } else {
+                // If closed, we are opening it -> Push state
+                gallery.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                history.pushState({ page: 'family-gallery' }, '', '#family');
+            }
+        }
+
+        // Modified Bio Modal Open
+        const originalOpenBioModal = openBioModal;
+        openBioModal = function(index) {
+            // Call original UI logic
+            originalOpenBioModal(index);
+            // Push history
+            history.pushState({ page: 'bio-details' }, '', '#student-bio');
+        }
+
+        // Modified Media Modal Open
+        const originalOpenMediaModal = openMediaModal;
+        openMediaModal = function(type, src) {
+            originalOpenMediaModal(type, src);
+            history.pushState({ page: 'media-preview' }, '', '#preview');
+        }
+
+        // Modified Close Functions to use History Back
+        // We override the click handlers in HTML to simply go back
+        // The 'popstate' listener handles the actual UI closing.
+        
+        // We redefine close functions to simply trigger history.back()
+        // But we must check if the close request came from UI click (need back) 
+        // or system (no need back).
+        
+        // Actually, simpler: Update HTML onclicks to closeBioModal(event, true) isn't needed anymore
+        // We simply intercept the close actions.
+        
+        closeBioModal = function(e, force) {
+            // If triggered by click (e exists), go back. 
+            // The popstate listener will do the actual closing UI work.
+            if (e || force) {
+                history.back();
+            }
+        }
+
+        closeMediaModal = function(e, force) {
+            if (e || force) {
+                history.back();
+            }
+        }
+
     </script>
 </body>
 </html>
