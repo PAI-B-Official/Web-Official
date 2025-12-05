@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Kelas Official</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'crimson-dark': '#1a0505',
+                        'crimson-main': '#8a0000',
+                        'crimson-light': '#ff1f1f',
+                        'glass': 'rgba(255, 255, 255, 0.05)',
+                    },
+                    fontFamily: {
+                        'tech': ['Orbitron', 'sans-serif'],
+                        'body': ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0000;
+            color: #e5e5e5;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a0505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8a0000;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff1f1f;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(40, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 50, 50, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Intro Animation */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000, #2b0000);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        }
+
+        .hidden-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .active-section {
+            display: block;
+            animation: fadeIn 0.6s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typing Cursor */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Neon Glow Text */
+        .neon-text {
+            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #8a0000;
+        }
+
+        /* Organizational Chart Styles (Tree) - DESKTOP ONLY */
+        .tree {
+            display: flex;
+            justify-content: center;
+        }
+        .tree ul {
+            padding-top: 20px; 
+            position: relative;
+            transition: all 0.5s;
+            display: flex;
+            justify-content: center;
+        }
+        .tree li {
+            float: left; text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 5px 0 5px;
+            transition: all 0.5s;
+        }
+        /* Connectors */
+        .tree li::before, .tree li::after {
+            content: '';
+            position: absolute; top: 0; right: 50%;
+            border-top: 2px solid #8a0000;
+            width: 50%; height: 20px;
+        }
+        .tree li::after {
+            right: auto; left: 50%;
+            border-left: 2px solid #8a0000;
+        }
+        .tree li:only-child::after, .tree li:only-child::before {
+            display: none;
+        }
+        .tree li:only-child { padding-top: 0;}
+        .tree li:first-child::before, .tree li:last-child::after {
+            border: 0 none;
+        }
+        .tree li:last-child::before{
+            border-right: 2px solid #8a0000;
+            border-radius: 0 5px 0 0;
+        }
+        .tree li:first-child::after{
+            border-radius: 5px 0 0 0;
+        }
+        .tree ul ul::before{
+            content: '';
+            position: absolute; top: 0; left: 50%;
+            border-left: 2px solid #8a0000;
+            width: 0; height: 20px;
+        }
+
+        /* Family Gallery Modal */
+        #family-gallery {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 0, 0, 0.95);
+            z-index: 100;
+            overflow-y: auto;
+            transform: scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        #family-gallery.open {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Bio Modal & Media Modal */
+        .custom-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9); /* Dark backdrop */
+            z-index: 200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .custom-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Styling untuk List Info di Bio agar lebih rapi */
+        .bio-info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem; /* gap-5 */
+            padding: 0.5rem 0;
+            transition: all 0.3s;
+        }
+        .bio-icon-box {
+            flex-shrink: 0;
+            width: 3rem; /* w-12 */
+            height: 3rem; /* h-12 */
+            border-radius: 50%;
+            background: rgba(127, 29, 29, 0.2); /* red-900/20 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ef4444; /* red-500 */
+            font-size: 1.25rem; /* text-xl */
+            border: 1px solid rgba(239, 68, 68, 0.1);
+            transition: all 0.3s;
+        }
+        .bio-info-row:hover .bio-icon-box {
+            background: #dc2626; /* red-600 */
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
+        }
+        
+        /* Music Control Button Animation */
+        .music-pulse {
+            animation: musicPulse 1.5s infinite;
+        }
+        @keyframes musicPulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+        }
+
+        /* Play Button Overlay */
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(220, 38, 38, 0.85);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s;
+            box-shadow: 0 0 25px rgba(220, 38, 38, 0.6);
+            z-index: 10;
+        }
+        .group:hover .play-overlay {
+            background: rgba(255, 255, 255, 0.95);
+            color: #dc2626;
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+
+        /* Image Loading Skeleton */
+        .img-loading-skeleton {
+            position: absolute;
+            inset: 0;
+            background-color: #1f2937; /* gray-800 */
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 0;
+        }
+        .img-loaded {
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+<body class="font-body selection:bg-red-500 selection:text-white">
+
+    <!-- AUDIO ELEMENT -->
+    <audio id="bg-music" loop>
+        <source src="Waheshna.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- INTRO PAGE (SPLASH SCREEN) -->
+    <div id="intro-screen">
+        <div class="text-center">
+            <h1 class="font-tech text-4xl md:text-7xl font-bold text-white mb-4 tracking-widest neon-text">
+                PRODI <span id="typing-text" class="text-red-500 typing-cursor"></span>
+            </h1>
+            <p class="text-gray-400 text-sm md:text-lg mb-8 font-light tracking-[0.3em]">2025 | GENERATION OF SUCCESS</p>
+            
+            <button onclick="enterSite()" class="group relative px-8 py-3 bg-transparent overflow-hidden rounded-full border border-red-600 transition-all hover:shadow-[0_0_20px_rgba(255,0,0,0.5)]">
+                <span class="relative z-10 text-white font-tech tracking-wider group-hover:text-black transition-colors duration-300">VISIT CLASS</span>
+                <div class="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 group-hover:scale-100 group-hover:bg-red-600"></div>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="main-app" class="hidden opacity-0 transition-opacity duration-1000 min-h-screen flex flex-col">
+        
+        <!-- Navigation -->
+        <nav class="fixed top-0 w-full z-50 glass-panel border-b border-red-900/30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex-shrink-0">
+                        <span class="font-tech text-2xl font-bold text-red-500 tracking-tighter">PAI <span class="text-white">B</span></span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <button onclick="switchTab('home')" class="nav-btn text-white hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</button>
+                            <button onclick="switchTab('structure')" class="nav-btn text-gray-300 hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Structure</button>
+                            <button onclick="switchTab('documentation')" class="nav-btn text-gray-300 hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Documentation</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Music & Mobile Menu Controls -->
+                    <div class="flex items-center gap-4">
+                        <button onclick="toggleMusic()" id="music-btn" class="w-8 h-8 rounded-full bg-red-900/50 flex items-center justify-center text-red-400 border border-red-500/30 hover:bg-red-600 hover:text-white transition-all music-pulse">
+                            <i class="fas fa-music"></i>
+                        </button>
+                        <div class="md:hidden">
+                            <button onclick="toggleMobileMenu()" class="text-gray-300 hover:text-white p-2">
+                                <i class="fas fa-bars text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-red-900/30">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <button onclick="switchTab('home')" class="text-gray-300 hover:text-red-400 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Home</button>
+                    <button onclick="switchTab('structure')" class="text-gray-300 hover:text-red-400 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Structure</button>
+                    <button onclick="switchTab('documentation')" class="text-gray-300 hover:text-red-400 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Documentation</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- BACKGROUND PARTICLES -->
+        <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+            <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-red-900 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 animate-pulse-slow"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-red-800 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 animate-pulse-slow"></div>
+        </div>
+
+        <!-- CONTENT SECTIONS -->
+        <main class="flex-grow pt-20 px-4 md:px-8 max-w-7xl mx-auto w-full">
+
+            <!-- 1. HOME SECTION -->
+            <section id="home" class="active-section py-10">
+                <div class="grid md:grid-cols-2 gap-10 items-center">
+                    <div class="space-y-6 text-center md:text-left">
+                        <!-- LOGO MOBILE (Hanya muncul di HP/Mobile - md:hidden) -->
+                        <div class="md:hidden mb-4 flex justify-center">
+                            <img src="IAINU.jpg" alt="Class Logo Mobile" 
+                                 class="w-30 h-30 object-contain filter drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]"
+                                 onerror="this.style.display='none'">
+                        </div>
+
+                        <h2 class="text-5xl md:text-6xl font-bold font-tech leading-tight">
+                            WELCOME TO <br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-600">FACULTY TARBIYAH</span>
+                        </h2>
+                        <p class="text-gray-400 leading-relaxed text-lg">
+                            "Kami tidak hanya diajarkan cara mentransfer ilmu, tapi juga cara menanamkan adab. Karena ilmu tanpa adab seperti api tanpa kayu bakar, tak akan memberi kehangatan yang lama."
+                        </p>
+                        <div class="flex gap-4 pt-4 justify-center md:justify-start">
+                            <button onclick="switchTab('documentation')" class="px-6 py-3 bg-red-700 hover:bg-red-600 rounded-lg text-white font-semibold transition-all shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                                Let's Go !!!
+                            </button>
+                            <button onclick="switchTab('structure')" class="px-6 py-3 border border-gray-600 hover:border-red-500 hover:text-red-400 rounded-lg text-gray-300 font-semibold transition-all">
+                                Mahasiswa
+                            </button>
+                        </div>
+                        
+                        <!-- Stats -->
+                        <div class="grid grid-cols-3 gap-4 pt-8 border-t border-gray-800">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">24</h3>
+                                <p class="text-xs text-gray-500 uppercase tracking-wider">Siswa</p>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">6</h3>
+                                <p class="text-xs text-gray-500 uppercase tracking-wider">Laki-laki</p>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">18</h3>
+                                <p class="text-xs text-gray-500 uppercase tracking-wider">Perempuan</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side Card -->
+                    <div class="relative animate-float hidden md:block">
+                        <div class="flex justify-center mb-6">
+                            <!-- Logo Utama Desktop -->
+                            <img src="IAINU.jpg" alt="Class Logo" 
+                                 class="w-32 h-32 object-contain filter drop-shadow-[0_0_15px_rgba(220,38,38,0.5)] hover:scale-110 transition-transform duration-300"
+                                 onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2997/2997322.png';">
+                        </div>
+
+                        <div class="glass-panel p-8 rounded-2xl transform rotate-3 hover:rotate-0 transition-all duration-500 border border-red-500/20">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-black flex items-center justify-center">
+                                    <i class="fas fa-quote-left text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Motto Kelas</h4>
+                                    <p class="text-xs text-red-400">Since 2025</p>
+                                </div>
+                            </div>
+                            <blockquote class="text-xl font-light italic text-gray-300 mb-6">
+                                "Microteaching itu memang mendebarkan, tapi lebih mendebarkan lagi kalau melihat generasi muda rusak karena kurangnya pendidikan karakter."
+                            </blockquote>
+                            <div class="flex justify-between items-center text-sm text-gray-500">
+                                <span>Wali Kelas: Bpk. Fulan S.Kom</span>
+                                <i class="fas fa-fingerprint text-red-500 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. STRUCTURE SECTION -->
+            <section id="structure" class="hidden-section py-10">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">STRUKTUR KELAS</h2>
+                    <div class="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
+                </div>
+
+                <!-- A. MOBILE VIEW (Vertical Stack) -->
+                <div class="md:hidden flex flex-col items-center gap-6 pb-8">
+                    <!-- Ketua -->
+                    <div class="glass-panel p-4 rounded-xl border border-red-500/30 w-64 text-center hover:bg-red-900/40 transition-colors">
+                        <div class="w-20 h-20 mx-auto bg-gray-700 rounded-full mb-3 overflow-hidden border-2 border-red-500">
+                            <img src="https://i.ibb.co.com/8DTHNmN1/Ubaidillah.jpg" alt="Ketua" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Ubaidillah+M&background=random';">
+                        </div>
+                        <h3 class="font-bold text-red-400 text-lg">Ubaidillah M.</h3>
+                        <p class="text-sm text-gray-400">Ketua Kelas</p>
+                    </div>
+
+                    <!-- Arrow Down -->
+                    <div class="text-red-600 text-2xl"><i class="fas fa-arrow-down"></i></div>
+
+                    <!-- Wakil -->
+                    <div class="glass-panel p-4 rounded-xl border border-red-500/30 w-64 text-center hover:bg-red-900/40 transition-colors">
+                        <div class="w-20 h-20 mx-auto bg-gray-700 rounded-full mb-3 overflow-hidden border-2 border-red-500">
+                            <img src="https://i.ibb.co.com/35y5ZszF/Pniel.jpg" alt="Wakil" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Pniel+Munandar&background=random';">
+                        </div>
+                        <h3 class="font-bold text-white text-lg">Pniel Munandar</h3>
+                        <p class="text-sm text-gray-400">Wakil Ketua</p>
+                    </div>
+
+                    <!-- Divider Line -->
+                    <div class="w-full max-w-xs border-t border-red-800 my-2"></div>
+
+                    <!-- Grid for Sek & Ben (Mobile) -->
+                    <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+                        <!-- Sek 1 -->
+                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
+                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
+                                <img src="https://i.ibb.co.com/T6G584W/Ayu.jpg" alt="Sek1" class="w-full h-full object-cover"
+                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Riska+Ayu&background=random';">
+                            </div>
+                            <h3 class="font-semibold text-white text-xs">Riska Ayu K</h3>
+                            <p class="text-[10px] text-red-400 uppercase">Sekretaris 1</p>
+                        </div>
+                        <!-- Sek 2 -->
+                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
+                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
+                                <img src="https://i.ibb.co.com/8g9FF4zH/Yoana.jpg" alt="Sek2" class="w-full h-full object-cover"
+                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yoana+Dian&background=random';">
+                            </div>
+                            <h3 class="font-semibold text-white text-xs">Yoana Dian R.A.</h3>
+                            <p class="text-[10px] text-red-400 uppercase">Sekretaris 2</p>
+                        </div>
+                        <!-- Ben 1 -->
+                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
+                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
+                                <img src="https://i.ibb.co.com/xK65ZXBK/Putri.jpg" alt="Ben1" class="w-full h-full object-cover"
+                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Putri+Dwi&background=random';">
+                            </div>
+                            <h3 class="font-semibold text-white text-xs">Putri Dwi Astuti</h3>
+                            <p class="text-[10px] text-red-400 uppercase">Bendahara 1</p>
+                        </div>
+                        <!-- Ben 2 -->
+                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
+                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
+                                <img src="https://i.ibb.co.com/PZBVB5qN/Anggun.jpg" alt="Ben2" class="w-full h-full object-cover"
+                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Anggun+Lolyka&background=random';">
+                            </div>
+                            <h3 class="font-semibold text-white text-xs">Anggun Lolyka H.</h3>
+                            <p class="text-[10px] text-red-400 uppercase">Bendahara 2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B. DESKTOP VIEW (Tree Chart) -->
+                <div class="hidden md:flex justify-center overflow-x-auto pb-8">
+                    <div class="tree min-w-[800px]">
+                        <ul>
+                            <li>
+                                <!-- Ketua -->
+                                <div class="glass-panel p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative">
+                                    <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
+                                        <img src="https://i.ibb.co.com/8DTHNmN1/Ubaidillah.jpg" alt="Ketua" class="w-full h-full object-cover"
+                                             onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Ubaidillah&background=random';">
+                                    </div>
+                                    <h3 class="font-bold text-red-400">Ubaidillah M.</h3>
+                                    <p class="text-xs text-gray-400">Ketua Kelas</p>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <!-- Wakil -->
+                                        <div class="glass-panel p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative">
+                                            <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
+                                                <img src="https://i.ibb.co.com/35y5ZszF/Pniel.jpg" alt="Wakil" class="w-full h-full object-cover"
+                                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Pniel&background=random';">
+                                            </div>
+                                            <h3 class="font-bold text-white">Pniel Munandar</h3>
+                                            <p class="text-xs text-gray-400">Wakil Ketua</p>
+                                        </div>
+                                        
+                                        <!-- Cabang Bawah Wakil -->
+                                        <ul class="flex justify-center gap-8">
+                                            <!-- Group Sekretaris -->
+                                            <li>
+                                                <div class="flex flex-col gap-4 items-center pt-4">
+                                                    <!-- Sek 1 -->
+                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
+                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
+                                                            <img src="https://i.ibb.co.com/T6G584W/Ayu.jpg" alt="Sek1" class="w-full h-full object-cover"
+                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Riska&background=random';">
+                                                        </div>
+                                                        <h3 class="font-semibold text-white text-sm">Riska Ayu K.</h3>
+                                                        <p class="text-[10px] text-red-400 uppercase">Sekretaris 1</p>
+                                                    </div>
+                                                    <!-- Sek 2 -->
+                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
+                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
+                                                            <img src="https://i.ibb.co.com/8g9FF4zH/Yoana.jpg" alt="Sek2" class="w-full h-full object-cover"
+                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yoana&background=random';">
+                                                        </div>
+                                                        <h3 class="font-semibold text-white text-sm">Yoana Dian R.A.</h3>
+                                                        <p class="text-[10px] text-red-400 uppercase">Sekretaris 2</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <!-- Group Bendahara -->
+                                            <li>
+                                                <div class="flex flex-col gap-4 items-center pt-4">
+                                                    <!-- Ben 1 -->
+                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
+                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
+                                                            <img src="https://i.ibb.co.com/xK65ZXBK/Putri.jpg" alt="Ben1" class="w-full h-full object-cover"
+                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Putri&background=random';">
+                                                        </div>
+                                                        <h3 class="font-semibold text-white text-sm">Putri Dwi Astuti</h3>
+                                                        <p class="text-[10px] text-red-400 uppercase">Bendahara 1</p>
+                                                    </div>
+                                                    <!-- Ben 2 -->
+                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
+                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
+                                                            <img src="https://i.ibb.co.com/PZBVB5qN/Anggun.jpg" alt="Ben2" class="w-full h-full object-cover"
+                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Anggun&background=random';">
+                                                        </div>
+                                                        <h3 class="font-semibold text-white text-sm">Anggun Lolyka H.</h3>
+                                                        <p class="text-[10px] text-red-400 uppercase">Bendahara 2</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Seksi Divisions / Role Summaries -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 mb-12">
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-red-600 hover:translate-y-[-5px] transition-transform">
+                        <h4 class="font-tech text-xl text-white mb-4"><i class="fas fa-user-tie mr-2"></i> Ketua & Wakil Ketua</h4>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li>• Ketua : Ubaidillah M.</li>
+                            <li>• Wakil : Pniel Munandar</li>
+                        </ul>
+                    </div>
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-orange-600 hover:translate-y-[-5px] transition-transform">
+                        <h4 class="font-tech text-xl text-white mb-4"><i class="fas fa-file-alt mr-2"></i> Sekretaris</h4>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li>• Sekretaris 1 : Riska Ayu K.</li>
+                            <li>• Sekretaris 2 : Yoana Dian R.A.</li>
+                        </ul>
+                    </div>
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-yellow-600 hover:translate-y-[-5px] transition-transform">
+                        <h4 class="font-tech text-xl text-white mb-4"><i class="fas fa-coins mr-2"></i> Bendahara</h4>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li>• Bendahara 1 : Putri Dwi Astuti</li>
+                            <li>• Bendahara 2 : Anggun Lolyka H.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- FAMILY BUTTON -->
+                <div class="text-center pb-12">
+                    <button onclick="toggleFamilyGallery()" class="group relative px-10 py-4 bg-gradient-to-r from-red-900 to-black overflow-hidden rounded-xl border border-red-600/50 shadow-[0_0_30px_rgba(220,38,38,0.2)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] transition-all duration-300">
+                        <div class="flex items-center gap-3 relative z-10">
+                            <i class="fas fa-users text-2xl text-red-400 group-hover:text-white transition-colors"></i>
+                            <span class="font-tech text-xl font-bold text-white tracking-widest">FAMILY PAI B</span>
+                        </div>
+                        <div class="absolute inset-0 bg-red-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                    </button>
+                    <p class="mt-4 text-gray-500 text-sm">Klik untuk melihat seluruh anggota keluarga kelas</p>
+                </div>
+            </section>
+
+            <!-- 3. DOCUMENTATION SECTION (NEW: 8 SLOTS) -->
+            <section id="documentation" class="hidden-section py-10">
+                 <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h2 class="text-3xl md:text-5xl font-tech font-bold text-white">ARCHIVES</h2>
+                        <p class="text-red-400 mt-1">Class Memories & Moments</p>
+                    </div>
+                    <div class="hidden md:block">
+                        <!-- BUTTON FIX: Changed to static span to indicate it's a label, not a broken button -->
+                        <span class="text-xs border border-red-500 text-red-500 px-3 py-1 rounded cursor-default">Filter: All</span>
+                    </div>
+                </div>
+
+                <!-- 8 SLOTS LAYOUT (Masonry-like with columns) -->
+                <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                    
+                    <!-- 1. VIDEO (9:16 - Reels Style) -->
+                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-[9/16] mb-6" onclick="openMediaModal('video', 'JJ 1.mp4')">
+                        <video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
+                            <source src="JJ 1.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay"><i class="fas fa-play"></i></div>
+                        <div class="absolute bottom-4 left-4 z-10">
+                            <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded">JJ</span>
+                        </div>
+                    </div>
+
+                    <!-- 2. PHOTO (1:1 - Square) -->
+                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-square mb-6" onclick="openMediaModal('image', 'PAI B.jpg')">
+                        <img src="PAI B.jpg" alt="Moment Square" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                             onerror="this.src='PAI B.jpg';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <h3 class="text-lg font-bold text-white">Logo</h3>
+                        </div>
+                    </div>
+
+                    <!-- 3. VIDEO (16:9 - Cinematic) -->
+                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-video mb-6" onclick="openMediaModal('video', 'English Tim.mp4')">
+                         <video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
+                            <source src="English Tim.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay"><i class="fas fa-play"></i></div>
+                        <div class="absolute bottom-4 left-4 z-10">
+                            <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded">Game</span>
+                        </div>
+                    </div>
+
+                    <!-- 4. PHOTO (4:5 - Portrait) -->
+                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-[4/5] mb-6" onclick="openMediaModal('image', 'Fotbar Sekelas 2.jpg')">
+                         <img src="Fotbar Sekelas 2.jpg" alt="Moment Portrait" 
+                              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                              onerror="this.src='Fotbar Sekelas 2.jpg';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <h3 class="text-lg font-bold text-white">Fotbar</h3>
+                        </div>
+                    </div>
+
+                    <!-- 5. VIDEO (4:5 - Portrait Clip) -->
+                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-[4/5] mb-6" onclick="openMediaModal('video', 'WhatsApp Video 2025-11-30 at 10.44.47.mp4')">
+                        <video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
+                            <source src="WhatsApp Video 2025-11-30 at 10.44.47.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay"><i class="fas fa-play"></i></div>
+                        <div class="absolute bottom-4 left-4 z-10">
+                            <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded">CLIP</span>
+                        </div>
+                    </div>
+
+                    <!-- 6. PHOTO (16:9 - Landscape) -->
+                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-video mb-6" onclick="openMediaModal('image', 'Series PAI B.jpg')">
+                        <img src="Series PAI B.jpg" alt="Moment Landscape" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                             onerror="this.src='Series PAI B.jpg';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <h3 class="text-lg font-bold text-white">PAI B SERIES</h3>
+                        </div>
+                    </div>
+
+                     <!-- 7. VIDEO (1:1 - Square Video) -->
+                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-square mb-6" onclick="openMediaModal('video', 'WhatsApp Video 2025-11-30 at 10.44.47.mp4')">
+                         <video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
+                            <source src="WhatsApp Video 2025-11-30 at 10.44.47.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay"><i class="fas fa-play"></i></div>
+                        <div class="absolute bottom-4 left-4 z-10">
+                            <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded">VLOG</span>
+                        </div>
+                    </div>
+
+                    <!-- 8. PHOTO (9:16 - Vertical Story) -->
+                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-[9/16] mb-6" onclick="openMediaModal('image', 'Fotbar Sekelas.jpg')">
+                        <img src="Fotbar Sekelas.jpg" alt="Moment Story" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                             onerror="this.src='Fotbar Sekelas.jpg';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                         <div class="absolute bottom-4 left-4">
+                            <h3 class="text-lg font-bold text-white">Fotbar</h3>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-red-900/30 bg-black/90 mt-12 pt-12 pb-8">
+            <div class="max-w-7xl mx-auto px-4">
+                
+                <!-- Institutional Info Section - FIXED: Symmetrical Spacing (gap-12) with Equal Width Columns -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8 border-b border-red-900/30 pb-8">
+                    <!-- Column 1 -->
+                    <div class="text-left">
+                         <h3 class="font-tech text-xl text-white font-bold mb-4 border-b-2 border-red-600 inline-block pb-1">FAKULTAS TARBIYAH</h3>
+                         <p class="text-gray-400 text-sm leading-relaxed mt-2">
+                             Mencetak pendidik yang berakhlak mulia, berwawasan luas, dan kompeten dalam menjawab tantangan zaman.
+                         </p>
+                    </div>
+                    <!-- Column 2 -->
+                    <div class="text-left">
+                        <h3 class="font-tech text-xl text-white font-bold mb-4 border-b-2 border-red-600 inline-block pb-1">KONTAK KAMI</h3>
+                        <div class="mt-2 flex flex-col gap-2">
+                            <!-- Maps Link -->
+                            <a href="https://maps.app.goo.gl/tfdwTJTneTn89ey36" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
+                                <i class="fas fa-map-marker-alt text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
+                                Jl. Tentara Pelajar No. 55B
+                            </a>
+                            
+                            <!-- WhatsApp Link -->
+                            <a href="https://wa.me/6281216024273" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
+                                <i class="fas fa-phone text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
+                                0812-1602-4273
+                            </a>
+
+                            <!-- Twitter Link (Replacing Email) -->
+                            <a href="https://twitter.com/iainu_kebumen" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
+                                <i class="fab fa-twitter text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
+                                @iainu_kebumen
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Column 3 -->
+                    <div class="text-left">
+                        <h3 class="font-tech text-xl text-white font-bold mb-4 border-b-2 border-red-600 inline-block pb-1">AKADEMIK</h3>
+                        <div class="mt-2">
+                            <p class="text-gray-400 text-sm mb-2"><i class="fas fa-graduation-cap text-red-500 mr-2"></i> Pendidikan Agama Islam</p>
+                            <p class="text-gray-400 text-sm mb-2"><i class="fas fa-calendar-alt text-red-500 mr-2"></i> Angkatan 2025</p>
+                            <p class="text-gray-400 text-sm"><i class="fas fa-users text-red-500 mr-2"></i> Kelas B</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Copyright & Socials -->
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="font-tech text-gray-500 text-sm text-center md:text-left">© 2025 PAI B - IAINU KEBUMEN. All Rights Reserved.</p>
+                    <div class="flex gap-4">
+                        <!-- Instagram Link Updated -->
+                        <a href="https://www.instagram.com/iainukebumen/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white transition-all duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <!-- Globe Link Updated -->
+                        <a href="https://iainu-kebumen.ac.id/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnQrL_efXSleeESFYk2QKkN6BzFcbkVuHqkuvpD0AKrYYmzGs-kkm7mzH8qUk_aem_h2VNO5wVlciA0OHIwGrFxg" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-500 hover:text-white transition-all duration-300">
+                            <i class="fas fa-globe"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- FAMILY GALLERY OVERLAY (Hidden by default) -->
+    <div id="family-gallery">
+        <div class="max-w-7xl mx-auto px-4 py-10 relative">
+            <button onclick="toggleFamilyGallery()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-6xl font-tech font-bold text-white mb-2">KELUARGA PAI B</h2>
+                <p class="text-red-400 text-lg">24 Souls, One Heart</p>
+            </div>
+
+            <!-- Grid Container for 24 Students -->
+            <div id="student-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <!-- Javascript will populate this -->
+            </div>
+        </div>
+    </div>
+
+    <!-- BIO MODAL -->
+    <div id="bio-modal" class="custom-modal" onclick="closeBioModal(event)">
+        <div id="bio-content" class="glass-panel w-full max-w-sm md:max-w-4xl m-4 transform scale-95 transition-all duration-300 rounded-2xl overflow-hidden flex flex-col md:flex-row bg-black/90 border border-red-500/30">
+            <div class="w-full md:w-5/12 aspect-[4/5] relative bg-gray-900 group">
+                <!-- LOADER FOR BIO MODAL -->
+                <div id="modal-img-loader" class="img-loading-skeleton">
+                    <i class="fas fa-spinner fa-spin text-red-900 text-4xl"></i>
+                </div>
+                
+                <!-- PERUBAHAN: Menghapus 'group-hover:scale-105' agar tidak zoom otomatis -->
+                <img id="modal-img" src="" alt="Profile Photo" class="relative z-10 w-full h-full object-cover opacity-0 transition-opacity duration-500" onerror="this.src='https://placehold.co/400x500?text=No+Image';">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/90 z-20 pointer-events-none"></div>
+            </div>
+            <div class="w-full md:w-7/12 p-8 flex flex-col justify-center text-left relative">
+                <div class="absolute top-0 right-0 p-6 opacity-10">
+                    <i class="fas fa-fingerprint text-8xl text-red-600"></i>
+                </div>
+                
+                <div class="mb-8 relative z-10">
+                    <h2 id="modal-name" class="text-3xl md:text-5xl font-bold text-white font-tech mb-2 tracking-wide leading-tight drop-shadow-lg">Name Here</h2>
+                    <div class="flex items-center gap-3">
+                        <span class="px-3 py-1 bg-red-900/40 border border-red-500/30 rounded text-red-400 font-mono text-sm tracking-wider" id="modal-nim">NIM: 00000000</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4 relative z-10">
+                    <!-- Instagram Row -->
+                    <div class="bio-info-row group">
+                        <div class="bio-icon-box">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="flex-grow pt-1">
+                            <span class="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">Instagram</span>
+                            <div id="modal-ig"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bio Row -->
+                    <div class="bio-info-row group">
+                        <div class="bio-icon-box">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <div class="flex-grow pt-1">
+                            <span class="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">About Me</span>
+                            <!-- FIX: Added text-justify -->
+                            <p id="modal-bio" class="text-gray-300 font-light leading-relaxed text-lg italic pr-4 text-justify">"..."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="closeBioModal(null, true)" class="mt-10 self-start px-8 py-3 border border-red-600 text-red-500 rounded-lg hover:bg-red-600 hover:text-white transition-all text-sm font-bold tracking-widest uppercase flex items-center gap-2 group">
+                    <span>Close Profile</span>
+                    <i class="fas fa-times group-hover:rotate-90 transition-transform"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MEDIA PREVIEW MODAL (New) -->
+    <div id="media-modal" class="custom-modal" onclick="closeMediaModal(event)">
+        <div class="relative max-w-5xl w-full mx-4 flex justify-center">
+            <button onclick="closeMediaModal(null, true)" class="absolute -top-12 right-0 md:-right-12 text-white hover:text-red-500 text-3xl transition z-50">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="media-container" class="max-h-[85vh] overflow-hidden rounded-lg shadow-2xl border border-red-500/30">
+                <!-- Content Injected Here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. INTRO & NAVIGATION LOGIC ---
+        const textToType = "PAI B";
+        const typingElement = document.getElementById('typing-text');
+        let i = 0;
+
+        function typeWriter() {
+            if (i < textToType.length) {
+                typingElement.innerHTML += textToType.charAt(i);
+                i++;
+                setTimeout(typeWriter, 150);
+            }
+        }
+        window.onload = function() {
+            typeWriter();
+            generateStudents(); // Generate data on load
+        };
+
+        function enterSite() {
+            const intro = document.getElementById('intro-screen');
+            const mainApp = document.getElementById('main-app');
+            
+            // --- AUDIO PLAYBACK ---
+            const audio = document.getElementById('bg-music');
+            if (audio) {
+                audio.play().catch(error => {
+                    console.log("Audio playback blocked:", error);
+                });
+            }
+
+            intro.style.transform = 'translateY(-100%)';
+            intro.style.opacity = '0';
+            mainApp.classList.remove('hidden');
+            setTimeout(() => {
+                mainApp.style.opacity = '1';
+                setTimeout(() => { intro.style.display = 'none'; }, 800);
+            }, 100);
+        }
+
+        // Music Toggle Logic
+        let isPlaying = true;
+        function toggleMusic() {
+            const audio = document.getElementById('bg-music');
+            const btn = document.getElementById('music-btn');
+            
+            if (isPlaying) {
+                audio.pause();
+                btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                btn.classList.remove('music-pulse');
+                isPlaying = false;
+            } else {
+                audio.play();
+                btn.innerHTML = '<i class="fas fa-music"></i>';
+                btn.classList.add('music-pulse');
+                isPlaying = true;
+            }
+        }
+
+        function switchTab(tabId) {
+            const sections = document.querySelectorAll('main section');
+            sections.forEach(section => {
+                section.classList.remove('active-section');
+                section.classList.add('hidden-section');
+                setTimeout(() => {
+                    if(!section.classList.contains('active-section')){
+                        section.style.display = 'none';
+                    }
+                }, 0); 
+            });
+            const target = document.getElementById(tabId);
+            target.style.display = 'block'; 
+            void target.offsetWidth; 
+            target.classList.remove('hidden-section');
+            target.classList.add('active-section');
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // --- 2. FAMILY GALLERY LOGIC ---
+        
+        const studentsData = [
+            { name: "Ady Surya", nim: "2511038", ig: "@suryaadharm_", img: "https://i.ibb.co.com/3ycvDN0x/Ady.jpg", bioImg: "https://i.ibb.co.com/396vghCh/Ady-2.jpg", bio: "Saya orang yang menyukai berpetualang dan menikmati keindahan alam untuk menghilangkan kebosanan dan mengagumi ciptaan Tuhan, sungguh indah." },
+            { name: "A. Lubadul Fikri", nim: "2511046", ig: "@bangkriii_", img: "https://i.ibb.co.com/LDD9ZbFL/Fikri.jpg", bioImg: "https://i.ibb.co.com/prLDYGwg/Fikri-2.jpg", bio: "Saya orang yang introvert abizzzz. Saya berusaha keras untuk meningkatkan kemampuan berbicara di depan umum dan mendalami ilmu agama dan ilmu sosial agar dapat bermanfaat bagi diri sendiri dan masyarakat." },
+            { name: "Alyvia Qurrotal A.", nim: "2511042 ", ig: "@piaa.ainiii", img: "https://i.ibb.co.com/j9kTSqVN/Alyvia.jpg", bioImg: "https://i.ibb.co.com/B21KKdQg/Alyvia-2.jpg", bio: "Saya dikenal sebagai pribadi yang ceria, aktif, dan antusias. Saya juga menyukai tentang hal-hal baru yang membuat saya berkembang." },
+            { name: "Anggun Lolyka H.", nim: "2511043", ig: "@_nnggunn_", img: "https://i.ibb.co.com/PZBVB5qN/Anggun.jpg", bioImg: "https://i.ibb.co.com/gMGhqBQn/Anggun-2.png", bio: "Saya orang yang kreatif dengan rasa ingin tahu yang tinggi. Saya senang mempelajari hal-hal baru dan bertemu orang-orang dari berbagai latar belakang karena saya percaya setiap orang memiliki keunikan tersendiri untuk dibagikan." },
+            { name: "Aqillah Mazaya", nim: "2511043", ig: "@aqilahmz._", img: "https://i.ibb.co.com/s9kRp6r0/Aqila.jpg", bioImg: "https://i.ibb.co.com/HLNnTg31/Aqila-2.jpg", bio: "Saya memiliki minat di bidang agama dan pendidikan. Saya berharap dapat menjadi pendidik yang amanah dan dapat membawa keberkahan bagi diri saya dan orang-orang di sekitar saya." },
+            { name: "Arina Manasika", nim: "2511065", ig: "@mnskaaa_", img: "https://i.ibb.co.com/HfFbTk5d/Arina.jpg", bioImg: "https://i.ibb.co.com/qYcRtzmh/Arina-2.jpg", bio: "Saya berusaha menjadi pribadi yang terus bertumbuh dan berani keluar dari zona nyaman, saya percaya bahwa setiap tantangan yang kita hadapi membentuk karakter dan membuka kesempatan baru untuk belajar." },
+            { name: "Devi Kurniasari", nim: "2511052", ig: "@devy____08", img: "https://i.ibb.co.com/jPpbP6mh/Devi.jpg", bioImg: "https://i.ibb.co.com/fzQ7pSBj/Devi-2.jpg", bio: "Saya pantang menyerah untuk meraih masa depan. Ke-depannya, saya ingin menjadi pribadi yang lebih baik." },
+            { name: "Elok Iis N.", nim: "2511060", ig: "-", img: "https://i.ibb.co.com/b5dB7M6T/Elok.jpg", bioImg: "https://i.ibb.co.com/jvZ535PS/Elok-2.jpg", bio: "Senyum adalah sedekah termudah. Selalu berusaha menyebarkan positif vibes." },
+            { name: "Farihatul Azizah", nim: "2511037", ig: "@fariha_aziizah", img: "https://i.ibb.co.com/WvKp3sFy/Azizah.jpg", bioImg: "https://i.ibb.co.com/mC8myQFY/Azizah-2.jpg", bio: "Introvert, Bermimpilah dan raihlah mimpi itu dengan ilmu yang bermanfaat, serta berusaha menjadi pribadi yang lebih baik dari sebelumnya." },
+            { name: "Hanan Tsuroya A.", nim: "2511073", ig: "@hanan.akyasi", img: "https://i.ibb.co.com/ZRRX7M4p/Hanan.jpg", bioImg: "https://i.ibb.co.com/JwBMTXd3/Hanan-2.jpg", bio: "Saya sangat menyukai alam. Rumah saya di Kebumen dan saya sangat suka kuliah di IAINU Kebumen. Saya sangat menyukai kucing dan menikmati alam." },
+            { name: "Hanni Hasanati", nim: "2511068", ig: "@hannihsnt_", img: "https://i.ibb.co.com/WpRW8nk3/Hanni.jpg", bioImg: "https://i.ibb.co.com/ZpfVnYDx/Hanni-2.jpg", bio: "Saya anak kedua dari tiga bersaudara, dan semua saudara saya laki-laki. Saat ini saya kuliah di IAINU Kebumen, jurusan Pendidikan Agama Islam." },
+            { name: "Jembar Juli Y.", nim: "2511049", ig: "@jembarjulyy_", img: "https://i.ibb.co.com/cccBPB93/Juli.jpg", bioImg: "https://i.ibb.co.com/N2tbfsKz/Juli-2.jpg", bio: "Saya orang yang ceria dan periang. Saya suka tersenyum dan membuat orang lain merasa nyaman di sekitar saya. Dengan pandangan saya yang cerah dan optimis, saya selalu melihat sisi baik dari setiap situasi dan berusaha menyebarkan kebahagiaan kepada orang-orang di sekitar saya." },
+            { name: "Lusi Rahmah O.", nim: "2511080", ig: "@lusioktaviara", img: "https://i.ibb.co.com/LDqfr0GJ/Lusi.jpg", bioImg: "https://i.ibb.co.com/twy2986P/Lusi-2.jpg", bio: "Saya punya banyak impian untuk masa depan, terutama menjadi orang sukses, kaya, dan dermawan, dan masih banyak lagi impian." },
+            { name: "M. Hanif Fakhry", nim: "2511079", ig: "@hann_id1028", img: "https://i.ibb.co.com/3ytbB3bs/Fakhry.jpg", bioImg: "https://i.ibb.co.com/JRhVJy8b/Fakhry-2.jpg", bio: "Alhamdulillah saya mampu menguasai perangkat lunak desain seperti Canva, Solidwork, Panzoid, dll. Dan Alhamdulillah Saya juga memahami kebutuhan dan menerjemahkannya ke dalam desain pemodelan yang estetis dan fungsional. Saya berorientasi pada detail, imajinatif, dan selalu merencanakan ke depan." },
+            { name: "Pniel Munandar", nim: "2511053", ig: "@pniel76", img: "https://i.ibb.co.com/35y5ZszF/Pniel.jpg", bioImg: "https://i.ibb.co.com/9kkr0JjT/Pniel-2.jpg", bio: "Saya sangat suka bermain musik, terutama drum. Saya juga bekerja sebagai karyawan untuk mendapatkan penghasilan sendiri, tujuannya adalah untuk meringankan beban orang tua saya." },
+            { name: "Putri Dwi Astuti", nim: "2511061", ig: "@putridwia12_", img: "https://i.ibb.co.com/xK65ZXBK/Putri.jpg", bioImg: "https://i.ibb.co.com/bMYd4Smn/Putri-2.jpg", bio: "saya suka suasana yang damai dan sejuk karena membuat saya senang prinsip hidup saya adalah selalu berbuat yang terbaik dan cita cita saya ingin menjadi guru dan pengusaha yang sukses." },
+            { name: "Riska Ayu K.", nim: "2511039", ig: "@baiza_salma", img: "https://i.ibb.co.com/T6G584W/Ayu.jpg", bioImg: "https://i.ibb.co.com/bMXW2DBs/Ayu-2.jpg", bio: "Saya seorang pemikir, pemilih, dan individu yang sangat ambisius di dunia akademis. Saya bercita-cita menjadi pembicara yang baik dan anggota yang cakap di organisasi mana pun." },
+            { name: "Siti Ulfatur R.", nim: "2511077", ig: "@sssittt_____", img: "https://i.ibb.co.com/fVnxMnbM/Ulfa.jpg", bioImg: "https://i.ibb.co.com/qFWXZzNN/Ulfa-2.jpg", bio: "Saya anak pertama dari 3 bersaudara. Menjadi anak pertama memang tidak mudah, apalagi perempuan. Tapi saya selalu berusaha menikmati perjalanan hidup saya." },
+            { name: "Tsabita Hasna H.", nim: "2511071", ig: "@tsabitahasna.__", img: "https://i.ibb.co.com/DH2s9tsY/Tsabita.jpg", bioImg: "https://i.ibb.co.com/Y7jz2r8W/Tsabita-2.jpg", bio: "Saya adalah seseorang yang terus belajar dari setiap langkah. Luka menguatkan saya, doa menenangkan saya, dan harapan selalu membuat saya berdiri kembali." },
+            { name: "Ubaidillah M.", nim: "2511064", ig: "@muss_tffa", img: "https://i.ibb.co.com/8DTHNmN1/Ubaidillah.jpg", bioImg: "https://i.ibb.co.com/v41TxJYx/Ubay-2.jpg", bio: "Saya ubaid,pribadi yang percaya bahwa selama aku bernapas, selalu ada harapan untuk terus maju. Hidupku adalah perjalanan belajar dan berjuang, di mana setiap tantangan menjadi peluang untuk tumbuh dan menjadi lebih baik.Keinginan ku suatu saat nanti ingin menjadi manusia yang bermanfaat sesama manusia lain." },
+            { name: "Yoana Dian R.A.", nim: "2511054", ig: "@yoana.diaan", img: "https://i.ibb.co.com/8g9FF4zH/Yoana.jpg", bioImg: "https://i.ibb.co.com/nM5j9mkn/Yoana-2.png", bio: "Prinsip hidup saya adalah tetap bersyukur, jangan membandingkan diri dengan orang lain, karena setiap manusia punya prosesnya masing-masing. Cita-cita saya ke depannya adalah menjadi perempuan yang kaya ilmu dan mampu mengamalkannya." },
+            { name: "Youvischa Aulia A.", nim: "2511057", ig: "@youvischa_sinta", img: "https://i.ibb.co.com/DDBT5PS0/Youvischa.jpg", bioImg: "https://i.ibb.co.com/HTDNyxVD/Youvischa-2.jpg", bio: "Halo, nama saya Vischa. Saya anak tertua dari dua bersaudara. Saat ini saya kuliah di IAINU Kebumen, jurusan Pendidikan Agama Islam." },
+            { name: "Yuyun Lutfiyatul K.", nim: "2511051", ig: "@yuyunlutfiykh_", img: "https://i.ibb.co.com/mrhGkwVg/Yuyun.jpg", bioImg: "https://i.ibb.co.com/cK2mPg4S/Yuyun-2.jpg", bio: "Saya menyukai aktivitas memasak dan berkebun. Pengalaman paling menyenangkan saya adalah saat mendaki gunung." },
+            { name: "Zain Nur Fadilah", nim: "2511076", ig: "@Artyzeen08", img: "https://i.ibb.co.com/35LTF95t/Zain.jpg", bioImg: "https://i.ibb.co.com/DTLyKRx/Zain-2.png", bio: "Takdir menempatkan saya sebagai yang tertua di PAI B 2025, tapi itu hanyalah angka di atas kertas. Menjadi tua itu pasti, tapi menjadi dewasa dan berilmu adalah pilihan yang harus diperjuangkan dan saya masih berjuang untuk itu Maka, anggaplah saya teman diskusi yang setara. Mari kita buktikan bahwa PAI B 2025 bukan sekadar kelas kuliah, tapi inkubator persaudaraan dunia akhirat. Sukses kita bukan saat satu orang lari duluan ke garis finis, tapi saat kita semua saling gandeng tangan sampai tujuan." }
+        ];
+
+        function generateStudents() {
+            const grid = document.getElementById('student-grid');
+            let html = '';
+
+            studentsData.forEach((student, index) => {
+                const bio = student.bio || "Mahasiswa PAI B Angkatan 2025. Generasi sukses masa depan."; 
+                // Escape bio to prevent JS errors with single/double quotes in onClick
+                const safeBio = bio.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
+                
+                html += `
+                    <div onclick="openBioModal('${index}')" 
+                        class="group cursor-pointer">
+                        <div class="relative overflow-hidden rounded-xl aspect-square border-2 border-transparent group-hover:border-red-500 transition-all duration-300 bg-gray-900">
+                            
+                            <!-- LOADING SKELETON -->
+                            <div class="img-loading-skeleton z-0">
+                                <i class="fas fa-spinner fa-spin text-red-900 text-2xl"></i>
+                            </div>
+
+                            <img src="${student.img}" alt="${student.name}" 
+                                 class="relative z-10 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:scale-110"
+                                 onload="this.classList.replace('opacity-0', 'opacity-100')"
+                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=random&size=200'; this.classList.replace('opacity-0', 'opacity-100');">
+                            
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-20 pointer-events-none"></div>
+                            <div class="absolute bottom-2 left-2 right-2 z-20 pointer-events-none">
+                                <p class="text-white font-bold text-sm truncate group-hover:text-red-400 transition-colors">${student.name}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        function toggleFamilyGallery() {
+            const gallery = document.getElementById('family-gallery');
+            gallery.classList.toggle('open');
+            if(gallery.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // --- 3. BIO MODAL LOGIC ---
+        function openBioModal(index) {
+            const student = studentsData[index];
+            const modal = document.getElementById('bio-modal');
+            const content = document.getElementById('bio-content');
+            
+            document.getElementById('modal-name').innerText = student.name;
+            document.getElementById('modal-nim').innerText = "NIM: " + student.nim;
+            
+            const igContainer = document.getElementById('modal-ig');
+            if(student.ig === '-' || student.ig === '') {
+                igContainer.innerHTML = `<span class="text-gray-500">-</span>`;
+            } else {
+                // Remove @ for the link and spaces, sanitize
+                const username = student.ig.replace('@', '').trim();
+                // Create Instagram Link
+                igContainer.innerHTML = `<a href="https://www.instagram.com/${username}" target="_blank" rel="noopener noreferrer" class="text-lg text-white font-medium hover:text-red-400 transition cursor-pointer flex items-center gap-1">${student.ig} <i class="fas fa-external-link-alt text-xs ml-1 opacity-50"></i></a>`;
+            }
+
+            // Added text-justify class for Justify alignment
+            document.getElementById('modal-bio').innerText = `"${student.bio}"`;
+           
+            // Handle Modal Image Loading
+            const imgElement = document.getElementById('modal-img');
+            const loaderElement = document.getElementById('modal-img-loader');
+            
+            // Reset state
+            imgElement.classList.remove('img-loaded');
+            imgElement.style.opacity = '0';
+            loaderElement.style.display = 'flex'; // Show loader
+
+            // Set up new onload handler
+            imgElement.onload = function() {
+                imgElement.style.opacity = '1';
+                loaderElement.style.display = 'none'; // Hide loader
+            };
+            
+            imgElement.onerror = function() {
+                this.onerror = null;
+                this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=random&size=400`;
+                imgElement.style.opacity = '1';
+                loaderElement.style.display = 'none';
+            };
+
+            // Set Source to trigger load
+            imgElement.src = student.bioImg;
+
+            modal.classList.add('active');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+
+        function closeBioModal(e, force = false) {
+            if (force || e.target.id === 'bio-modal') {
+                const modal = document.getElementById('bio-modal');
+                const content = document.getElementById('bio-content');
+                content.classList.remove('scale-100');
+                content.classList.add('scale-95');
+                modal.classList.remove('active');
+            }
+        }
+
+        // --- 4. MEDIA MODAL LOGIC (VIDEO/PHOTO) ---
+        function openMediaModal(type, src) {
+            // Pause BG Music
+            const bgMusic = document.getElementById('bg-music');
+            if (bgMusic && !bgMusic.paused) {
+                bgMusic.pause();
+                // Store state to resume later if needed
+                bgMusic.dataset.wasPlaying = "true";
+            }
+
+            const modal = document.getElementById('media-modal');
+            const container = document.getElementById('media-container');
+            
+            if (type === 'video') {
+                container.innerHTML = `
+                    <video controls autoplay class="w-full h-auto max-h-[80vh] bg-black">
+                        <source src="${src}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+            } else {
+                container.innerHTML = `
+                    <img src="${src}" class="w-full h-auto max-h-[85vh] object-contain bg-black" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';">
+                `;
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeMediaModal(e, force = false) {
+            if (force || e.target.id === 'media-modal') {
+                const modal = document.getElementById('media-modal');
+                const container = document.getElementById('media-container');
+                // Stop video if playing
+                container.innerHTML = ''; 
+                modal.classList.remove('active');
+
+                // Resume BG Music if it was playing
+                const bgMusic = document.getElementById('bg-music');
+                const musicBtn = document.getElementById('music-btn'); 
+                if (bgMusic && bgMusic.dataset.wasPlaying === "true") {
+                    bgMusic.play().catch(e => console.log(e));
+                    // Ensure visual button state is playing (icon)
+                    if(musicBtn) {
+                         musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+                         musicBtn.classList.add('music-pulse');
+                         isPlaying = true;
+                    }
+                }
+            }
+        }
+
+        // --- 5. SAFE VIDEO PREVIEW LOGIC ---
+        function previewVideo(video) {
+            // Muted is required for autoplay in most browsers
+            video.muted = true;
+            
+            var playPromise = video.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Automatic playback started!
+                })
+                .catch(error => {
+                    // Auto-play was prevented
+                    // We only log if it's NOT an AbortError (which happens on quick mouseout)
+                    if (error.name !== 'AbortError') {
+                        console.log("Video preview prevented:", error);
+                    }
+                });
+            }
+        }
+
+        function stopPreview(video) {
+            video.pause();
+            video.currentTime = 0; // Reset to start
+        }
+    </script>
+</body>
+</html>
