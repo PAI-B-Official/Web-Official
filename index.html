@@ -4,10 +4,10 @@
 <meta name="google-site-verification" content="UPioXeNFpoiCMVwsJoWNkGvlqM1BpkfIDV5AGhLXsUo" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAI B Official</title>
+    <title>Website Kelas Official</title>
     <!-- Favicon / Logo Browser -->
-    <link rel="icon" type="image/jpeg" href="PAI B.jpg">
-    <link rel="shortcut icon" type="image/jpeg" href="PAI B.jpg">
+    <link rel="icon" type="image/jpeg" href="IAINU.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="IAINU.jpg">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -307,31 +307,6 @@
         }
         .img-loaded {
             opacity: 1 !important;
-        }
-
-        /* Zoom Styles */
-        .zoom-container {
-            overflow: auto;
-            cursor: zoom-in;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .zoom-image {
-            transition: transform 0.3s ease;
-            transform-origin: center center;
-            max-width: 100%;
-            max-height: 85vh;
-        }
-        .zoom-active .zoom-image {
-            transform: scale(2);
-            max-width: none;
-            max-height: none;
-        }
-        .zoom-active {
-            cursor: zoom-out;
-            justify-content: flex-start;
-            align-items: flex-start;
         }
     </style>
 </head>
@@ -970,7 +945,7 @@
         // --- 2. FAMILY DATA & LOGIC ---
         const studentsData = [
             { name: "Ady Surya", nim: "2511038", ig: "@suryaadharm_", img: "https://i.ibb.co.com/3ycvDN0x/Ady.jpg", bioImg: "https://i.ibb.co.com/396vghCh/Ady-2.jpg", bio: "Saya orang yang menyukai berpetualang dan menikmati keindahan alam untuk menghilangkan kebosanan dan mengagumi ciptaan Tuhan, sungguh indah." },
-            { name: "A. Lubadul Fikri", nim: "2511046", ig: "@bangkriii_", img: "https://i.ibb.co.com/LDD9ZbFL/Fikri.jpg", bioImg: "https://i.ibb.co.com/prLDYGwg/Fikri-2.jpg", bio: "Seseorang yang berkepribadian introvert abizzz. Saya ingin melihat dan memahami dunia di luar sana. Saya tak ingin lenyap di dalam bagian beberapa penghalang yang ada ini tanpa mengetahui apa yang ada di luar sana." },
+            { name: "A. Lubadul Fikri", nim: "2511046", ig: "@bangkriii_", img: "https://i.ibb.co.com/LDD9ZbFL/Fikri.jpg", bioImg: "https://i.ibb.co.com/prLDYGwg/Fikri-2.jpg", bio: "Saya orang yang introvert abizzzz. Saya berusaha keras untuk meningkatkan kemampuan berbicara di depan umum dan mendalami ilmu agama dan ilmu sosial agar dapat bermanfaat bagi diri sendiri dan masyarakat." },
             { name: "Alyvia Qurrotal A.", nim: "2511042 ", ig: "@piaa.ainiii", img: "https://i.ibb.co.com/j9kTSqVN/Alyvia.jpg", bioImg: "https://i.ibb.co.com/B21KKdQg/Alyvia-2.jpg", bio: "Saya dikenal sebagai pribadi yang ceria, aktif, dan antusias. Saya juga menyukai tentang hal-hal baru yang membuat saya berkembang." },
             { name: "Anggun Lolyka H.", nim: "2511043", ig: "@_nnggunn_", img: "https://i.ibb.co.com/PZBVB5qN/Anggun.jpg", bioImg: "https://i.ibb.co.com/gMGhqBQn/Anggun-2.png", bio: "Saya orang yang kreatif dengan rasa ingin tahu yang tinggi. Saya senang mempelajari hal-hal baru dan bertemu orang-orang dari berbagai latar belakang karena saya percaya setiap orang memiliki keunikan tersendiri untuk dibagikan." },
             { name: "Aqillah Mazaya", nim: "2511043", ig: "@aqilahmz._", img: "https://i.ibb.co.com/s9kRp6r0/Aqila.jpg", bioImg: "https://i.ibb.co.com/HLNnTg31/Aqila-2.jpg", bio: "Saya memiliki minat di bidang agama dan pendidikan. Saya berharap dapat menjadi pendidik yang amanah dan dapat membawa keberkahan bagi diri saya dan orang-orang di sekitar saya." },
@@ -1022,14 +997,14 @@
         // --- 3. MEDIA & SEARCH DATA LOGIC ---
         // Defines existing files (Data awal 8 file)
         const existingMedia = [
-            { type: 'video', src: 'JJ 1.mp4', title: 'JJ', ratio: 'aspect-[9/16]' },
+            { type: 'video', src: 'JJ 1.mp4', title: 'JJ Opening', ratio: 'aspect-[9/16]' },
             { type: 'image', src: 'PAI B.jpg', title: 'Logo Kelas', ratio: 'aspect-square' },
             { type: 'video', src: 'English Tim.mp4', title: 'English Game', ratio: 'aspect-video' },
-            { type: 'image', src: 'Fotbar Sekelas 2.jpg', title: 'Fotbar', ratio: 'aspect-[4/5]' },
-            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Clip', ratio: 'aspect-[4/5]' },
+            { type: 'image', src: 'Fotbar Sekelas 2.jpg', title: 'Fotbar Outdoor', ratio: 'aspect-[4/5]' },
+            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Random Clip', ratio: 'aspect-[4/5]' },
             { type: 'image', src: 'Series PAI B.jpg', title: 'PAI B SERIES', ratio: 'aspect-video' },
-            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Vlog', ratio: 'aspect-square' },
-            { type: 'image', src: 'Fotbar Sekelas.jpg', title: 'Fotbar', ratio: 'aspect-[9/16]' }
+            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Vlog Harian', ratio: 'aspect-square' },
+            { type: 'image', src: 'Fotbar Sekelas.jpg', title: 'Fotbar Studio', ratio: 'aspect-[9/16]' }
         ];
 
         // --- LIBRARY DATA: 25 SLOT YANG SIAP DIISI ---
@@ -1334,38 +1309,20 @@
                         </video>
                     </div>`;
                 container.dataset.mediaType = 'video';
-                // Reset container classes for video
-                container.classList.remove('zoom-container');
-                container.classList.remove('zoom-active');
             } else {
                 // Update structure for Zoomable Image
                 container.innerHTML = `
-                    <img src="${src}" onclick="toggleZoom(this)" class="zoom-image" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';">
+                    <img src="${src}" class="w-full h-auto max-h-[85vh] object-contain bg-black" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';">
                 `;
                 container.dataset.mediaType = 'image';
-                // Add zoom container class
-                container.classList.add('zoom-container');
-                container.classList.remove('zoom-active'); // Reset state
             }
             modal.classList.add('active');
             history.pushState({ page: 'media-preview' }, '', '#preview');
         }
 
-        // --- 7. ZOOM LOGIC ---
-        function toggleZoom(img) {
-            const container = document.getElementById('media-container');
-            if (container.classList.contains('zoom-active')) {
-                container.classList.remove('zoom-active');
-            } else {
-                container.classList.add('zoom-active');
-            }
-        }
-
         function closeMediaModal(e, force = false) {
             if (e && !force) {
                  const container = document.getElementById('media-container');
-                 // Don't close if clicking image to zoom
-                 if (e.target.tagName === 'IMG' && container.classList.contains('zoom-container')) return;
                  if (container.contains(e.target)) return;
             }
             const container = document.getElementById('media-container');
@@ -1382,7 +1339,6 @@
                  }
             }
             container.innerHTML = ''; 
-            container.classList.remove('zoom-active'); // Reset zoom
             document.getElementById('media-modal').classList.remove('active');
             
             // Check where to go back
