@@ -4,10 +4,10 @@
 <meta name="google-site-verification" content="UPioXeNFpoiCMVwsJoWNkGvlqM1BpkfIDV5AGhLXsUo" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Kelas Official</title>
+    <title>PAI B Official</title>
     <!-- Favicon / Logo Browser -->
-    <link rel="icon" type="image/jpeg" href="IAINU.jpg">
-    <link rel="shortcut icon" type="image/jpeg" href="IAINU.jpg">
+    <link rel="icon" type="image/jpeg" href="PAI B.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="PAI B.jpg">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -969,7 +969,7 @@
 
         // --- 2. FAMILY DATA & LOGIC ---
         const studentsData = [
-            { name: "Ady Surya", nim: "2511038", ig: "@suryaadharm_", img: "https://i.ibb.co.com/3ycvDN0x/Ady.jpg", bioImg: "https://i.ibb.co.com/396vghCh/Ady-2.jpg", bio: "Saya orang yang menyukai berpetualang dan menikmati keindahan alam untuk menghilangkan kebosanan dan mengagumi ciptaan Tuhan, sungguh indah." },
+            { name: "Ady Surya", nim: "2511038", ig: "@suryaadharm_", img: "Ady.jpg", bioImg: "Ady 2.jpg", bio: "Saya orang yang menyukai berpetualang dan menikmati keindahan alam untuk menghilangkan kebosanan dan mengagumi ciptaan Tuhan, sungguh indah." },
             { name: "A. Lubadul Fikri", nim: "2511046", ig: "@bangkriii_", img: "https://i.ibb.co.com/LDD9ZbFL/Fikri.jpg", bioImg: "https://i.ibb.co.com/prLDYGwg/Fikri-2.jpg", bio: "Saya orang yang introvert abizzzz. Saya berusaha keras untuk meningkatkan kemampuan berbicara di depan umum dan mendalami ilmu agama dan ilmu sosial agar dapat bermanfaat bagi diri sendiri dan masyarakat." },
             { name: "Alyvia Qurrotal A.", nim: "2511042 ", ig: "@piaa.ainiii", img: "https://i.ibb.co.com/j9kTSqVN/Alyvia.jpg", bioImg: "https://i.ibb.co.com/B21KKdQg/Alyvia-2.jpg", bio: "Saya dikenal sebagai pribadi yang ceria, aktif, dan antusias. Saya juga menyukai tentang hal-hal baru yang membuat saya berkembang." },
             { name: "Anggun Lolyka H.", nim: "2511043", ig: "@_nnggunn_", img: "https://i.ibb.co.com/PZBVB5qN/Anggun.jpg", bioImg: "https://i.ibb.co.com/gMGhqBQn/Anggun-2.png", bio: "Saya orang yang kreatif dengan rasa ingin tahu yang tinggi. Saya senang mempelajari hal-hal baru dan bertemu orang-orang dari berbagai latar belakang karena saya percaya setiap orang memiliki keunikan tersendiri untuk dibagikan." },
@@ -1020,32 +1020,79 @@
         }
 
         // --- 3. MEDIA & SEARCH DATA LOGIC ---
-        // Defines existing files + placeholders to reach 25
+        // Defines existing files (Data awal 8 file)
         const existingMedia = [
             { type: 'video', src: 'JJ 1.mp4', title: 'JJ', ratio: 'aspect-[9/16]' },
-            { type: 'image', src: 'PAI B.jpg', title: 'Logo', ratio: 'aspect-square' },
-            { type: 'video', src: 'English Tim.mp4', title: 'Game', ratio: 'aspect-video' },
+            { type: 'image', src: 'PAI B.jpg', title: 'Logo Kelas', ratio: 'aspect-square' },
+            { type: 'video', src: 'English Tim.mp4', title: 'English Game', ratio: 'aspect-video' },
             { type: 'image', src: 'Fotbar Sekelas 2.jpg', title: 'Fotbar', ratio: 'aspect-[4/5]' },
-            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'CLIP', ratio: 'aspect-[4/5]' },
+            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Clip', ratio: 'aspect-[4/5]' },
             { type: 'image', src: 'Series PAI B.jpg', title: 'PAI B SERIES', ratio: 'aspect-video' },
-            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'VLOG', ratio: 'aspect-square' },
+            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Vlog', ratio: 'aspect-square' },
             { type: 'image', src: 'Fotbar Sekelas.jpg', title: 'Fotbar', ratio: 'aspect-[9/16]' }
         ];
 
-        // Generate placeholders to make total 25
-        let allMediaData = [...existingMedia];
-        for(let i = existingMedia.length + 1; i <= 25; i++) {
-            // Randomly assign aspect ratios for variety
-            const ratios = ['aspect-square', 'aspect-video', 'aspect-[4/5]', 'aspect-[9/16]'];
-            const randomRatio = ratios[Math.floor(Math.random() * ratios.length)];
+        // --- LIBRARY DATA: 25 SLOT YANG SIAP DIISI ---
+        // SAYA SUDAH SIAPKAN 25 OBJECT DI SINI. 
+        // ANDA TINGGAL GANTI 'src' (LINK GAMBAR/VIDEO) DAN 'title' (JUDUL).
+        // TIPE BISA 'image' ATAU 'video'.
+        const allFilesData = [
+            // --- 1 SAMPAI 8 (DATA LAMA) ---
+            ...existingMedia,
+
+            // --- 9 SAMPAI 25 (SLOT BARU SIAP PAKAI) ---
+            // Slot 9
+            { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+9', title: 'Moment 9', ratio: 'aspect-[3/4]' },
             
-            allMediaData.push({
-                type: 'placeholder',
-                src: '', 
-                title: `Slot Available ${i}`,
-                ratio: randomRatio
-            });
-        }
+            // Slot 10
+            { type: 'video', src: '', title: 'Video 10', ratio: 'aspect-[9/16]' },
+
+            // Slot 11
+            { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+11', title: 'Moment 11', ratio: 'aspect-video' },
+
+            // Slot 12
+            { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+12', title: 'Moment 12', ratio: 'aspect-square' },
+
+            // Slot 13
+            { type: 'video', src: '', title: 'Video 13', ratio: 'aspect-[4/5]' },
+
+            // Slot 14
+            { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+14', title: 'Moment 14', ratio: 'aspect-[9/16]' },
+
+            // Slot 15
+            { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+15', title: 'Moment 15', ratio: 'aspect-video' },
+
+            // Slot 16
+            { type: 'video', src: '', title: 'Video 16', ratio: 'aspect-square' },
+
+            // Slot 17
+            { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+17', title: 'Moment 17', ratio: 'aspect-[3/4]' },
+
+            // Slot 18
+            { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+18', title: 'Moment 18', ratio: 'aspect-square' },
+
+            // Slot 19
+            { type: 'video', src: '', title: 'Video 19', ratio: 'aspect-[9/16]' },
+
+            // Slot 20
+            { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+20', title: 'Moment 20', ratio: 'aspect-video' },
+
+            // Slot 21
+            { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+21', title: 'Moment 21', ratio: 'aspect-[4/5]' },
+
+            // Slot 22
+            { type: 'video', src: '', title: 'Video 22', ratio: 'aspect-square' },
+
+            // Slot 23
+            { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+23', title: 'Moment 23', ratio: 'aspect-[9/16]' },
+
+            // Slot 24
+            { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+24', title: 'Moment 24', ratio: 'aspect-video' },
+
+            // Slot 25
+            { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+25', title: 'Moment 25', ratio: 'aspect-square' }
+        ];
+
 
         // Function to render the Main Documentation Grid (Filtered)
         function renderMainDocGrid(filter = "") {
@@ -1053,13 +1100,12 @@
             let html = '';
             
             // Only show the original 8 items OR filtered items from the full list
-            let itemsToShow = filter ? allMediaData : existingMedia;
+            // If filter exists, search ALL data. If no filter, show only Top 8.
+            let itemsToShow = filter ? allFilesData : existingMedia;
 
             itemsToShow.forEach(item => {
                 // Search Filter
                 if (filter && !item.title.toLowerCase().includes(filter.toLowerCase())) return;
-
-                if (item.type === 'placeholder') return; // Don't show placeholders in main grid unless strictly needed, but design-wise better to hide
 
                 html += createMediaCard(item);
             });
@@ -1075,20 +1121,9 @@
             const container = document.getElementById('all-files-grid');
             let html = '';
             
-            allMediaData.forEach(item => {
-                if(item.type === 'placeholder') {
-                    // Render Empty Slot
-                    html += `
-                    <div class="break-inside-avoid relative rounded-xl border border-red-900/30 bg-black/40 flex items-center justify-center ${item.ratio} mb-4 group hover:border-red-500/50 transition-colors">
-                        <div class="text-center">
-                            <i class="fas fa-plus-circle text-2xl text-red-900 group-hover:text-red-500 mb-2 transition-colors"></i>
-                            <p class="text-xs text-gray-600 group-hover:text-gray-400">${item.title}</p>
-                        </div>
-                    </div>`;
-                } else {
-                    // Render Actual Media
-                    html += createMediaCard(item, true); // true = slight variation for "All Files" if needed
-                }
+            allFilesData.forEach(item => {
+                // Semua item dirender sebagai kartu media asli (bukan placeholder kosong)
+                html += createMediaCard(item, true); 
             });
             container.innerHTML = html;
         }
@@ -1101,9 +1136,14 @@
             if (item.type === 'video') {
                 return `
                 <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer ${item.ratio} ${margin}" onclick="openMediaModal('video', '${item.src}')">
-                    <video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
-                        <source src="${item.src}" type="video/mp4">
-                    </video>
+                    <div class="w-full h-full bg-black/50 flex items-center justify-center">
+                        ${item.src ? 
+                            `<video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
+                                <source src="${item.src}" type="video/mp4">
+                             </video>` 
+                            : `<i class="fas fa-video text-gray-600 text-4xl"></i>` // Placeholder icon if src empty
+                        }
+                    </div>
                     <div class="play-overlay"><i class="fas fa-play"></i></div>
                     <div class="absolute bottom-4 left-4 z-10">
                         <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded">${item.title}</span>
@@ -1114,7 +1154,7 @@
                 <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer ${item.ratio} ${margin}" onclick="openMediaModal('image', '${item.src}')">
                     <img src="${item.src}" alt="${item.title}" 
                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            onerror="this.src='${item.src}';">
+                            onerror="this.src='https://placehold.co/600x800/1a0505/FFF?text=No+Image';">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
                     <div class="absolute bottom-4 left-4">
                         <h3 class="text-lg font-bold text-white">${item.title}</h3>
@@ -1272,6 +1312,9 @@
 
         // --- 6. MEDIA MODAL ---
         function openMediaModal(type, src) {
+            // Prevent opening if src is empty (for placeholders)
+            if(!src) return;
+
             if (type === 'video') {
                 const bgMusic = document.getElementById('bg-music');
                 if (bgMusic && !bgMusic.paused) {
