@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Website Kelas Official</title>
+    <!-- Favicon / Logo Browser -->
+    <link rel="icon" type="image/jpeg" href="PAI B.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="PAI B.jpg">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -45,7 +49,6 @@
             background-color: #0a0000;
             color: #e5e5e5;
             overflow-x: hidden;
-            /* PERFORMANCE FIX: Smooth scrolling */
             scroll-behavior: smooth;
             -webkit-font-smoothing: antialiased;
         }
@@ -65,17 +68,15 @@
             background: #ff1f1f;
         }
 
-        /* Glassmorphism Utilities - PERFORMANCE OPTIMIZED */
+        /* Glassmorphism Utilities */
         .glass-panel {
-            background: rgba(40, 0, 0, 0.6); /* Lebih solid di mobile untuk performa */
+            background: rgba(40, 0, 0, 0.6);
             border: 1px solid rgba(255, 50, 50, 0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            /* GPU Acceleration Trigger */
             transform: translateZ(0); 
             -webkit-transform: translateZ(0);
         }
 
-        /* Enable backdrop blur only on larger screens where GPU is stronger */
         @media (min-width: 768px) {
             .glass-panel {
                 background: rgba(40, 0, 0, 0.4);
@@ -98,7 +99,7 @@
             align-items: center;
             flex-direction: column;
             transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
-            will-change: transform, opacity; /* Hint to browser */
+            will-change: transform, opacity;
         }
 
         .hidden-section {
@@ -234,7 +235,7 @@
             align-items: flex-start;
             gap: 1.25rem; /* gap-5 */
             padding: 0.5rem 0;
-            transition: background-color 0.3s; /* Optimized transition */
+            transition: background-color 0.3s;
         }
         .bio-icon-box {
             flex-shrink: 0;
@@ -372,10 +373,9 @@
             </div>
         </nav>
 
-        <!-- BACKGROUND PARTICLES - PERFORMANCE OPTIMIZED -->
-        <!-- Animasi dimatikan di mobile, dinyalakan di layar besar (md:block) -->
+        <!-- BACKGROUND PARTICLES -->
         <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-            <!-- Mobile Optimized Background (Gradient statis yang ringan) -->
+            <!-- Mobile Optimized Background -->
             <div class="absolute inset-0 bg-gradient-to-b from-black via-[#1a0000] to-black opacity-80"></div>
             
             <!-- Desktop Only Heavy Animations -->
@@ -453,7 +453,7 @@
                                 "Microteaching itu memang mendebarkan, tapi lebih mendebarkan lagi kalau melihat generasi muda rusak karena kurangnya pendidikan karakter."
                             </blockquote>
                             <div class="flex justify-between items-center text-sm text-gray-500">
-                                <span>Wali Kelas: Bpk. Fulan S.Kom</span>
+                                <span>PAI B Family</span>
                                 <i class="fas fa-fingerprint text-red-500 text-2xl"></i>
                             </div>
                         </div>
@@ -858,17 +858,16 @@
     <!-- BIO MODAL -->
     <div id="bio-modal" class="custom-modal" onclick="closeBioModal(event)">
         <!-- PERBAIKAN: 
-             1. width diubah jadi w-[90%] agar tidak terlalu mepet.
-             2. max-h-[90vh] dan overflow-y-auto agar bisa di-scroll jika konten panjang.
-             3. max-w-sm dihapus diganti max-w-4xl agar konsisten.
+             1. max-w-6xl: Membuat modal jauh lebih lebar (seperti banner) di laptop.
+             2. overflow-hidden: Memastikan radius (rounded-2xl) tidak tertutup oleh gambar/isi (mengatasi radius hilang).
+             3. md:max-h-[85vh]: Membatasi tinggi di laptop agar tidak melebihi layar, tetap proporsional.
         -->
-        <div id="bio-content" class="glass-panel w-[90%] md:w-full max-w-4xl max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-visible transform scale-95 transition-all duration-300 rounded-2xl flex flex-col md:flex-row bg-black/90 border border-red-500/30 shadow-2xl relative">
+        <div id="bio-content" class="glass-panel w-[90%] md:w-full max-w-6xl max-h-[90vh] md:max-h-[85vh] overflow-y-auto transform scale-95 transition-all duration-300 rounded-2xl flex flex-col md:flex-row bg-black/90 border border-red-500/30 shadow-2xl relative overflow-hidden">
             
-            <!-- PERBAIKAN IMAGE: 
-                 1. h-64: Membatasi tinggi gambar di HP (sekitar 250px) agar teks di bawahnya terlihat.
-                 2. md:h-auto: Di laptop kembali otomatis mengikuti aspek rasio.
+            <!-- IMAGE CONTAINER 
+                 Tetap menjaga aspect ratio 9:16 sesuai permintaan sebelumnya.
             -->
-            <div class="w-full md:w-5/12 h-64 md:h-auto md:aspect-[4/5] relative bg-gray-900 group shrink-0">
+            <div class="w-full md:w-5/12 aspect-[9/16] relative bg-gray-900 group shrink-0">
                 <!-- LOADER FOR BIO MODAL -->
                 <div id="modal-img-loader" class="img-loading-skeleton">
                     <i class="fas fa-spinner fa-spin text-red-900 text-4xl"></i>
@@ -877,51 +876,50 @@
                 <img id="modal-img" src="" alt="Profile Photo" class="relative z-10 w-full h-full object-cover transition-opacity duration-500 opacity-0" onerror="this.src='https://placehold.co/400x500?text=No+Image';">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/90 z-20 pointer-events-none"></div>
                 
-                <!-- Tombol Close Alternatif (Floating di gambar untuk akses cepat di HP) -->
+                <!-- Tombol Close Alternatif (Mobile Only) -->
                 <button onclick="closeBioModal(null, true)" class="md:hidden absolute top-4 right-4 z-50 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
 
-            <!-- PERBAIKAN KONTEN: Padding dikurangi (p-6) di HP, p-8 di Laptop -->
-            <div class="w-full md:w-7/12 p-6 md:p-8 flex flex-col justify-center text-left relative bg-black/50 md:bg-transparent">
+            <!-- KONTEN TEXT -->
+            <div class="w-full md:w-7/12 p-6 md:p-10 flex flex-col justify-center text-left relative bg-black/50 md:bg-transparent">
                 <div class="absolute top-0 right-0 p-6 opacity-10 hidden md:block">
-                    <i class="fas fa-fingerprint text-8xl text-red-600"></i>
+                    <i class="fas fa-fingerprint text-9xl text-red-600"></i>
                 </div>
                 
-                <div class="mb-6 md:mb-8 relative z-10">
-                    <h2 id="modal-name" class="text-2xl md:text-5xl font-bold text-white font-tech mb-2 tracking-wide leading-tight drop-shadow-lg">Name Here</h2>
+                <div class="mb-6 md:mb-10 relative z-10">
+                    <h2 id="modal-name" class="text-2xl md:text-6xl font-bold text-white font-tech mb-2 tracking-wide leading-tight drop-shadow-lg">Name Here</h2>
                     <div class="flex items-center gap-3">
-                        <span class="px-3 py-1 bg-red-900/40 border border-red-500/30 rounded text-red-400 font-mono text-xs md:text-sm tracking-wider" id="modal-nim">NIM: 00000000</span>
+                        <span class="px-4 py-1 bg-red-900/40 border border-red-500/30 rounded text-red-400 font-mono text-xs md:text-base tracking-wider" id="modal-nim">NIM: 00000000</span>
                     </div>
                 </div>
 
-                <div class="space-y-4 relative z-10">
+                <div class="space-y-6 relative z-10">
                     <!-- Instagram Row -->
                     <div class="bio-info-row group">
-                        <div class="bio-icon-box w-10 h-10 md:w-12 md:h-12 text-lg md:text-xl">
+                        <div class="bio-icon-box w-10 h-10 md:w-14 md:h-14 text-lg md:text-2xl">
                             <i class="fab fa-instagram"></i>
                         </div>
-                        <div class="flex-grow pt-1">
-                            <span class="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">Instagram</span>
-                            <div id="modal-ig"></div>
+                        <div class="flex-grow pt-1 md:pt-2">
+                            <span class="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">Instagram</span>
+                            <div id="modal-ig" class="text-sm md:text-xl"></div>
                         </div>
                     </div>
 
                     <!-- Bio Row -->
                     <div class="bio-info-row group">
-                        <div class="bio-icon-box w-10 h-10 md:w-12 md:h-12 text-lg md:text-xl">
+                        <div class="bio-icon-box w-10 h-10 md:w-14 md:h-14 text-lg md:text-2xl">
                             <i class="fas fa-quote-left"></i>
                         </div>
-                        <div class="flex-grow pt-1">
-                            <span class="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">About Me</span>
-                            <!-- FIX: Added text-justify -->
-                            <p id="modal-bio" class="text-gray-300 font-light leading-relaxed text-sm md:text-lg italic pr-2 md:pr-4 text-justify">"..."</p>
+                        <div class="flex-grow pt-1 md:pt-2">
+                            <span class="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">About Me</span>
+                            <p id="modal-bio" class="text-gray-300 font-light leading-relaxed text-sm md:text-xl italic pr-2 md:pr-8 text-justify">"..."</p>
                         </div>
                     </div>
                 </div>
 
-                <button onclick="closeBioModal(null, true)" class="mt-8 md:mt-10 self-start px-6 md:px-8 py-2 md:py-3 border border-red-600 text-red-500 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs md:text-sm font-bold tracking-widest uppercase flex items-center gap-2 group mb-2">
+                <button onclick="closeBioModal(null, true)" class="mt-8 md:mt-12 self-start px-6 md:px-10 py-2 md:py-4 border border-red-600 text-red-500 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs md:text-base font-bold tracking-widest uppercase flex items-center gap-2 group mb-2">
                     <span>Close Profile</span>
                     <i class="fas fa-times group-hover:rotate-90 transition-transform"></i>
                 </button>
@@ -1033,7 +1031,7 @@
             { name: "Aqillah Mazaya", nim: "2511043", ig: "@aqilahmz._", img: "https://i.ibb.co.com/s9kRp6r0/Aqila.jpg", bioImg: "https://i.ibb.co.com/HLNnTg31/Aqila-2.jpg", bio: "Saya memiliki minat di bidang agama dan pendidikan. Saya berharap dapat menjadi pendidik yang amanah dan dapat membawa keberkahan bagi diri saya dan orang-orang di sekitar saya." },
             { name: "Arina Manasika", nim: "2511065", ig: "@mnskaaa_", img: "https://i.ibb.co.com/HfFbTk5d/Arina.jpg", bioImg: "https://i.ibb.co.com/qYcRtzmh/Arina-2.jpg", bio: "Saya berusaha menjadi pribadi yang terus bertumbuh dan berani keluar dari zona nyaman, saya percaya bahwa setiap tantangan yang kita hadapi membentuk karakter dan membuka kesempatan baru untuk belajar." },
             { name: "Devi Kurniasari", nim: "2511052", ig: "@devy____08", img: "https://i.ibb.co.com/jPpbP6mh/Devi.jpg", bioImg: "https://i.ibb.co.com/fzQ7pSBj/Devi-2.jpg", bio: "Saya pantang menyerah untuk meraih masa depan. Ke-depannya, saya ingin menjadi pribadi yang lebih baik." },
-            { name: "Elok Iis N.", nim: "2511060", ig: "-", img: "https://i.ibb.co.com/b5dB7M6T/Elok.jpg", bioImg: "https://i.ibb.co.com/jvZ535PS/Elok-2.jpg", bio: "Senyum adalah sedekah termudah. Selalu berusaha menyebarkan positif vibes." },
+            { name: "Elok Iis N.", nim: "2511060", ig: "@dhe.el", img: "https://i.ibb.co.com/b5dB7M6T/Elok.jpg", bioImg: "https://i.ibb.co.com/jvZ535PS/Elok-2.jpg", bio: "Senyum adalah sedekah termudah. Selalu berusaha menyebarkan positif vibes." },
             { name: "Farihatul Azizah", nim: "2511037", ig: "@fariha_aziizah", img: "https://i.ibb.co.com/WvKp3sFy/Azizah.jpg", bioImg: "https://i.ibb.co.com/mC8myQFY/Azizah-2.jpg", bio: "Introvert, Bermimpilah dan raihlah mimpi itu dengan ilmu yang bermanfaat, serta berusaha menjadi pribadi yang lebih baik dari sebelumnya." },
             { name: "Hanan Tsuroya A.", nim: "2511073", ig: "@hanan.akyasi", img: "https://i.ibb.co.com/ZRRX7M4p/Hanan.jpg", bioImg: "https://i.ibb.co.com/JwBMTXd3/Hanan-2.jpg", bio: "Saya sangat menyukai alam. Rumah saya di Kebumen dan saya sangat suka kuliah di IAINU Kebumen. Saya sangat menyukai kucing dan menikmati alam." },
             { name: "Hanni Hasanati", nim: "2511068", ig: "@hannihsnt_", img: "https://i.ibb.co.com/WpRW8nk3/Hanni.jpg", bioImg: "https://i.ibb.co.com/ZpfVnYDx/Hanni-2.jpg", bio: "Saya anak kedua dari tiga bersaudara, dan semua saudara saya laki-laki. Saat ini saya kuliah di IAINU Kebumen, jurusan Pendidikan Agama Islam." },
@@ -1087,16 +1085,6 @@
             grid.innerHTML = html;
         }
 
-        function toggleFamilyGallery() {
-            const gallery = document.getElementById('family-gallery');
-            gallery.classList.toggle('open');
-            if(gallery.classList.contains('open')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
-        }
-
         // --- 3. BIO MODAL LOGIC ---
         function openBioModal(index) {
             const student = studentsData[index];
@@ -1110,28 +1098,23 @@
             if(student.ig === '-' || student.ig === '') {
                 igContainer.innerHTML = `<span class="text-gray-500">-</span>`;
             } else {
-                // Remove @ for the link and spaces, sanitize
                 const username = student.ig.replace('@', '').trim();
-                // Create Instagram Link
                 igContainer.innerHTML = `<a href="https://www.instagram.com/${username}" target="_blank" rel="noopener noreferrer" class="text-lg text-white font-medium hover:text-red-400 transition cursor-pointer flex items-center gap-1">${student.ig} <i class="fas fa-external-link-alt text-xs ml-1 opacity-50"></i></a>`;
             }
 
-            // Added text-justify class for Justify alignment
             document.getElementById('modal-bio').innerText = `"${student.bio}"`;
            
-            // Handle Modal Image Loading
             const imgElement = document.getElementById('modal-img');
             const loaderElement = document.getElementById('modal-img-loader');
             
             // Reset state
             imgElement.classList.remove('img-loaded');
             imgElement.style.opacity = '0';
-            loaderElement.style.display = 'flex'; // Show loader
+            loaderElement.style.display = 'flex'; 
 
-            // Set up new onload handler
             imgElement.onload = function() {
                 imgElement.style.opacity = '1';
-                loaderElement.style.display = 'none'; // Hide loader
+                loaderElement.style.display = 'none'; 
             };
             
             imgElement.onerror = function() {
@@ -1141,31 +1124,38 @@
                 loaderElement.style.display = 'none';
             };
 
-            // Set Source to trigger load
             imgElement.src = student.bioImg;
 
             modal.classList.add('active');
             content.classList.remove('scale-95');
             content.classList.add('scale-100');
+            
+            // Push State agar tombol Back HP bisa menutup modal
+            history.pushState({ page: 'bio-details' }, '', '#student-bio');
         }
 
+        // PERBAIKAN: Fungsi Close Murni (Hanya UI)
         function closeBioModal(e, force = false) {
-            if (force || e.target.id === 'bio-modal') {
+            // Cek apakah yang diklik adalah background gelap (backdrop) atau tombol close (force)
+            if (force || (e && e.target.id === 'bio-modal')) {
                 const modal = document.getElementById('bio-modal');
                 const content = document.getElementById('bio-content');
+                
+                // Efek animasi tutup
                 content.classList.remove('scale-100');
                 content.classList.add('scale-95');
                 modal.classList.remove('active');
+                
+                // Opsional: Kita bisa membersihkan URL tanpa memicu reload/back
+                // history.replaceState(null, null, ' '); 
             }
         }
 
         // --- 4. MEDIA MODAL LOGIC (VIDEO/PHOTO) ---
         function openMediaModal(type, src) {
-            // Pause BG Music
             const bgMusic = document.getElementById('bg-music');
             if (bgMusic && !bgMusic.paused) {
                 bgMusic.pause();
-                // Store state to resume later if needed
                 bgMusic.dataset.wasPlaying = "true";
             }
 
@@ -1186,22 +1176,22 @@
             }
 
             modal.classList.add('active');
+            history.pushState({ page: 'media-preview' }, '', '#preview');
         }
 
+        // PERBAIKAN: Close Media Murni (Hanya UI)
         function closeMediaModal(e, force = false) {
-            if (force || e.target.id === 'media-modal') {
+            if (force || (e && e.target.id === 'media-modal')) {
                 const modal = document.getElementById('media-modal');
                 const container = document.getElementById('media-container');
-                // Stop video if playing
-                container.innerHTML = ''; 
+                container.innerHTML = ''; // Stop video
                 modal.classList.remove('active');
 
-                // Resume BG Music if it was playing
+                // Resume Music logic
                 const bgMusic = document.getElementById('bg-music');
                 const musicBtn = document.getElementById('music-btn'); 
                 if (bgMusic && bgMusic.dataset.wasPlaying === "true") {
                     bgMusic.play().catch(e => console.log(e));
-                    // Ensure visual button state is playing (icon)
                     if(musicBtn) {
                          musicBtn.innerHTML = '<i class="fas fa-music"></i>';
                          musicBtn.classList.add('music-pulse');
@@ -1211,20 +1201,71 @@
             }
         }
 
-        // --- 5. SAFE VIDEO PREVIEW LOGIC ---
-        function previewVideo(video) {
-            // Muted is required for autoplay in most browsers
-            video.muted = true;
+        // --- 5. NAVIGATION HANDLER (PHYSICAL BACK BUTTON ONLY) ---
+        
+        // Listener ini HANYA untuk tombol Back fisik di HP/Browser
+        window.addEventListener('popstate', function(event) {
+            const state = event.state || { page: 'home' };
             
-            var playPromise = video.play();
+            // Tutup semua modal secara visual saat tombol Back ditekan
+            const bioModal = document.getElementById('bio-modal');
+            const mediaModal = document.getElementById('media-modal');
+            const gallery = document.getElementById('family-gallery');
 
+            if (bioModal.classList.contains('active')) {
+                // Manual close logic without event
+                const content = document.getElementById('bio-content');
+                content.classList.remove('scale-100');
+                content.classList.add('scale-95');
+                bioModal.classList.remove('active');
+                return; // Stop here, handled one layer
+            }
+
+            if (mediaModal.classList.contains('active')) {
+                closeMediaModal(null, true); 
+                return;
+            }
+            
+            // Logic khusus Family Gallery
+            if (state.page === 'family-gallery' || state.page === 'bio-details') {
+                // Jika history bilang kita di gallery, pastikan gallery terbuka
+                gallery.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Jika tidak, tutup gallery
+                gallery.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Handle Tab Utama
+            if (['home', 'structure', 'documentation'].includes(state.page)) {
+                _switchTabUI(state.page);
+            }
+        });
+
+        // PERBAIKAN: Toggle Gallery Murni (Hanya UI untuk Close)
+        function toggleFamilyGallery() {
+            const gallery = document.getElementById('family-gallery');
+            const isOpen = gallery.classList.contains('open');
+            
+            if (isOpen) {
+                // HANYA TUTUP UI, JANGAN HISTORY BACK
+                gallery.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            } else {
+                // BUKA UI & PUSH STATE
+                gallery.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                history.pushState({ page: 'family-gallery' }, '', '#family');
+            }
+        }
+
+        // --- 6. SAFE VIDEO PREVIEW LOGIC ---
+        function previewVideo(video) {
+            video.muted = true;
+            var playPromise = video.play();
             if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    // Automatic playback started!
-                })
-                .catch(error => {
-                    // Auto-play was prevented
-                    // We only log if it's NOT an AbortError (which happens on quick mouseout)
+                playPromise.then(_ => {}).catch(error => {
                     if (error.name !== 'AbortError') {
                         console.log("Video preview prevented:", error);
                     }
@@ -1234,133 +1275,8 @@
 
         function stopPreview(video) {
             video.pause();
-            video.currentTime = 0; // Reset to start
+            video.currentTime = 0; 
         }
-
-        // --- 6. NAVIGATION HISTORY MANAGEMENT (FIX BACK BUTTON) ---
-        
-        // Setup initial history state on load
-        window.addEventListener('load', function() {
-            history.replaceState({ page: 'home' }, '', '#home');
-        });
-
-        // Listen for Back Button (Popstate)
-        window.addEventListener('popstate', function(event) {
-            const state = event.state;
-            
-            // 1. Force Close All Modals (UI Cleanup)
-            document.getElementById('bio-modal').classList.remove('active');
-            document.getElementById('media-modal').classList.remove('active');
-            
-            const gallery = document.getElementById('family-gallery');
-            gallery.classList.remove('open');
-            document.body.style.overflow = 'auto'; // Restore scroll
-            
-            // Stop any playing media
-            const mediaContainer = document.getElementById('media-container');
-            if(mediaContainer) mediaContainer.innerHTML = '';
-
-            // 2. Handle Tab Switching based on history
-            if (state && state.page) {
-                // If the state is a main tab, switch to it without pushing new history
-                if (['home', 'structure', 'documentation'].includes(state.page)) {
-                    _switchTabUI(state.page);
-                }
-            } else {
-                // Default fallback
-                _switchTabUI('home');
-            }
-        });
-
-        // Override original functions to include History Push
-        
-        // Helper: Only updates UI, doesn't touch history (used by popstate)
-        function _switchTabUI(tabId) {
-            const sections = document.querySelectorAll('main section');
-            sections.forEach(section => {
-                section.classList.remove('active-section');
-                section.classList.add('hidden-section');
-                setTimeout(() => {
-                    if(!section.classList.contains('active-section')){
-                        section.style.display = 'none';
-                    }
-                }, 0); 
-            });
-            const target = document.getElementById(tabId);
-            if (target) {
-                target.style.display = 'block'; 
-                void target.offsetWidth; 
-                target.classList.remove('hidden-section');
-                target.classList.add('active-section');
-            }
-            document.getElementById('mobile-menu').classList.add('hidden');
-        }
-
-        // Main Navigation Function
-        function switchTab(tabId) {
-            _switchTabUI(tabId);
-            // Push state so back button works
-            history.pushState({ page: tabId }, '', '#' + tabId);
-        }
-
-        // Modified Toggle Family Gallery
-        const originalToggleFamilyGallery = toggleFamilyGallery; // Save ref if needed logic differs
-        toggleFamilyGallery = function() {
-            const gallery = document.getElementById('family-gallery');
-            const isOpen = gallery.classList.contains('open');
-            
-            if (isOpen) {
-                // If open, user clicked close button/overlay -> Go Back in history
-                history.back(); 
-            } else {
-                // If closed, we are opening it -> Push state
-                gallery.classList.add('open');
-                document.body.style.overflow = 'hidden';
-                history.pushState({ page: 'family-gallery' }, '', '#family');
-            }
-        }
-
-        // Modified Bio Modal Open
-        const originalOpenBioModal = openBioModal;
-        openBioModal = function(index) {
-            // Call original UI logic
-            originalOpenBioModal(index);
-            // Push history
-            history.pushState({ page: 'bio-details' }, '', '#student-bio');
-        }
-
-        // Modified Media Modal Open
-        const originalOpenMediaModal = openMediaModal;
-        openMediaModal = function(type, src) {
-            originalOpenMediaModal(type, src);
-            history.pushState({ page: 'media-preview' }, '', '#preview');
-        }
-
-        // Modified Close Functions to use History Back
-        // We override the click handlers in HTML to simply go back
-        // The 'popstate' listener handles the actual UI closing.
-        
-        // We redefine close functions to simply trigger history.back()
-        // But we must check if the close request came from UI click (need back) 
-        // or system (no need back).
-        
-        // Actually, simpler: Update HTML onclicks to closeBioModal(event, true) isn't needed anymore
-        // We simply intercept the close actions.
-        
-        closeBioModal = function(e, force) {
-            // If triggered by click (e exists), go back. 
-            // The popstate listener will do the actual closing UI work.
-            if (e || force) {
-                history.back();
-            }
-        }
-
-        closeMediaModal = function(e, force) {
-            if (e || force) {
-                history.back();
-            }
-        }
-
     </script>
 </body>
 </html>
