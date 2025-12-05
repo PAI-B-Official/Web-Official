@@ -919,7 +919,10 @@
                     </div>
                 </div>
 
-                <!-- Removed the Close Profile button from here as requested -->
+                <!-- Close Button Desktop -->
+                 <button onclick="closeBioModal(null, true)" class="hidden md:flex absolute top-6 right-6 z-50 bg-transparent text-white/50 hover:text-white transition w-10 h-10 items-center justify-center text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -1101,32 +1104,45 @@
         window.addEventListener('popstate', function(event) {
             const state = event.state || { page: 'home' };
             
-            // 1. Reset Modal States (Always close leaf modals first)
-            document.getElementById('bio-modal').classList.remove('active');
-            document.getElementById('media-modal').classList.remove('active');
-            
-            // 2. Handle Family Gallery Layer (Parent Overlay)
+            // UI References
+            const bioModal = document.getElementById('bio-modal');
+            const mediaModal = document.getElementById('media-modal');
             const gallery = document.getElementById('family-gallery');
+            const mediaContainer = document.getElementById('media-container');
+
+            // --- MUSIC RESUME LOGIC (Before closing media) ---
+            if (mediaModal.classList.contains('active')) {
+                // If it was a video, try to resume music
+                if (mediaContainer.dataset.mediaType === 'video') {
+                    const bgMusic = document.getElementById('bg-music');
+                    const musicBtn = document.getElementById('music-btn'); 
+                    if (bgMusic && bgMusic.dataset.wasPlaying === "true") {
+                        bgMusic.play().catch(e => console.log(e));
+                        if(musicBtn) {
+                             musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+                             musicBtn.classList.add('music-pulse');
+                             isPlaying = true;
+                        }
+                    }
+                }
+                // Clear content
+                mediaContainer.innerHTML = '';
+            }
+
+            // 1. Reset Modal States
+            bioModal.classList.remove('active');
+            mediaModal.classList.remove('active');
+            
+            // 2. Handle Family Gallery Layer
             if (state.page === 'family-gallery' || state.page === 'bio-details') {
-                // If we are in family gallery OR in bio (which implies family is parent), keep family open
                 gallery.classList.add('open');
                 document.body.style.overflow = 'hidden';
             } else {
-                // Home/Structure/Doc -> Close Family Gallery
                 gallery.classList.remove('open');
                 document.body.style.overflow = 'auto';
             }
 
-            // 3. Handle Bio Specifics (If moving forward to bio via history?)
-            if (state.page === 'bio-details') {
-                // In rare case we popstate TO bio details (e.g. forward button), reopen it
-                // We'd need to know WHICH bio, but simplistic approach implies we might just land on family
-                // Since saving exact bio index in simple state page string isn't fully implemented, 
-                // falling back to Family Gallery is safer UX than breaking.
-                // But for standard "Back" usage, we are leaving this state, so removing 'active' above is correct.
-            }
-
-            // 4. Handle Main Tabs
+            // 3. Handle Main Tabs
             if (['home', 'structure', 'documentation'].includes(state.page)) {
                 _switchTabUI(state.page);
             }
@@ -1137,7 +1153,14 @@
             const isOpen = gallery.classList.contains('open');
             
             if (isOpen) {
-                history.back(); // Trigger popstate to close
+                // UPDATE: Langsung tutup tanpa history.back()
+                gallery.classList.remove('open');
+                document.body.style.overflow = 'auto';
+                
+                // Kembalikan URL ke tab yang sedang aktif (Home/Structure/Doc)
+                const activeSection = document.querySelector('.active-section');
+                const targetId = activeSection ? activeSection.id : 'home';
+                history.replaceState({ page: targetId }, '', '#' + targetId);
             } else {
                 gallery.classList.add('open');
                 document.body.style.overflow = 'hidden';
@@ -1194,11 +1217,19 @@
         }
 
         function closeBioModal(e, force = false) {
-            // Simply go back in history. The popstate listener will handle the UI closing.
-            // This ensures sync with the physical back button.
-            if (e || force) {
-                history.back();
+            // UPDATE: Logika penutupan langsung
+            // Cek apakah klik berasal dari background (bukan dari konten modal)
+            if (e && !force) {
+                const content = document.getElementById('bio-content');
+                // Jika yang diklik adalah konten atau anaknya, jangan tutup
+                if (content.contains(e.target)) return;
             }
+
+            const modal = document.getElementById('bio-modal');
+            modal.classList.remove('active');
+            
+            // Kembalikan URL ke parent (Family Gallery) tanpa tombol Back browser
+            history.replaceState({ page: 'family-gallery' }, '', '#family');
         }
 
         // --- 4. MEDIA MODAL LOGIC (VIDEO/PHOTO) ---
@@ -1236,80 +1267,40 @@
         }
 
         function closeMediaModal(e, force = false) {
-            if (e || force) {
-                // First check if we need to resume music before navigating back
-                // because navigating back might trigger popstate which handles UI
-                // But we handle music logic here or in popstate? 
-                // Let's rely on popstate handler to be clean, but popstate handler needs to know
-                // what was closed.
-                // Simpler: Just handle music resume here if triggered by UI click, 
-                // AND also in popstate for back button.
-                
-                // Actually, let's defer all logic to popstate to avoid duplication
-                // Popstate will see media modal is active and closing it.
-                
-                // BUT wait, history.back() is async.
-                history.back();
+            // UPDATE: Logika penutupan langsung
+            if (e && !force) {
+                 const container = document.getElementById('media-container');
+                 if (container.contains(e.target)) return;
             }
+
+            // Resume music logic
+            const container = document.getElementById('media-container');
+            if (container.dataset.mediaType === 'video') {
+                 const bgMusic = document.getElementById('bg-music');
+                 const musicBtn = document.getElementById('music-btn'); 
+                 if (bgMusic && bgMusic.dataset.wasPlaying === "true") {
+                     bgMusic.play().catch(e => console.log(e));
+                     if(musicBtn) {
+                         musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+                         musicBtn.classList.add('music-pulse');
+                         isPlaying = true;
+                     }
+                 }
+            }
+            container.innerHTML = ''; 
+            
+            const modal = document.getElementById('media-modal');
+            modal.classList.remove('active');
+
+            // Kembalikan URL ke parent (Documentation) tanpa tombol Back browser
+            history.replaceState({ page: 'documentation' }, '', '#documentation');
         }
         
-        // Enhance popstate for music resume
-        const originalPopstate = window.onpopstate; // Store if exists (unlikely in this snippet context but good practice)
-        
-        // Re-adding the listener with music logic included
-        window.removeEventListener('popstate', originalPopstate); // Clear old one effectively by redefining
-        
-        window.addEventListener('popstate', function(event) {
-            const state = event.state || { page: 'home' };
-            
-            // UI References
-            const bioModal = document.getElementById('bio-modal');
-            const mediaModal = document.getElementById('media-modal');
-            const gallery = document.getElementById('family-gallery');
-            const mediaContainer = document.getElementById('media-container');
-
-            // --- MUSIC RESUME LOGIC (Before closing media) ---
-            if (mediaModal.classList.contains('active')) {
-                // If it was a video, try to resume music
-                if (mediaContainer.dataset.mediaType === 'video') {
-                    const bgMusic = document.getElementById('bg-music');
-                    const musicBtn = document.getElementById('music-btn'); 
-                    if (bgMusic && bgMusic.dataset.wasPlaying === "true") {
-                        bgMusic.play().catch(e => console.log(e));
-                        if(musicBtn) {
-                             musicBtn.innerHTML = '<i class="fas fa-music"></i>';
-                             musicBtn.classList.add('music-pulse');
-                             isPlaying = true;
-                        }
-                    }
-                }
-                // Clear content
-                mediaContainer.innerHTML = '';
-            }
-
-            // 1. Reset Modal States
-            bioModal.classList.remove('active');
-            mediaModal.classList.remove('active');
-            
-            // 2. Handle Family Gallery Layer
-            if (state.page === 'family-gallery' || state.page === 'bio-details') {
-                gallery.classList.add('open');
-                document.body.style.overflow = 'hidden';
-            } else {
-                gallery.classList.remove('open');
-                document.body.style.overflow = 'auto';
-            }
-
-            // 3. Handle Main Tabs
-            if (['home', 'structure', 'documentation'].includes(state.page)) {
-                _switchTabUI(state.page);
-            }
-        });
-
-        // --- 5. SAFE VIDEO PREVIEW LOGIC ---
+        // --- 5. VIDEO PREVIEW LOGIC ---
         function previewVideo(video) {
             video.muted = true;
             var playPromise = video.play();
+
             if (playPromise !== undefined) {
                 playPromise.then(_ => {}).catch(error => {
                     if (error.name !== 'AbortError') {
