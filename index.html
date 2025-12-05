@@ -45,6 +45,9 @@
             background-color: #0a0000;
             color: #e5e5e5;
             overflow-x: hidden;
+            /* PERFORMANCE FIX: Smooth scrolling */
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Custom Scrollbar */
@@ -62,13 +65,23 @@
             background: #ff1f1f;
         }
 
-        /* Glassmorphism Utilities */
+        /* Glassmorphism Utilities - PERFORMANCE OPTIMIZED */
         .glass-panel {
-            background: rgba(40, 0, 0, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(40, 0, 0, 0.6); /* Lebih solid di mobile untuk performa */
             border: 1px solid rgba(255, 50, 50, 0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            /* GPU Acceleration Trigger */
+            transform: translateZ(0); 
+            -webkit-transform: translateZ(0);
+        }
+
+        /* Enable backdrop blur only on larger screens where GPU is stronger */
+        @media (min-width: 768px) {
+            .glass-panel {
+                background: rgba(40, 0, 0, 0.4);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+            }
         }
 
         /* Intro Animation */
@@ -85,6 +98,7 @@
             align-items: center;
             flex-direction: column;
             transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+            will-change: transform, opacity; /* Hint to browser */
         }
 
         .hidden-section {
@@ -183,7 +197,8 @@
             transform: scale(0.9);
             opacity: 0;
             pointer-events: none;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            will-change: transform, opacity;
         }
         #family-gallery.open {
             transform: scale(1);
@@ -206,6 +221,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s;
+            will-change: opacity;
         }
         .custom-modal.active {
             opacity: 1;
@@ -218,7 +234,7 @@
             align-items: flex-start;
             gap: 1.25rem; /* gap-5 */
             padding: 0.5rem 0;
-            transition: all 0.3s;
+            transition: background-color 0.3s; /* Optimized transition */
         }
         .bio-icon-box {
             flex-shrink: 0;
@@ -232,7 +248,7 @@
             color: #ef4444; /* red-500 */
             font-size: 1.25rem; /* text-xl */
             border: 1px solid rgba(239, 68, 68, 0.1);
-            transition: all 0.3s;
+            transition: transform 0.3s, background-color 0.3s, color 0.3s;
         }
         .bio-info-row:hover .bio-icon-box {
             background: #dc2626; /* red-600 */
@@ -266,7 +282,7 @@
             justify-content: center;
             color: white;
             font-size: 24px;
-            transition: all 0.3s;
+            transition: transform 0.3s, background-color 0.3s;
             box-shadow: 0 0 25px rgba(220, 38, 38, 0.6);
             z-index: 10;
         }
@@ -356,10 +372,15 @@
             </div>
         </nav>
 
-        <!-- BACKGROUND PARTICLES -->
+        <!-- BACKGROUND PARTICLES - PERFORMANCE OPTIMIZED -->
+        <!-- Animasi dimatikan di mobile, dinyalakan di layar besar (md:block) -->
         <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-            <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-red-900 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 animate-pulse-slow"></div>
-            <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-red-800 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 animate-pulse-slow"></div>
+            <!-- Mobile Optimized Background (Gradient statis yang ringan) -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black via-[#1a0000] to-black opacity-80"></div>
+            
+            <!-- Desktop Only Heavy Animations -->
+            <div class="hidden md:block absolute top-[-10%] left-[-10%] w-96 h-96 bg-red-900 rounded-full mix-blend-multiply filter blur-[100px] opacity-30 animate-pulse-slow" style="will-change: transform, opacity;"></div>
+            <div class="hidden md:block absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-red-800 rounded-full mix-blend-multiply filter blur-[100px] opacity-30 animate-pulse-slow" style="will-change: transform, opacity;"></div>
         </div>
 
         <!-- CONTENT SECTIONS -->
@@ -815,8 +836,10 @@
 
     <!-- FAMILY GALLERY OVERLAY (Hidden by default) -->
     <div id="family-gallery">
-        <div class="max-w-7xl mx-auto px-4 py-10 relative">
-            <button onclick="toggleFamilyGallery()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg">
+        <!-- PERBAIKAN: Mengubah py-10 menjadi pt-24 pb-10. 
+             pt-24 memberikan jarak atas yang cukup agar judul tidak tertutup tombol close yang fixed. -->
+        <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
+            <button onclick="toggleFamilyGallery()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
                 <i class="fas fa-times"></i>
             </button>
             
