@@ -4,10 +4,10 @@
 <meta name="google-site-verification" content="UPioXeNFpoiCMVwsJoWNkGvlqM1BpkfIDV5AGhLXsUo" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAI B OFFICIAL</title>
+    <title>Website Kelas Official</title>
     <!-- Favicon / Logo Browser -->
-    <link rel="icon" type="image/jpeg" href="PAI B.jpg">
-    <link rel="shortcut icon" type="image/jpeg" href="PAI B.jpg">
+    <link rel="icon" type="image/jpeg" href="IAINU.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="IAINU.jpg">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -186,8 +186,8 @@
             width: 0; height: 20px;
         }
 
-        /* Family Gallery Modal */
-        #family-gallery {
+        /* Family Gallery & All Files Modal */
+        .fullscreen-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -202,7 +202,7 @@
             transition: transform 0.3s ease, opacity 0.3s ease;
             will-change: transform, opacity;
         }
-        #family-gallery.open {
+        .fullscreen-overlay.open {
             transform: scale(1);
             opacity: 1;
             pointer-events: auto;
@@ -308,6 +308,31 @@
         .img-loaded {
             opacity: 1 !important;
         }
+
+        /* Zoom Styles */
+        .zoom-container {
+            overflow: auto;
+            cursor: zoom-in;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .zoom-image {
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+            max-width: 100%;
+            max-height: 85vh;
+        }
+        .zoom-active .zoom-image {
+            transform: scale(2);
+            max-width: none;
+            max-height: none;
+        }
+        .zoom-active {
+            cursor: zoom-out;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
     </style>
 </head>
 <body class="font-body selection:bg-red-500 selection:text-white">
@@ -391,7 +416,7 @@
             <section id="home" class="active-section py-10">
                 <div class="grid md:grid-cols-2 gap-10 items-center">
                     <div class="space-y-6 text-center md:text-left">
-                        <!-- LOGO MOBILE (Hanya muncul di HP/Mobile - md:hidden) -->
+                        <!-- LOGO MOBILE -->
                         <div class="md:hidden mb-4 flex justify-center">
                             <img src="IAINU.jpg" alt="Class Logo Mobile" 
                                  class="w-30 h-30 object-contain filter drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]"
@@ -623,7 +648,7 @@
                     </div>
                 </div>
                 
-                <!-- Seksi Divisions / Role Summaries -->
+                <!-- Seksi Divisions -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 mb-12">
                     <div class="glass-panel p-6 rounded-xl border-l-4 border-l-red-600 hover:translate-y-[-5px] transition-transform">
                         <h4 class="font-tech text-xl text-white mb-4"><i class="fas fa-user-tie mr-2"></i> Ketua & Wakil Ketua</h4>
@@ -661,110 +686,33 @@
                 </div>
             </section>
 
-            <!-- 3. DOCUMENTATION SECTION (NEW: 8 SLOTS) -->
+            <!-- 3. DOCUMENTATION SECTION -->
             <section id="documentation" class="hidden-section py-10">
-                 <div class="flex justify-between items-end mb-8">
+                 <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
                     <div>
                         <h2 class="text-3xl md:text-5xl font-tech font-bold text-white">ARCHIVES</h2>
                         <p class="text-red-400 mt-1">Class Memories & Moments</p>
                     </div>
-                    <div class="hidden md:block">
-                        <!-- BUTTON FIX: Changed to static span to indicate it's a label, not a broken button -->
-                        <span class="text-xs border border-red-500 text-red-500 px-3 py-1 rounded cursor-default">Filter: All</span>
+                    <div class="w-full md:w-auto flex flex-col md:flex-row gap-3">
+                        <!-- SEARCH BAR (New) -->
+                        <div class="relative w-full md:w-64">
+                            <input type="text" id="doc-search" placeholder="Search by title..." 
+                                   onkeyup="handleSearch(event)"
+                                   class="w-full bg-black/40 border border-red-500/30 rounded-lg px-4 py-2 text-white text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 placeholder-gray-500 transition-all">
+                            <button onclick="handleSearch({key: 'Enter'})" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <!-- ALL FILES BUTTON (New) -->
+                        <button onclick="openAllFiles()" class="bg-red-900/30 hover:bg-red-800 border border-red-500/50 text-white px-4 py-2 rounded-lg text-sm transition-all whitespace-nowrap flex items-center justify-center gap-2">
+                            <i class="fas fa-th-large"></i> All Files
+                        </button>
                     </div>
                 </div>
 
-                <!-- 8 SLOTS LAYOUT (Masonry-like with columns) -->
-                <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-                    
-                    <!-- 1. VIDEO (9:16 - Reels Style) -->
-                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-[9/16] mb-6" onclick="openMediaModal('video', 'JJ 1.mp4')">
-                        <video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
-                            <source src="JJ 1.mp4" type="video/mp4">
-                        </video>
-                        <div class="play-overlay"><i class="fas fa-play"></i></div>
-                        <div class="absolute bottom-4 left-4 z-10">
-                            <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded">JJ</span>
-                        </div>
-                    </div>
-
-                    <!-- 2. PHOTO (1:1 - Square) -->
-                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-square mb-6" onclick="openMediaModal('image', 'PAI B.jpg')">
-                        <img src="PAI B.jpg" alt="Moment Square" 
-                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                             onerror="this.src='PAI B.jpg';">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                        <div class="absolute bottom-4 left-4">
-                            <h3 class="text-lg font-bold text-white">Logo</h3>
-                        </div>
-                    </div>
-
-                    <!-- 3. VIDEO (16:9 - Cinematic) -->
-                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-video mb-6" onclick="openMediaModal('video', 'English Tim.mp4')">
-                         <video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
-                            <source src="English Tim.mp4" type="video/mp4">
-                        </video>
-                        <div class="play-overlay"><i class="fas fa-play"></i></div>
-                        <div class="absolute bottom-4 left-4 z-10">
-                            <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded">Game</span>
-                        </div>
-                    </div>
-
-                    <!-- 4. PHOTO (4:5 - Portrait) -->
-                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-[4/5] mb-6" onclick="openMediaModal('image', 'Fotbar Sekelas 2.jpg')">
-                         <img src="Fotbar Sekelas 2.jpg" alt="Moment Portrait" 
-                              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                              onerror="this.src='Fotbar Sekelas 2.jpg';">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                        <div class="absolute bottom-4 left-4">
-                            <h3 class="text-lg font-bold text-white">Fotbar</h3>
-                        </div>
-                    </div>
-
-                    <!-- 5. VIDEO (4:5 - Portrait Clip) -->
-                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-[4/5] mb-6" onclick="openMediaModal('video', 'WhatsApp Video 2025-11-30 at 10.44.47.mp4')">
-                        <video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
-                            <source src="WhatsApp Video 2025-11-30 at 10.44.47.mp4" type="video/mp4">
-                        </video>
-                        <div class="play-overlay"><i class="fas fa-play"></i></div>
-                        <div class="absolute bottom-4 left-4 z-10">
-                            <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded">CLIP</span>
-                        </div>
-                    </div>
-
-                    <!-- 6. PHOTO (16:9 - Landscape) -->
-                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-video mb-6" onclick="openMediaModal('image', 'Series PAI B.jpg')">
-                        <img src="Series PAI B.jpg" alt="Moment Landscape" 
-                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                             onerror="this.src='Series PAI B.jpg';">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                        <div class="absolute bottom-4 left-4">
-                            <h3 class="text-lg font-bold text-white">PAI B SERIES</h3>
-                        </div>
-                    </div>
-
-                     <!-- 7. VIDEO (1:1 - Square Video) -->
-                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-square mb-6" onclick="openMediaModal('video', 'WhatsApp Video 2025-11-30 at 10.44.47.mp4')">
-                         <video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
-                            <source src="WhatsApp Video 2025-11-30 at 10.44.47.mp4" type="video/mp4">
-                        </video>
-                        <div class="play-overlay"><i class="fas fa-play"></i></div>
-                        <div class="absolute bottom-4 left-4 z-10">
-                            <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded">VLOG</span>
-                        </div>
-                    </div>
-
-                    <!-- 8. PHOTO (9:16 - Vertical Story) -->
-                    <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer aspect-[9/16] mb-6" onclick="openMediaModal('image', 'Fotbar Sekelas.jpg')">
-                        <img src="Fotbar Sekelas.jpg" alt="Moment Story" 
-                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                             onerror="this.src='Fotbar Sekelas.jpg';">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                         <div class="absolute bottom-4 left-4">
-                            <h3 class="text-lg font-bold text-white">Fotbar</h3>
-                        </div>
-                    </div>
-
+                <!-- DYNAMIC GRID CONTAINER -->
+                <div id="documentation-grid" class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                    <!-- Javascript will populate this based on data/search -->
                 </div>
             </section>
 
@@ -773,40 +721,30 @@
         <!-- Footer -->
         <footer class="border-t border-red-900/30 bg-black/90 mt-12 pt-12 pb-8">
             <div class="max-w-7xl mx-auto px-4">
-                
-                <!-- Institutional Info Section - FIXED: Symmetrical Spacing (gap-12) with Equal Width Columns -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8 border-b border-red-900/30 pb-8">
-                    <!-- Column 1 -->
                     <div class="text-left">
                          <h3 class="font-tech text-xl text-white font-bold mb-4 border-b-2 border-red-600 inline-block pb-1">FAKULTAS TARBIYAH</h3>
                          <p class="text-gray-400 text-sm leading-relaxed mt-2">
                              Mencetak pendidik yang berakhlak mulia, berwawasan luas, dan kompeten dalam menjawab tantangan zaman.
                          </p>
                     </div>
-                    <!-- Column 2 -->
                     <div class="text-left">
                         <h3 class="font-tech text-xl text-white font-bold mb-4 border-b-2 border-red-600 inline-block pb-1">KONTAK KAMI</h3>
                         <div class="mt-2 flex flex-col gap-2">
-                            <!-- Maps Link -->
                             <a href="https://maps.app.goo.gl/tfdwTJTneTn89ey36" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
                                 <i class="fas fa-map-marker-alt text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
                                 Jl. Tentara Pelajar No. 55B
                             </a>
-                            
-                            <!-- WhatsApp Link -->
                             <a href="https://wa.me/6281216024273" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
                                 <i class="fas fa-phone text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
                                 0812-1602-4273
                             </a>
-
-                            <!-- Twitter Link (Replacing Email) -->
                             <a href="https://twitter.com/iainu_kebumen" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
                                 <i class="fab fa-twitter text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
                                 @iainu_kebumen
                             </a>
                         </div>
                     </div>
-                    <!-- Column 3 -->
                     <div class="text-left">
                         <h3 class="font-tech text-xl text-white font-bold mb-4 border-b-2 border-red-600 inline-block pb-1">AKADEMIK</h3>
                         <div class="mt-2">
@@ -816,16 +754,12 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Copyright & Socials -->
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <p class="font-tech text-gray-500 text-sm text-center md:text-left">© 2025 PAI B - IAINU KEBUMEN. All Rights Reserved.</p>
                     <div class="flex gap-4">
-                        <!-- Instagram Link Updated -->
                         <a href="https://www.instagram.com/iainukebumen/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white transition-all duration-300">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <!-- Globe Link Updated -->
                         <a href="https://iainu-kebumen.ac.id/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnQrL_efXSleeESFYk2QKkN6BzFcbkVuHqkuvpD0AKrYYmzGs-kkm7mzH8qUk_aem_h2VNO5wVlciA0OHIwGrFxg" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-500 hover:text-white transition-all duration-300">
                             <i class="fas fa-globe"></i>
                         </a>
@@ -836,68 +770,62 @@
     </div>
 
     <!-- FAMILY GALLERY OVERLAY (Hidden by default) -->
-    <div id="family-gallery">
-        <!-- PERBAIKAN: Mengubah py-10 menjadi pt-24 pb-10. 
-             pt-24 memberikan jarak atas yang cukup agar judul tidak tertutup tombol close yang fixed. -->
+    <div id="family-gallery" class="fullscreen-overlay">
         <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
             <button onclick="toggleFamilyGallery()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
                 <i class="fas fa-times"></i>
             </button>
-            
             <div class="text-center mb-12">
                 <h2 class="text-4xl md:text-6xl font-tech font-bold text-white mb-2">KELUARGA PAI B</h2>
                 <p class="text-red-400 text-lg">24 Souls, One Heart</p>
             </div>
+            <div id="student-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
+        </div>
+    </div>
 
-            <!-- Grid Container for 24 Students -->
-            <div id="student-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                <!-- Javascript will populate this -->
+    <!-- ALL FILES OVERLAY (New Feature) -->
+    <div id="all-files-overlay" class="fullscreen-overlay">
+        <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
+            <button onclick="closeAllFiles()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-tech font-bold text-white mb-2">ALL UPLOADED FILES</h2>
+                <p class="text-gray-400 text-sm">Total Slots: 25</p>
+            </div>
+
+            <!-- Masonry Grid for All Files (Mixed Aspect Ratios) -->
+            <div id="all-files-grid" class="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+                <!-- Javascript will populate this with 25 slots -->
             </div>
         </div>
     </div>
 
     <!-- BIO MODAL -->
     <div id="bio-modal" class="custom-modal" onclick="closeBioModal(event)">
-        <!-- PERBAIKAN: 
-             1. max-w-6xl: Membuat modal jauh lebih lebar (seperti banner) di laptop.
-             2. overflow-hidden: Memastikan radius (rounded-2xl) tidak tertutup oleh gambar/isi (mengatasi radius hilang).
-             3. md:max-h-[85vh]: Membatasi tinggi di laptop agar tidak melebihi layar, tetap proporsional.
-        -->
         <div id="bio-content" class="glass-panel w-[90%] md:w-full max-w-6xl max-h-[90vh] md:max-h-[85vh] overflow-y-auto transform scale-95 transition-all duration-300 rounded-2xl flex flex-col md:flex-row bg-black/90 border border-red-500/30 shadow-2xl relative overflow-hidden">
-            
-            <!-- IMAGE CONTAINER 
-                 Tetap menjaga aspect ratio 9:16 sesuai permintaan sebelumnya.
-            -->
             <div class="w-full md:w-5/12 aspect-[9/16] relative bg-gray-900 group shrink-0">
-                <!-- LOADER FOR BIO MODAL -->
                 <div id="modal-img-loader" class="img-loading-skeleton">
                     <i class="fas fa-spinner fa-spin text-red-900 text-4xl"></i>
                 </div>
-                
                 <img id="modal-img" src="" alt="Profile Photo" class="relative z-10 w-full h-full object-cover transition-opacity duration-500 opacity-0" onerror="this.src='https://placehold.co/400x500?text=No+Image';">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/90 z-20 pointer-events-none"></div>
-                
-                <!-- Tombol Close Alternatif (Mobile Only) -->
                 <button onclick="closeBioModal(null, true)" class="md:hidden absolute top-4 right-4 z-50 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-
-            <!-- KONTEN TEXT -->
             <div class="w-full md:w-7/12 p-6 md:p-10 flex flex-col justify-center text-left relative bg-black/50 md:bg-transparent">
                 <div class="absolute top-0 right-0 p-6 opacity-10 hidden md:block">
                     <i class="fas fa-fingerprint text-9xl text-red-600"></i>
                 </div>
-                
                 <div class="mb-6 md:mb-10 relative z-10">
                     <h2 id="modal-name" class="text-2xl md:text-6xl font-bold text-white font-tech mb-2 tracking-wide leading-tight drop-shadow-lg">Name Here</h2>
                     <div class="flex items-center gap-3">
                         <span class="px-4 py-1 bg-red-900/40 border border-red-500/30 rounded text-red-400 font-mono text-xs md:text-base tracking-wider" id="modal-nim">NIM: 00000000</span>
                     </div>
                 </div>
-
                 <div class="space-y-6 relative z-10">
-                    <!-- Instagram Row -->
                     <div class="bio-info-row group">
                         <div class="bio-icon-box w-10 h-10 md:w-14 md:h-14 text-lg md:text-2xl">
                             <i class="fab fa-instagram"></i>
@@ -907,8 +835,6 @@
                             <div id="modal-ig" class="text-sm md:text-xl"></div>
                         </div>
                     </div>
-
-                    <!-- Bio Row -->
                     <div class="bio-info-row group">
                         <div class="bio-icon-box w-10 h-10 md:w-14 md:h-14 text-lg md:text-2xl">
                             <i class="fas fa-quote-left"></i>
@@ -919,8 +845,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Close Button Desktop -->
                  <button onclick="closeBioModal(null, true)" class="hidden md:flex absolute top-6 right-6 z-50 bg-transparent text-white/50 hover:text-white transition w-10 h-10 items-center justify-center text-2xl">
                     <i class="fas fa-times"></i>
                 </button>
@@ -928,13 +852,13 @@
         </div>
     </div>
 
-    <!-- MEDIA PREVIEW MODAL (New) -->
+    <!-- MEDIA PREVIEW MODAL -->
     <div id="media-modal" class="custom-modal" onclick="closeMediaModal(event)">
         <div class="relative max-w-5xl w-full mx-4 flex justify-center">
             <button onclick="closeMediaModal(null, true)" class="absolute -top-12 right-0 md:-right-12 text-white hover:text-red-500 text-3xl transition z-50">
                 <i class="fas fa-times"></i>
             </button>
-            <div id="media-container" class="max-h-[85vh] overflow-hidden rounded-lg shadow-2xl border border-red-500/30">
+            <div id="media-container" class="max-h-[85vh] rounded-lg shadow-2xl border border-red-500/30">
                 <!-- Content Injected Here -->
             </div>
         </div>
@@ -954,11 +878,12 @@
                 setTimeout(typeWriter, 150);
             }
         }
+
         window.onload = function() {
             typeWriter();
-            generateStudents(); // Generate data on load
+            generateStudents(); 
+            initDocumentation(); // Initialize Media Items
             
-            // Setup Initial History State
             if (!history.state) {
                 history.replaceState({ page: 'home' }, '', '#home');
             }
@@ -967,15 +892,10 @@
         function enterSite() {
             const intro = document.getElementById('intro-screen');
             const mainApp = document.getElementById('main-app');
-            
-            // --- AUDIO PLAYBACK ---
             const audio = document.getElementById('bg-music');
             if (audio) {
-                audio.play().catch(error => {
-                    console.log("Audio playback blocked:", error);
-                });
+                audio.play().catch(error => { console.log("Audio autoplay blocked:", error); });
             }
-
             intro.style.transform = 'translateY(-100%)';
             intro.style.opacity = '0';
             mainApp.classList.remove('hidden');
@@ -990,7 +910,6 @@
         function toggleMusic() {
             const audio = document.getElementById('bg-music');
             const btn = document.getElementById('music-btn');
-            
             if (isPlaying) {
                 audio.pause();
                 btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
@@ -1004,7 +923,20 @@
             }
         }
 
-        // Helper to switch main tabs UI only
+        // --- MOBILE AUDIO FIX (VISIBILITY API) ---
+        // Musik mati jika user pindah tab/aplikasi, nyala lagi saat kembali
+        document.addEventListener('visibilitychange', function() {
+            const audio = document.getElementById('bg-music');
+            if (document.hidden) {
+                audio.pause();
+            } else {
+                if(isPlaying) {
+                    audio.play().catch(e => console.log("Resume prevented", e));
+                }
+            }
+        });
+
+        // Helper to switch main tabs
         function _switchTabUI(tabId) {
             const sections = document.querySelectorAll('main section');
             sections.forEach(section => {
@@ -1035,8 +967,7 @@
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
-        // --- 2. FAMILY GALLERY LOGIC ---
-        
+        // --- 2. FAMILY DATA & LOGIC ---
         const studentsData = [
             { name: "Ady Surya", nim: "2511038", ig: "@suryaadharm_", img: "https://i.ibb.co.com/3ycvDN0x/Ady.jpg", bioImg: "https://i.ibb.co.com/396vghCh/Ady-2.jpg", bio: "Saya orang yang menyukai berpetualang dan menikmati keindahan alam untuk menghilangkan kebosanan dan mengagumi ciptaan Tuhan, sungguh indah." },
             { name: "A. Lubadul Fikri", nim: "2511046", ig: "@bangkriii_", img: "https://i.ibb.co.com/LDD9ZbFL/Fikri.jpg", bioImg: "https://i.ibb.co.com/prLDYGwg/Fikri-2.jpg", bio: "Saya orang yang introvert abizzzz. Saya berusaha keras untuk meningkatkan kemampuan berbicara di depan umum dan mendalami ilmu agama dan ilmu sosial agar dapat bermanfaat bagi diri sendiri dan masyarakat." },
@@ -1067,27 +998,16 @@
         function generateStudents() {
             const grid = document.getElementById('student-grid');
             let html = '';
-
             studentsData.forEach((student, index) => {
-                const bio = student.bio || "Mahasiswa PAI B Angkatan 2025. Generasi sukses masa depan."; 
-                // Escape bio to prevent JS errors with single/double quotes in onClick
-                const safeBio = bio.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
-                
+                const bio = student.bio || "Mahasiswa PAI B 2025."; 
                 html += `
-                    <div onclick="openBioModal('${index}')" 
-                        class="group cursor-pointer">
+                    <div onclick="openBioModal('${index}')" class="group cursor-pointer">
                         <div class="relative overflow-hidden rounded-xl aspect-square border-2 border-transparent group-hover:border-red-500 transition-all duration-300 bg-gray-900">
-                            
-                            <!-- LOADING SKELETON -->
-                            <div class="img-loading-skeleton z-0">
-                                <i class="fas fa-spinner fa-spin text-red-900 text-2xl"></i>
-                            </div>
-
+                            <div class="img-loading-skeleton z-0"><i class="fas fa-spinner fa-spin text-red-900 text-2xl"></i></div>
                             <img src="${student.img}" alt="${student.name}" 
                                  class="relative z-10 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:scale-110"
                                  onload="this.classList.replace('opacity-0', 'opacity-100')"
                                  onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=random&size=200'; this.classList.replace('opacity-0', 'opacity-100');">
-                            
                             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-20 pointer-events-none"></div>
                             <div class="absolute bottom-2 left-2 right-2 z-20 pointer-events-none">
                                 <p class="text-white font-bold text-sm truncate group-hover:text-red-400 transition-colors">${student.name}</p>
@@ -1099,21 +1019,151 @@
             grid.innerHTML = html;
         }
 
-        // --- NAVIGATION HANDLER (SMARTER POPSTATE) ---
-        
-        // Listen for Back Button (Popstate)
+        // --- 3. MEDIA & SEARCH DATA LOGIC ---
+        // Defines existing files + placeholders to reach 25
+        const existingMedia = [
+            { type: 'video', src: 'JJ 1.mp4', title: 'JJ', ratio: 'aspect-[9/16]' },
+            { type: 'image', src: 'PAI B.jpg', title: 'Logo', ratio: 'aspect-square' },
+            { type: 'video', src: 'English Tim.mp4', title: 'Game', ratio: 'aspect-video' },
+            { type: 'image', src: 'Fotbar Sekelas 2.jpg', title: 'Fotbar', ratio: 'aspect-[4/5]' },
+            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'CLIP', ratio: 'aspect-[4/5]' },
+            { type: 'image', src: 'Series PAI B.jpg', title: 'PAI B SERIES', ratio: 'aspect-video' },
+            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'VLOG', ratio: 'aspect-square' },
+            { type: 'image', src: 'Fotbar Sekelas.jpg', title: 'Fotbar', ratio: 'aspect-[9/16]' }
+        ];
+
+        // Generate placeholders to make total 25
+        let allMediaData = [...existingMedia];
+        for(let i = existingMedia.length + 1; i <= 25; i++) {
+            // Randomly assign aspect ratios for variety
+            const ratios = ['aspect-square', 'aspect-video', 'aspect-[4/5]', 'aspect-[9/16]'];
+            const randomRatio = ratios[Math.floor(Math.random() * ratios.length)];
+            
+            allMediaData.push({
+                type: 'placeholder',
+                src: '', 
+                title: `Slot Available ${i}`,
+                ratio: randomRatio
+            });
+        }
+
+        // Function to render the Main Documentation Grid (Filtered)
+        function renderMainDocGrid(filter = "") {
+            const container = document.getElementById('documentation-grid');
+            let html = '';
+            
+            // Only show the original 8 items OR filtered items from the full list
+            let itemsToShow = filter ? allMediaData : existingMedia;
+
+            itemsToShow.forEach(item => {
+                // Search Filter
+                if (filter && !item.title.toLowerCase().includes(filter.toLowerCase())) return;
+
+                if (item.type === 'placeholder') return; // Don't show placeholders in main grid unless strictly needed, but design-wise better to hide
+
+                html += createMediaCard(item);
+            });
+
+            if(html === '') {
+                html = `<div class="col-span-3 text-center text-gray-500 py-10">No media found matching "${filter}"</div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        // Function to render All Files Grid (The 25 slots)
+        function renderAllFilesGrid() {
+            const container = document.getElementById('all-files-grid');
+            let html = '';
+            
+            allMediaData.forEach(item => {
+                if(item.type === 'placeholder') {
+                    // Render Empty Slot
+                    html += `
+                    <div class="break-inside-avoid relative rounded-xl border border-red-900/30 bg-black/40 flex items-center justify-center ${item.ratio} mb-4 group hover:border-red-500/50 transition-colors">
+                        <div class="text-center">
+                            <i class="fas fa-plus-circle text-2xl text-red-900 group-hover:text-red-500 mb-2 transition-colors"></i>
+                            <p class="text-xs text-gray-600 group-hover:text-gray-400">${item.title}</p>
+                        </div>
+                    </div>`;
+                } else {
+                    // Render Actual Media
+                    html += createMediaCard(item, true); // true = slight variation for "All Files" if needed
+                }
+            });
+            container.innerHTML = html;
+        }
+
+        // Helper to create HTML string for a media card
+        function createMediaCard(item, isSmall = false) {
+             // mb-6 for main grid, mb-4 for dense grid
+            const margin = isSmall ? 'mb-4' : 'mb-6'; 
+            
+            if (item.type === 'video') {
+                return `
+                <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer ${item.ratio} ${margin}" onclick="openMediaModal('video', '${item.src}')">
+                    <video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
+                        <source src="${item.src}" type="video/mp4">
+                    </video>
+                    <div class="play-overlay"><i class="fas fa-play"></i></div>
+                    <div class="absolute bottom-4 left-4 z-10">
+                        <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded">${item.title}</span>
+                    </div>
+                </div>`;
+            } else {
+                return `
+                <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer ${item.ratio} ${margin}" onclick="openMediaModal('image', '${item.src}')">
+                    <img src="${item.src}" alt="${item.title}" 
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            onerror="this.src='${item.src}';">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-4 left-4">
+                        <h3 class="text-lg font-bold text-white">${item.title}</h3>
+                    </div>
+                </div>`;
+            }
+        }
+
+        function initDocumentation() {
+            renderMainDocGrid();
+        }
+
+        // Search Handler
+        function handleSearch(event) {
+            // Trigger on Enter key or direct call
+            if (event.key === 'Enter' || event.type === 'click' || event.type === 'keyup') {
+                const query = document.getElementById('doc-search').value;
+                renderMainDocGrid(query);
+            }
+        }
+
+        // --- 4. ALL FILES MODAL LOGIC ---
+        function openAllFiles() {
+            renderAllFilesGrid();
+            const modal = document.getElementById('all-files-overlay');
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            history.pushState({ page: 'all-files' }, '', '#all-files');
+        }
+
+        function closeAllFiles() {
+            const modal = document.getElementById('all-files-overlay');
+            modal.classList.remove('open');
+            document.body.style.overflow = 'auto';
+            history.replaceState({ page: 'documentation' }, '', '#documentation');
+        }
+
+        // --- NAVIGATION STATE HANDLER ---
         window.addEventListener('popstate', function(event) {
             const state = event.state || { page: 'home' };
             
-            // UI References
             const bioModal = document.getElementById('bio-modal');
             const mediaModal = document.getElementById('media-modal');
-            const gallery = document.getElementById('family-gallery');
+            const familyGallery = document.getElementById('family-gallery');
+            const allFilesModal = document.getElementById('all-files-overlay');
             const mediaContainer = document.getElementById('media-container');
 
-            // --- MUSIC RESUME LOGIC (Before closing media) ---
+            // Handle Media Close & Music Resume
             if (mediaModal.classList.contains('active')) {
-                // If it was a video, try to resume music
                 if (mediaContainer.dataset.mediaType === 'video') {
                     const bgMusic = document.getElementById('bg-music');
                     const musicBtn = document.getElementById('music-btn'); 
@@ -1126,42 +1176,44 @@
                         }
                     }
                 }
-                // Clear content
                 mediaContainer.innerHTML = '';
             }
 
-            // 1. Reset Modal States
+            // Reset All Modals
             bioModal.classList.remove('active');
             mediaModal.classList.remove('active');
             
-            // 2. Handle Family Gallery Layer
+            // Handle Fullscreen Overlays
             if (state.page === 'family-gallery' || state.page === 'bio-details') {
-                gallery.classList.add('open');
+                familyGallery.classList.add('open');
+                allFilesModal.classList.remove('open');
                 document.body.style.overflow = 'hidden';
-            } else {
-                gallery.classList.remove('open');
+            } 
+            else if (state.page === 'all-files') {
+                allFilesModal.classList.add('open');
+                familyGallery.classList.remove('open');
+                document.body.style.overflow = 'hidden';
+            }
+            else {
+                familyGallery.classList.remove('open');
+                allFilesModal.classList.remove('open');
                 document.body.style.overflow = 'auto';
             }
 
-            // 3. Handle Main Tabs
+            // Handle Main Tabs
             if (['home', 'structure', 'documentation'].includes(state.page)) {
                 _switchTabUI(state.page);
             }
         });
 
+        // Toggle functions for close buttons (logic sync with popstate)
         function toggleFamilyGallery() {
             const gallery = document.getElementById('family-gallery');
-            const isOpen = gallery.classList.contains('open');
-            
-            if (isOpen) {
-                // UPDATE: Langsung tutup tanpa history.back()
+            if (gallery.classList.contains('open')) {
                 gallery.classList.remove('open');
                 document.body.style.overflow = 'auto';
-                
-                // Kembalikan URL ke tab yang sedang aktif (Home/Structure/Doc)
                 const activeSection = document.querySelector('.active-section');
-                const targetId = activeSection ? activeSection.id : 'home';
-                history.replaceState({ page: targetId }, '', '#' + targetId);
+                history.replaceState({ page: activeSection ? activeSection.id : 'home' }, '', '#' + (activeSection ? activeSection.id : 'home'));
             } else {
                 gallery.classList.add('open');
                 document.body.style.overflow = 'hidden';
@@ -1169,7 +1221,7 @@
             }
         }
 
-        // --- 3. BIO MODAL LOGIC ---
+        // --- 5. BIO MODAL ---
         function openBioModal(index) {
             const student = studentsData[index];
             const modal = document.getElementById('bio-modal');
@@ -1185,57 +1237,41 @@
                 const username = student.ig.replace('@', '').trim();
                 igContainer.innerHTML = `<a href="https://www.instagram.com/${username}" target="_blank" rel="noopener noreferrer" class="text-lg text-white font-medium hover:text-red-400 transition cursor-pointer flex items-center gap-1">${student.ig} <i class="fas fa-external-link-alt text-xs ml-1 opacity-50"></i></a>`;
             }
-
             document.getElementById('modal-bio').innerText = `"${student.bio}"`;
-           
             const imgElement = document.getElementById('modal-img');
             const loaderElement = document.getElementById('modal-img-loader');
-            
             imgElement.classList.remove('img-loaded');
             imgElement.style.opacity = '0';
             loaderElement.style.display = 'flex'; 
-
             imgElement.onload = function() {
                 imgElement.style.opacity = '1';
                 loaderElement.style.display = 'none'; 
             };
-            
             imgElement.onerror = function() {
                 this.onerror = null;
                 this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=random&size=400`;
                 imgElement.style.opacity = '1';
                 loaderElement.style.display = 'none';
             };
-
             imgElement.src = student.bioImg;
 
             modal.classList.add('active');
             content.classList.remove('scale-95');
             content.classList.add('scale-100');
-            
-            // Push State for Bio
             history.pushState({ page: 'bio-details' }, '', '#student-bio');
         }
 
         function closeBioModal(e, force = false) {
-            // UPDATE: Logika penutupan langsung
-            // Cek apakah klik berasal dari background (bukan dari konten modal)
             if (e && !force) {
                 const content = document.getElementById('bio-content');
-                // Jika yang diklik adalah konten atau anaknya, jangan tutup
                 if (content.contains(e.target)) return;
             }
-
-            const modal = document.getElementById('bio-modal');
-            modal.classList.remove('active');
-            
-            // Kembalikan URL ke parent (Family Gallery) tanpa tombol Back browser
+            document.getElementById('bio-modal').classList.remove('active');
             history.replaceState({ page: 'family-gallery' }, '', '#family');
         }
 
-        // --- 4. MEDIA MODAL LOGIC (VIDEO/PHOTO) ---
+        // --- 6. MEDIA MODAL ---
         function openMediaModal(type, src) {
-            // Only pause music if opening a video
             if (type === 'video') {
                 const bgMusic = document.getElementById('bg-music');
                 if (bgMusic && !bgMusic.paused) {
@@ -1243,38 +1279,52 @@
                     bgMusic.dataset.wasPlaying = "true";
                 }
             }
-
             const modal = document.getElementById('media-modal');
             const container = document.getElementById('media-container');
             
             if (type === 'video') {
                 container.innerHTML = `
-                    <video controls autoplay class="w-full h-auto max-h-[80vh] bg-black">
-                        <source src="${src}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                `;
-                // Tag container to know it holds a video for closing logic
+                    <div class="bg-black w-full h-full flex items-center justify-center">
+                        <video controls autoplay class="w-full h-auto max-h-[85vh]">
+                            <source src="${src}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>`;
                 container.dataset.mediaType = 'video';
+                // Reset container classes for video
+                container.classList.remove('zoom-container');
+                container.classList.remove('zoom-active');
             } else {
+                // Update structure for Zoomable Image
                 container.innerHTML = `
-                    <img src="${src}" class="w-full h-auto max-h-[85vh] object-contain bg-black" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';">
+                    <img src="${src}" onclick="toggleZoom(this)" class="zoom-image" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';">
                 `;
                 container.dataset.mediaType = 'image';
+                // Add zoom container class
+                container.classList.add('zoom-container');
+                container.classList.remove('zoom-active'); // Reset state
             }
-
             modal.classList.add('active');
             history.pushState({ page: 'media-preview' }, '', '#preview');
         }
 
+        // --- 7. ZOOM LOGIC ---
+        function toggleZoom(img) {
+            const container = document.getElementById('media-container');
+            if (container.classList.contains('zoom-active')) {
+                container.classList.remove('zoom-active');
+            } else {
+                container.classList.add('zoom-active');
+            }
+        }
+
         function closeMediaModal(e, force = false) {
-            // UPDATE: Logika penutupan langsung
             if (e && !force) {
                  const container = document.getElementById('media-container');
+                 // Don't close if clicking image to zoom
+                 if (e.target.tagName === 'IMG' && container.classList.contains('zoom-container')) return;
                  if (container.contains(e.target)) return;
             }
-
-            // Resume music logic
             const container = document.getElementById('media-container');
             if (container.dataset.mediaType === 'video') {
                  const bgMusic = document.getElementById('bg-music');
@@ -1289,25 +1339,23 @@
                  }
             }
             container.innerHTML = ''; 
+            container.classList.remove('zoom-active'); // Reset zoom
+            document.getElementById('media-modal').classList.remove('active');
             
-            const modal = document.getElementById('media-modal');
-            modal.classList.remove('active');
-
-            // Kembalikan URL ke parent (Documentation) tanpa tombol Back browser
-            history.replaceState({ page: 'documentation' }, '', '#documentation');
+            // Check where to go back
+            const allFilesModal = document.getElementById('all-files-overlay');
+            if(allFilesModal.classList.contains('open')) {
+                 history.replaceState({ page: 'all-files' }, '', '#all-files');
+            } else {
+                 history.replaceState({ page: 'documentation' }, '', '#documentation');
+            }
         }
         
-        // --- 5. VIDEO PREVIEW LOGIC ---
         function previewVideo(video) {
             video.muted = true;
             var playPromise = video.play();
-
             if (playPromise !== undefined) {
-                playPromise.then(_ => {}).catch(error => {
-                    if (error.name !== 'AbortError') {
-                        console.log("Video preview prevented:", error);
-                    }
-                });
+                playPromise.then(_ => {}).catch(error => { if (error.name !== 'AbortError') console.log("Prev prevented"); });
             }
         }
 
@@ -1318,6 +1366,3 @@
     </script>
 </body>
 </html>
-
-
-
