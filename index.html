@@ -664,9 +664,9 @@
             <!-- 3. DOCUMENTATION SECTION -->
             <section id="documentation" class="hidden-section py-10">
                 <div class="text-center mb-10">
-                    <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">DOCUMENTATION</h2>
+                    <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">ARCHIVES</h2>
                     <div class="h-1 w-20 bg-red-600 mx-auto rounded-full mb-4"></div>
-                    <p class="text-gray-400 mb-6">Documentations All Memories PAI B</p>
+                    <p class="text-gray-400 mb-6">Class Memories & Moments</p>
                     
                     <div class="flex flex-col md:flex-row justify-center items-center gap-3 max-w-xl mx-auto">
                         <!-- SEARCH BAR -->
@@ -767,6 +767,7 @@
             
             <div class="text-center mb-12">
                 <h2 class="text-4xl md:text-5xl font-tech font-bold text-white mb-2">ALL UPLOADED FILES</h2>
+                <p class="text-gray-400 text-sm">Total Slots: 25</p>
             </div>
 
             <!-- Masonry Grid for All Files (Mixed Aspect Ratios) -->
@@ -933,6 +934,9 @@
         }
 
         function switchTab(tabId) {
+            // Mencegah duplikat history jika menekan tab yang sama
+            if (history.state && history.state.page === tabId) return;
+            
             _switchTabUI(tabId);
             history.pushState({ page: tabId }, '', '#' + tabId);
         }
@@ -1010,6 +1014,7 @@
         // SAYA SUDAH SIAPKAN 25 OBJECT DI SINI. 
         // ANDA TINGGAL GANTI 'src' (LINK GAMBAR/VIDEO) DAN 'title' (JUDUL).
         // TIPE BISA 'image' ATAU 'video'.
+        // UPDATE: Placeholder 'src' untuk video diisi 'JJ 1.mp4' agar bisa diklik sebagai demo.
         const allFilesData = [
             // --- 1 SAMPAI 8 (DATA LAMA) ---
             ...existingMedia,
@@ -1018,8 +1023,8 @@
             // Slot 9
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+9', title: '-', ratio: 'aspect-[3/4]' },
             
-            // Slot 10
-            { type: 'video', src: '', title: 'Video 10', ratio: 'aspect-[9/16]' },
+            // Slot 10 (VIDEO - Placeholder Active)
+            { type: 'video', src: 'JJ 1.mp4', title: 'Video 10', ratio: 'aspect-[9/16]' },
 
             // Slot 11
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+11', title: '-', ratio: 'aspect-video' },
@@ -1027,8 +1032,8 @@
             // Slot 12
             { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+12', title: '-', ratio: 'aspect-square' },
 
-            // Slot 13
-            { type: 'video', src: '', title: 'Video 13', ratio: 'aspect-[4/5]' },
+            // Slot 13 (VIDEO - Placeholder Active)
+            { type: 'video', src: 'JJ 1.mp4', title: 'Video 13', ratio: 'aspect-[4/5]' },
 
             // Slot 14
             { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+14', title: '-', ratio: 'aspect-[9/16]' },
@@ -1036,8 +1041,8 @@
             // Slot 15
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+15', title: '-', ratio: 'aspect-video' },
 
-            // Slot 16
-            { type: 'video', src: '', title: 'Video 16', ratio: 'aspect-square' },
+            // Slot 16 (VIDEO - Placeholder Active)
+            { type: 'video', src: 'JJ 1.mp4', title: 'Video 16', ratio: 'aspect-square' },
 
             // Slot 17
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+17', title: '-', ratio: 'aspect-[3/4]' },
@@ -1045,8 +1050,8 @@
             // Slot 18
             { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+18', title: '-', ratio: 'aspect-square' },
 
-            // Slot 19
-            { type: 'video', src: '', title: 'Video 19', ratio: 'aspect-[9/16]' },
+            // Slot 19 (VIDEO - Placeholder Active)
+            { type: 'video', src: 'JJ 1.mp4', title: 'Video 19', ratio: 'aspect-[9/16]' },
 
             // Slot 20
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+20', title: '-', ratio: 'aspect-video' },
@@ -1054,8 +1059,8 @@
             // Slot 21
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+21', title: '-', ratio: 'aspect-[4/5]' },
 
-            // Slot 22
-            { type: 'video', src: '', title: 'Video 22', ratio: 'aspect-square' },
+            // Slot 22 (VIDEO - Placeholder Active)
+            { type: 'video', src: 'JJ 1.mp4', title: 'Video 22', ratio: 'aspect-square' },
 
             // Slot 23
             { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+23', title: '-', ratio: 'aspect-[9/16]' },
@@ -1175,13 +1180,20 @@
         }
 
         function closeAllFiles() {
-            const modal = document.getElementById('all-files-overlay');
-            modal.classList.remove('open');
-            document.body.style.overflow = 'auto';
-            history.replaceState({ page: 'documentation' }, '', '#documentation');
+            // FIX: Gunakan history.back() jika state sesuai untuk mencegah duplikat history
+            if (history.state && history.state.page === 'all-files') {
+                history.back();
+            } else {
+                // Fallback manual jika history tidak sinkron
+                const modal = document.getElementById('all-files-overlay');
+                modal.classList.remove('open');
+                document.body.style.overflow = 'auto';
+                history.replaceState({ page: 'documentation' }, '', '#documentation');
+            }
         }
 
         // --- NAVIGATION STATE HANDLER ---
+        // Ini menangani tombol Back di HP/Browser
         window.addEventListener('popstate', function(event) {
             const state = event.state || { page: 'home' };
             
@@ -1212,7 +1224,8 @@
             bioModal.classList.remove('active');
             mediaModal.classList.remove('active');
             
-            // Handle Fullscreen Overlays
+            // Handle Fullscreen Overlays based on state
+            // Logic: Jika state 'family-gallery', buka gallery. Jika bukan, tutup.
             if (state.page === 'family-gallery' || state.page === 'bio-details') {
                 familyGallery.classList.add('open');
                 allFilesModal.classList.remove('open');
@@ -1224,6 +1237,7 @@
                 document.body.style.overflow = 'hidden';
             }
             else {
+                // Tutup semua overlay jika kembali ke tab utama
                 familyGallery.classList.remove('open');
                 allFilesModal.classList.remove('open');
                 document.body.style.overflow = 'auto';
@@ -1239,11 +1253,17 @@
         function toggleFamilyGallery() {
             const gallery = document.getElementById('family-gallery');
             if (gallery.classList.contains('open')) {
-                gallery.classList.remove('open');
-                document.body.style.overflow = 'auto';
-                const activeSection = document.querySelector('.active-section');
-                history.replaceState({ page: activeSection ? activeSection.id : 'home' }, '', '#' + (activeSection ? activeSection.id : 'home'));
+                // Closing
+                if (history.state && history.state.page === 'family-gallery') {
+                    history.back();
+                } else {
+                    gallery.classList.remove('open');
+                    document.body.style.overflow = 'auto';
+                    const activeSection = document.querySelector('.active-section');
+                    history.replaceState({ page: activeSection ? activeSection.id : 'home' }, '', '#' + (activeSection ? activeSection.id : 'home'));
+                }
             } else {
+                // Opening
                 gallery.classList.add('open');
                 document.body.style.overflow = 'hidden';
                 history.pushState({ page: 'family-gallery' }, '', '#family');
@@ -1295,8 +1315,14 @@
                 const content = document.getElementById('bio-content');
                 if (content.contains(e.target)) return;
             }
-            document.getElementById('bio-modal').classList.remove('active');
-            history.replaceState({ page: 'family-gallery' }, '', '#family');
+            
+            // FIX: Gunakan history.back()
+            if (history.state && history.state.page === 'bio-details') {
+                history.back();
+            } else {
+                document.getElementById('bio-modal').classList.remove('active');
+                history.replaceState({ page: 'family-gallery' }, '', '#family');
+            }
         }
 
         // --- 6. MEDIA MODAL ---
@@ -1339,6 +1365,14 @@
                  const container = document.getElementById('media-container');
                  if (container.contains(e.target)) return;
             }
+            
+            // FIX: Gunakan history.back()
+            if (history.state && history.state.page === 'media-preview') {
+                history.back();
+                return; // Biarkan popstate menangani sisanya
+            }
+
+            // Fallback Code (jika history tidak match)
             const container = document.getElementById('media-container');
             if (container.dataset.mediaType === 'video') {
                  const bgMusic = document.getElementById('bg-music');
@@ -1355,7 +1389,6 @@
             container.innerHTML = ''; 
             document.getElementById('media-modal').classList.remove('active');
             
-            // Check where to go back
             const allFilesModal = document.getElementById('all-files-overlay');
             if(allFilesModal.classList.contains('open')) {
                  history.replaceState({ page: 'all-files' }, '', '#all-files');
@@ -1379,4 +1412,3 @@
     </script>
 </body>
 </html>
-
