@@ -287,6 +287,7 @@
             transition: transform 0.3s, background-color 0.3s;
             box-shadow: 0 0 25px rgba(220, 38, 38, 0.6);
             z-index: 10;
+            pointer-events: none; /* PENTING: Agar hover tembus ke video */
         }
         .group:hover .play-overlay {
             background: rgba(255, 255, 255, 0.95);
@@ -1228,11 +1229,15 @@
                 : 'bottom-4 left-4';
 
             if (item.type === 'video') {
+                // FIXED HOVER LOGIC: Event listener on parent wrapper, not video tag
                 return `
-                <div class="break-inside-avoid relative group ${shapeClass} overflow-hidden glass-panel cursor-pointer ${margin}" onclick="openMediaModal('video', '${item.src}')">
+                <div class="break-inside-avoid relative group ${shapeClass} overflow-hidden glass-panel cursor-pointer ${margin}" 
+                     onclick="openMediaModal('video', '${item.src}')"
+                     onmouseenter="previewVideo(this.querySelector('video'))" 
+                     onmouseleave="stopPreview(this.querySelector('video'))">
                     <div class="w-full h-full bg-black/50 flex items-center justify-center">
                         ${item.src ? 
-                            `<video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
+                            `<video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted playsinline preload="metadata">
                                 <source src="${item.src}" type="video/mp4">
                              </video>` 
                             : `<i class="fas fa-video text-gray-600 text-4xl"></i>` 
@@ -1269,6 +1274,7 @@
         }
         
         function previewVideo(video) {
+            if(!video) return; // Null check
             video.muted = true;
             var playPromise = video.play();
             if (playPromise !== undefined) {
@@ -1277,6 +1283,7 @@
         }
 
         function stopPreview(video) {
+            if(!video) return; // Null check
             video.pause();
             video.currentTime = 0; 
         }
