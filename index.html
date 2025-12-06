@@ -663,23 +663,23 @@
 
             <!-- 3. DOCUMENTATION SECTION -->
             <section id="documentation" class="hidden-section py-10">
-                 <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
-                    <div>
-                        <h2 class="text-3xl md:text-5xl font-tech font-bold text-white">ARCHIVES</h2>
-                        <p class="text-red-400 mt-1">Class Memories & Moments</p>
-                    </div>
-                    <div class="w-full md:w-auto flex flex-col md:flex-row gap-3">
-                        <!-- SEARCH BAR (New) -->
-                        <div class="relative w-full md:w-64">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">DOCUMENTATION</h2>
+                    <div class="h-1 w-20 bg-red-600 mx-auto rounded-full mb-4"></div>
+                    <p class="text-gray-400 mb-6">Documentations All Memories & Moments</p>
+                    
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-3 max-w-xl mx-auto">
+                        <!-- SEARCH BAR -->
+                        <div class="relative w-full">
                             <input type="text" id="doc-search" placeholder="Search by title..." 
                                    onkeyup="handleSearch(event)"
-                                   class="w-full bg-black/40 border border-red-500/30 rounded-lg px-4 py-2 text-white text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 placeholder-gray-500 transition-all">
+                                   class="w-full bg-black/40 border border-red-500/30 rounded-lg px-4 py-2 text-white text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 placeholder-gray-500 transition-all text-center md:text-left">
                             <button onclick="handleSearch({key: 'Enter'})" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
-                        <!-- ALL FILES BUTTON (New) -->
-                        <button onclick="openAllFiles()" class="bg-red-900/30 hover:bg-red-800 border border-red-500/50 text-white px-4 py-2 rounded-lg text-sm transition-all whitespace-nowrap flex items-center justify-center gap-2">
+                        <!-- ALL FILES BUTTON -->
+                        <button onclick="openAllFiles()" class="w-full md:w-auto bg-red-900/30 hover:bg-red-800 border border-red-500/50 text-white px-6 py-2 rounded-lg text-sm transition-all whitespace-nowrap flex items-center justify-center gap-2">
                             <i class="fas fa-th-large"></i> All Files
                         </button>
                     </div>
@@ -997,14 +997,14 @@
         // --- 3. MEDIA & SEARCH DATA LOGIC ---
         // Defines existing files (Data awal 8 file)
         const existingMedia = [
-            { type: 'video', src: 'JJ 1.mp4', title: 'JJ Opening', ratio: 'aspect-[9/16]' },
-            { type: 'image', src: 'PAI B.jpg', title: 'Logo Kelas', ratio: 'aspect-square' },
+            { type: 'video', src: 'JJ 1.mp4', title: 'JJ', ratio: 'aspect-[9/16]' },
+            { type: 'image', src: 'PAI B.jpg', title: 'Logo', ratio: 'aspect-square' },
             { type: 'video', src: 'English Tim.mp4', title: 'English Game', ratio: 'aspect-video' },
-            { type: 'image', src: 'Fotbar Sekelas 2.jpg', title: 'Fotbar Outdoor', ratio: 'aspect-[4/5]' },
-            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Random Clip', ratio: 'aspect-[4/5]' },
+            { type: 'image', src: 'Fotbar Sekelas 2.jpg', title: 'Fotbar', ratio: 'aspect-[4/5]' },
+            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Clip', ratio: 'aspect-[4/5]' },
             { type: 'image', src: 'Series PAI B.jpg', title: 'PAI B SERIES', ratio: 'aspect-video' },
-            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Vlog Harian', ratio: 'aspect-square' },
-            { type: 'image', src: 'Fotbar Sekelas.jpg', title: 'Fotbar Studio', ratio: 'aspect-[9/16]' }
+            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Vlog', ratio: 'aspect-square' },
+            { type: 'image', src: 'Fotbar Sekelas.jpg', title: 'Fotbar', ratio: 'aspect-[9/16]' }
         ];
 
         // --- LIBRARY DATA: 25 SLOT YANG SIAP DIISI ---
@@ -1108,9 +1108,24 @@
              // mb-6 for main grid, mb-4 for dense grid
             const margin = isSmall ? 'mb-4' : 'mb-6'; 
             
+            // Custom Styling for Logo (Circle)
+            // Cek jika rasionya square (1:1) DAN judulnya mengandung kata "Logo"
+            const isLogo = item.ratio === 'aspect-square' && item.title.toLowerCase().includes('logo');
+            
+            // Jika Logo: Rounded Full (Lingkaran) + Border + Shadow Khusus
+            // Jika Bukan: Rounded XL biasa
+            const shapeClass = isLogo 
+                ? `rounded-full aspect-square border-4 border-red-600/30 shadow-[0_0_25px_rgba(220,38,38,0.4)]` 
+                : `rounded-xl ${item.ratio}`;
+
+            // Adjust text position for circle (centered) vs standard (bottom-left)
+            const textPosition = isLogo 
+                ? 'inset-0 flex items-end justify-center pb-6' 
+                : 'bottom-4 left-4';
+
             if (item.type === 'video') {
                 return `
-                <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer ${item.ratio} ${margin}" onclick="openMediaModal('video', '${item.src}')">
+                <div class="break-inside-avoid relative group ${shapeClass} overflow-hidden glass-panel cursor-pointer ${margin}" onclick="openMediaModal('video', '${item.src}')">
                     <div class="w-full h-full bg-black/50 flex items-center justify-center">
                         ${item.src ? 
                             `<video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
@@ -1120,19 +1135,19 @@
                         }
                     </div>
                     <div class="play-overlay"><i class="fas fa-play"></i></div>
-                    <div class="absolute bottom-4 left-4 z-10">
-                        <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded">${item.title}</span>
+                    <div class="absolute z-10 ${textPosition}">
+                        <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded shadow-lg">${item.title}</span>
                     </div>
                 </div>`;
             } else {
                 return `
-                <div class="break-inside-avoid relative group rounded-xl overflow-hidden glass-panel cursor-pointer ${item.ratio} ${margin}" onclick="openMediaModal('image', '${item.src}')">
+                <div class="break-inside-avoid relative group ${shapeClass} overflow-hidden glass-panel cursor-pointer ${margin}" onclick="openMediaModal('image', '${item.src}')">
                     <img src="${item.src}" alt="${item.title}" 
                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                             onerror="this.src='https://placehold.co/600x800/1a0505/FFF?text=No+Image';">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                    <div class="absolute bottom-4 left-4">
-                        <h3 class="text-lg font-bold text-white">${item.title}</h3>
+                    <div class="absolute ${textPosition}">
+                        <h3 class="text-lg font-bold text-white drop-shadow-md">${item.title}</h3>
                     </div>
                 </div>`;
             }
