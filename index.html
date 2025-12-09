@@ -16,7 +16,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            -webkit-tap-highlight-color: transparent; /* Hilangkan highlight biru default di Android */
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Custom Scrollbar */
@@ -56,13 +56,13 @@
             font-weight: 600;
         }
 
-        /* Locked State (Sudah diisi) */
+        /* Locked State */
         .glass-item.locked {
-            opacity: 0.6; /* Lebih redup agar jelas mati */
-            background: rgba(0, 0, 0, 0.3); /* Gelap, bukan terang */
+            opacity: 0.6;
+            background: rgba(0, 0, 0, 0.3);
             border-color: transparent;
             cursor: not-allowed;
-            pointer-events: auto; /* Tetap bisa di-tap untuk memunculkan Toast Warning */
+            pointer-events: auto; /* Agar bisa diklik untuk toast warning */
         }
 
         /* Status Colors */
@@ -105,9 +105,17 @@
             object-fit: contain; display: block;
         }
 
-        #confirmModal { transition: opacity 0.3s ease; }
-        #confirmModal.hidden { pointer-events: none; opacity: 0; }
-        #confirmModal:not(.hidden) { opacity: 1; pointer-events: auto; }
+        /* Modal Animation */
+        #confirmModal, #warningModal { transition: opacity 0.3s ease; }
+        #confirmModal.hidden, #warningModal.hidden { pointer-events: none; opacity: 0; }
+        #confirmModal:not(.hidden), #warningModal:not(.hidden) { opacity: 1; pointer-events: auto; }
+
+        /* Pop In Animation for Warning */
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .pop-in-content { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
         .chevron-icon { transition: transform 0.3s ease; }
         .rotate-180 { transform: rotate(180deg); }
@@ -209,7 +217,7 @@
         </div>
     </main>
 
-    <!-- Modal Konfirmasi -->
+    <!-- Modal Konfirmasi WA -->
     <div id="confirmModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="glass-box bg-gray-900/90 rounded-2xl p-6 max-w-sm w-full text-center border border-emerald-500/30 shadow-2xl transform transition-all scale-100">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 mb-4">
@@ -221,6 +229,23 @@
                 <button onclick="closeConfirmModal()" class="flex-1 px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg text-sm font-medium transition">Batal</button>
                 <button onclick="proceedToWhatsapp()" class="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-bold shadow-lg transition transform active:scale-95">Kirim</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Peringatan (Video) -->
+    <div id="warningModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[60] flex items-center justify-center hidden p-4">
+        <div class="pop-in-content flex flex-col items-center justify-center w-full max-w-sm text-center">
+            
+            <!-- Video Container 1:1 -->
+            <div class="w-64 h-64 relative mb-4 rounded-xl overflow-hidden border-2 border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+                <!-- VIDEO SOURCE: Ganti src sesuai file Anda -->
+                <video id="warningVideo" class="w-full h-full object-cover mix-blend-screen bg-black" playsinline muted>
+                    <source src="placeholder_video.mp4" type="video/mp4">
+                    <div class="w-full h-full flex items-center justify-center bg-black text-white">Video Here</div>
+                </video>
+            </div>
+
+            <p class="text-xl font-bold text-white tracking-wider animate-pulse">Lengkapi Dulu Yaa :)</p>
         </div>
     </div>
 
@@ -245,6 +270,8 @@
         let currentActivityType = null;
         let pendingWhatsappMessage = "";
         let isDropdownOpen = false;
+        
+        let hasExplicitlyMarkedPresent = false;
 
         const nameContainer = document.getElementById('nameContainer');
         const dateDisplay = document.getElementById('currentDateDisplay');
@@ -289,7 +316,6 @@
             const indicator = div.querySelector('.indicator');
 
             // --- LOGIC KELAS & KLIK ---
-            // Kita susun string class dari awal agar tidak ada sisa hover/state lama
             let baseClass = "glass-item p-3 rounded flex items-center justify-between text-sm select-none";
             
             if (status === 'Hadir') {
@@ -297,26 +323,22 @@
                 div.className = `${baseClass} cursor-pointer status-hadir hover:bg-white/10`;
                 if(isSelected) div.classList.add('selected');
                 
-                // Konten visual
                 statusTextSpan.innerText = '';
                 statusTextSpan.classList.remove('text-yellow-300', 'text-red-300', 'text-gray-300');
                 
-                // Pastikan fungsi klik normal aktif
                 div.onclick = () => toggleSelection(name, index);
 
             } else {
-                // STATUS TERKUNCI (Tidak ada Hover, Tidak ada Animasi Tekan di Mobile)
-                // Class 'locked' sudah diatur di CSS untuk mematikan animasi transform active
+                // STATUS TERKUNCI
                 div.className = `${baseClass} locked`; 
                 if(isSelected) div.classList.add('selected');
 
-                // Override fungsi klik agar muncul peringatan Toast
+                // Block click di mobile
                 div.onclick = (e) => {
                     e.stopPropagation();
                     showToast("Data sudah dikunci. Klik Refresh untuk ulang."); 
                 };
                 
-                // Visual Text
                 if (status === 'Izin') {
                     div.classList.add('status-izin');
                     statusTextSpan.innerText = 'IZIN';
@@ -340,7 +362,6 @@
         function refreshAllList() { names.forEach((_, index) => updateListItem(index)); }
 
         function toggleSelection(name, index) {
-            // Guard clause: Jika bukan hadir, tolak (meski harusnya sudah dicegat di onclick)
             if (attendanceData[name] !== 'Hadir') {
                 showToast("Nama ini sudah diisi (Terkunci)");
                 return;
@@ -355,10 +376,11 @@
             initAttendance();
             activityLogs = [];
             selectedNames.clear();
+            hasExplicitlyMarkedPresent = false; // Reset flag
+            
             document.getElementById('activityNote').value = '';
             if(isDropdownOpen) toggleActivityDropdown();
             
-            // Re-render ulang untuk membersihkan semua event handler yang mungkin tertinggal
             nameContainer.innerHTML = '';
             initList();
             refreshAllList();
@@ -372,7 +394,8 @@
             });
             selectedNames.clear();
             
-            // Reset handler
+            hasExplicitlyMarkedPresent = true; 
+            
             nameContainer.innerHTML = '';
             initList();
             refreshAllList();
@@ -391,8 +414,6 @@
             });
             
             selectedNames.clear();
-            
-            // Update UI (Ini akan memicu logika 'locked' di updateListItem)
             indicesToUpdate.forEach(idx => updateListItem(idx));
             showToast(`✅ Status disimpan: ${status}`);
         }
@@ -409,7 +430,25 @@
 
         function addActivityLog() {
             const note = document.getElementById('activityNote').value;
+            
+            // 1. Cek ada yang dipilih ga
             if (selectedNames.size === 0) { showToast("⚠️ Pilih nama mahasiswa dulu!"); return; }
+
+            // 2. VALIDASI LOGIKA BARU: Cek apakah yang dipilih itu Hadir?
+            // Menggunakan Array.from karena selectedNames adalah Set
+            const selectedArray = Array.from(selectedNames);
+            
+            // Cari orang yang statusnya BUKAN Hadir (Alpha, Izin, Sakit)
+            const invalidPerson = selectedArray.find(name => attendanceData[name] !== 'Hadir');
+            
+            if (invalidPerson) {
+                const status = attendanceData[invalidPerson];
+                // Tolak aksi
+                showToast(`⚠️ Logika error: ${invalidPerson} sedang ${status}, tidak bisa mengajukan aktivitas!`);
+                return;
+            }
+
+            // ... sisa validasi normal ...
             if (!currentActivityType) { showToast("⚠️ Pilih jenis aktivitas!"); return; }
             if (!note.trim()) { showToast("⚠️ Isi catatan aktivitas!"); return; }
 
@@ -480,6 +519,29 @@
         });
 
         function prepareWhatsapp() {
+            // Cek kondisi kosong
+            const isAllHadir = names.every(name => attendanceData[name] === 'Hadir');
+            const noActivities = activityLogs.length === 0;
+
+            if (isAllHadir && noActivities && !hasExplicitlyMarkedPresent) {
+                const warningModal = document.getElementById('warningModal');
+                const warningVideo = document.getElementById('warningVideo');
+                
+                warningModal.classList.remove('hidden');
+                
+                if (warningVideo) {
+                    warningVideo.currentTime = 0;
+                    warningVideo.play().catch(e => console.log("Auto-play prevented"));
+                }
+
+                setTimeout(() => {
+                    warningModal.classList.add('hidden');
+                    if (warningVideo) warningVideo.pause();
+                }, 5500);
+
+                return; 
+            }
+
             const presentList = names.filter(name => attendanceData[name] === 'Hadir');
             const absentList = names.filter(name => attendanceData[name] !== 'Hadir');
 
