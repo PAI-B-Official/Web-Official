@@ -137,7 +137,8 @@
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
-    <main class="w-full max-w-lg glass-box rounded-2xl p-4 relative z-10 flex flex-col gap-3 h-full max-h-[95vh]">
+    <!-- Container Utama: Hapus h-full, gunakan max-h-[90dvh] agar compact -->
+    <main class="w-full max-w-lg glass-box rounded-2xl p-4 relative z-10 flex flex-col gap-3 max-h-[90dvh]">
         <header class="text-center border-b border-white/20 pb-2 shrink-0">
             <img src="IAINU.jpg" alt="Logo" class="static-logo" onerror="this.style.display='none'">
             <h1 class="text-lg font-bold tracking-wider text-emerald-300">PRESENSI KEHADIRAN MAHASISWA PAI B</h1>
@@ -160,8 +161,8 @@
             </div>
         </section>
 
-        <!-- Panel Kontrol (Area ini yang akan scroll jika dropdown memanjang) -->
-        <div class="flex-1 overflow-y-auto pr-1 control-scroll flex flex-col gap-3">
+        <!-- Panel Kontrol (Area ini flexible, hanya scroll jika mentok layar) -->
+        <div class="flex-1 overflow-y-auto pr-1 control-scroll flex flex-col gap-3 min-h-0">
             <div class="glass-box p-3 rounded-xl bg-black/10 shrink-0">
                 <p class="text-[10px] text-emerald-200 uppercase mb-2 font-bold flex justify-between">
                     <span>Detail Keterangan :</span>
@@ -204,7 +205,7 @@
                 </div>
             </div>
 
-            <div class="space-y-3 mt-2 pb-2">
+            <div class="space-y-3 mt-2 pb-2 shrink-0">
                 <button onclick="markAllPresent()" class="w-full bg-blue-600/80 hover:bg-blue-500 text-white font-bold py-3 rounded-xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2 border border-blue-400/50">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     <span>Hadir Semua</span>
