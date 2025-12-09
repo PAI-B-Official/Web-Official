@@ -11,15 +11,15 @@
             font-family: 'Poppins', sans-serif;
             background-color: #064e3b; /* Dark Green Base */
             color: white;
-            /* Kembali ke fixed height agar tidak scroll body, tapi scroll konten */
             height: 100dvh; 
             overflow: hidden; 
             display: flex;
             align-items: center;
             justify-content: center;
+            -webkit-tap-highlight-color: transparent; /* Hilangkan highlight biru default di Android */
         }
 
-        /* Custom Scrollbar untuk Container Nama */
+        /* Custom Scrollbar */
         #nameContainer::-webkit-scrollbar, #activityListContainer::-webkit-scrollbar {
             width: 4px;
         }
@@ -47,7 +47,8 @@
             transition: all 0.2s ease;
         }
 
-        .glass-item:active { transform: scale(0.98); }
+        /* FIX MOBILE: Hanya animasi tekan jika TIDAK terkunci */
+        .glass-item:not(.locked):active { transform: scale(0.98); }
 
         .glass-item.selected {
             background: rgba(16, 185, 129, 0.4);
@@ -57,10 +58,11 @@
 
         /* Locked State (Sudah diisi) */
         .glass-item.locked {
-            opacity: 0.7;
-            background: rgba(0, 0, 0, 0.2);
+            opacity: 0.6; /* Lebih redup agar jelas mati */
+            background: rgba(0, 0, 0, 0.3); /* Gelap, bukan terang */
             border-color: transparent;
             cursor: not-allowed;
+            pointer-events: auto; /* Tetap bisa di-tap untuk memunculkan Toast Warning */
         }
 
         /* Status Colors */
@@ -103,12 +105,10 @@
             object-fit: contain; display: block;
         }
 
-        /* Modal Animation */
         #confirmModal { transition: opacity 0.3s ease; }
         #confirmModal.hidden { pointer-events: none; opacity: 0; }
         #confirmModal:not(.hidden) { opacity: 1; pointer-events: auto; }
 
-        /* Dropdown Chevron Animation */
         .chevron-icon { transition: transform 0.3s ease; }
         .rotate-180 { transform: rotate(180deg); }
         
@@ -129,16 +129,14 @@
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
-    <!-- Main Container -->
     <main class="w-full max-w-lg glass-box rounded-2xl p-4 sm:p-5 relative z-10 flex flex-col gap-3 h-full max-h-[95vh]">
-        <!-- Header -->
         <header class="text-center border-b border-white/20 pb-2 shrink-0">
             <img src="IAINU.jpg" alt="Logo" class="static-logo" onerror="this.style.display='none'">
             <h1 class="text-lg sm:text-xl font-bold tracking-wider text-emerald-300">PRESENSI KEHADIRAN MAHASISWA PAI B</h1>
             <p class="text-[10px] sm:text-xs text-emerald-100/70" id="currentDateDisplay"></p>
         </header>
 
-        <!-- Daftar Nama (DIBATASI HEIGHT 5 ITEM) -->
+        <!-- Daftar Nama (Scrollable) -->
         <section class="flex flex-col gap-1 shrink-0">
             <div class="flex items-center justify-between">
                 <h2 class="text-xs font-semibold uppercase tracking-widest text-emerald-200">
@@ -149,15 +147,13 @@
                 </button>
             </div>
             
-            <!-- max-height: 280px kira-kira cukup untuk 5 item. overflow-y-auto untuk scroll -->
             <div class="space-y-1 overflow-y-auto pr-1 custom-scrollbar" id="nameContainer" style="max-height: 280px;">
-                <!-- Names rendered via JS -->
+                <!-- List akan di-render di sini -->
             </div>
         </section>
 
-        <!-- Panel Kontrol (Scrollable sisa ruang) -->
+        <!-- Panel Kontrol -->
         <div class="flex-1 overflow-y-auto pr-1 custom-scrollbar flex flex-col gap-3">
-            <!-- 1. Input Absensi -->
             <div class="glass-box p-3 rounded-xl bg-black/10 shrink-0">
                 <p class="text-[10px] text-emerald-200 uppercase mb-2 font-bold flex justify-between">
                     <span>Detail Keterangan :</span>
@@ -170,7 +166,6 @@
                 </div>
             </div>
 
-            <!-- 2. Input Aktivitas & Dropdown -->
             <div class="glass-box p-3 rounded-xl bg-black/10 shrink-0">
                 <p class="text-[10px] text-blue-200 uppercase mb-2 font-bold">Mengajukan Tentang :</p>
                 <div class="grid grid-cols-3 gap-2 mb-2">
@@ -179,7 +174,6 @@
                     <button onclick="setActivityType(this, 'Menyanggah')" class="act-btn glass-item rounded py-1.5 text-xs text-center hover:bg-blue-500/30 active:scale-95">Menyanggah</button>
                 </div>
                 
-                <!-- Input Area -->
                 <div class="flex gap-2 mb-3">
                     <textarea id="activityNote" rows="1" class="custom-input flex-1 rounded-lg p-2 text-xs resize-none" placeholder="Ketik isi aktivitas..."></textarea>
                     <button onclick="addActivityLog()" class="bg-blue-600 hover:bg-blue-500 text-white rounded-lg px-4 flex items-center justify-center shadow-lg transition active:scale-95 border border-blue-400">
@@ -187,7 +181,6 @@
                     </button>
                 </div>
 
-                <!-- Dropdown / Accordion untuk hasil aktivitas -->
                 <div class="border-t border-white/10 pt-2">
                     <button onclick="toggleActivityDropdown()" class="w-full flex items-center justify-between text-[10px] text-blue-200 uppercase font-bold py-1 hover:bg-white/5 rounded px-2 transition">
                         <span id="activityHeader">Daftar Aktivitas (0)</span>
@@ -197,14 +190,11 @@
                     </button>
                     
                     <div id="activityDropdownContent" class="dropdown-content">
-                        <div id="activityListContainer" class="mt-2 space-y-1">
-                            <!-- Daftar aktivitas muncul di sini -->
-                        </div>
+                        <div id="activityListContainer" class="mt-2 space-y-1"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tombol Aksi -->
             <div class="space-y-3 mt-2 pb-2">
                 <button onclick="markAllPresent()" class="w-full bg-blue-600/80 hover:bg-blue-500 text-white font-bold py-3 rounded-xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2 border border-blue-400/50">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -219,7 +209,7 @@
         </div>
     </main>
 
-    <!-- Modal Konfirmasi WA -->
+    <!-- Modal Konfirmasi -->
     <div id="confirmModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="glass-box bg-gray-900/90 rounded-2xl p-6 max-w-sm w-full text-center border border-emerald-500/30 shadow-2xl transform transition-all scale-100">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 mb-4">
@@ -274,7 +264,7 @@
             names.forEach((name, index) => {
                 const div = document.createElement('div');
                 div.id = `person-${index}`;
-                // Default class
+                // Set default class awal
                 div.className = `glass-item p-3 rounded flex items-center justify-between text-sm select-none status-hadir cursor-pointer hover:bg-white/10`;
                 div.onclick = () => toggleSelection(name, index);
                 div.innerHTML = `
@@ -298,22 +288,35 @@
             const statusTextSpan = div.querySelector('.status-text');
             const indicator = div.querySelector('.indicator');
 
-            // Reset Classes
-            div.className = `glass-item p-3 rounded flex items-center justify-between text-sm select-none cursor-pointer hover:bg-white/10`;
+            // --- LOGIC KELAS & KLIK ---
+            // Kita susun string class dari awal agar tidak ada sisa hover/state lama
+            let baseClass = "glass-item p-3 rounded flex items-center justify-between text-sm select-none";
             
-            // Apply Selection Style
-            if (isSelected) div.classList.add('selected');
-
-            // Apply Status Logic & Locking
             if (status === 'Hadir') {
-                div.classList.add('status-hadir');
+                // STATUS NORMAL (Bisa diklik, Ada Hover)
+                div.className = `${baseClass} cursor-pointer status-hadir hover:bg-white/10`;
+                if(isSelected) div.classList.add('selected');
+                
+                // Konten visual
                 statusTextSpan.innerText = '';
                 statusTextSpan.classList.remove('text-yellow-300', 'text-red-300', 'text-gray-300');
-            } else {
-                // LOCK LOGIC: Jika status BUKAN Hadir, maka item terkunci.
-                div.classList.add('locked');
-                div.onclick = () => showToast("Data sudah dikunci. Klik Refresh untuk ulang."); // Override click handler
                 
+                // Pastikan fungsi klik normal aktif
+                div.onclick = () => toggleSelection(name, index);
+
+            } else {
+                // STATUS TERKUNCI (Tidak ada Hover, Tidak ada Animasi Tekan di Mobile)
+                // Class 'locked' sudah diatur di CSS untuk mematikan animasi transform active
+                div.className = `${baseClass} locked`; 
+                if(isSelected) div.classList.add('selected');
+
+                // Override fungsi klik agar muncul peringatan Toast
+                div.onclick = (e) => {
+                    e.stopPropagation();
+                    showToast("Data sudah dikunci. Klik Refresh untuk ulang."); 
+                };
+                
+                // Visual Text
                 if (status === 'Izin') {
                     div.classList.add('status-izin');
                     statusTextSpan.innerText = 'IZIN';
@@ -337,7 +340,7 @@
         function refreshAllList() { names.forEach((_, index) => updateListItem(index)); }
 
         function toggleSelection(name, index) {
-            // Cek apakah item terkunci (status sudah diubah sebelumnya)
+            // Guard clause: Jika bukan hadir, tolak (meski harusnya sudah dicegat di onclick)
             if (attendanceData[name] !== 'Hadir') {
                 showToast("Nama ini sudah diisi (Terkunci)");
                 return;
@@ -355,28 +358,21 @@
             document.getElementById('activityNote').value = '';
             if(isDropdownOpen) toggleActivityDropdown();
             
-            // Re-bind click handlers karena updateListItem mungkin mengubahnya saat locked
+            // Re-render ulang untuk membersihkan semua event handler yang mungkin tertinggal
             nameContainer.innerHTML = '';
-            initList(); // Re-build list to reset event listeners clean
-            
+            initList();
             refreshAllList();
             renderActivityPreview();
             showToast("Semua data di-reset");
         }
 
         function markAllPresent() {
-            // Ini akan mereset status 'locked' menjadi Hadir semua
             names.forEach(name => {
                 attendanceData[name] = 'Hadir';
-                // Tidak perlu select semua, cukup set status Hadir
-                // Tapi user minta "Hadir Semua" klik -> terpilih -> kirim
-                // Kita anggap "Hadir Semua" = Reset status ke Hadir (Default)
             });
-            
-            // Kosongkan selection agar rapi
             selectedNames.clear();
             
-            // Rebuild untuk hilangkan lock handler
+            // Reset handler
             nameContainer.innerHTML = '';
             initList();
             refreshAllList();
@@ -394,10 +390,9 @@
                 if(idx !== -1) indicesToUpdate.push(idx);
             });
             
-            // Clear selection setelah set status
             selectedNames.clear();
             
-            // Update UI (akan memicu lock)
+            // Update UI (Ini akan memicu logika 'locked' di updateListItem)
             indicesToUpdate.forEach(idx => updateListItem(idx));
             showToast(`✅ Status disimpan: ${status}`);
         }
