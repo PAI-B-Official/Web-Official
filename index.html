@@ -20,13 +20,13 @@
         }
 
         /* Custom Scrollbar */
-        #nameContainer::-webkit-scrollbar, #activityListContainer::-webkit-scrollbar {
+        #nameContainer::-webkit-scrollbar, .control-scroll::-webkit-scrollbar {
             width: 4px;
         }
-        #nameContainer::-webkit-scrollbar-track, #activityListContainer::-webkit-scrollbar-track {
+        #nameContainer::-webkit-scrollbar-track, .control-scroll::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.05);
         }
-        #nameContainer::-webkit-scrollbar-thumb, #activityListContainer::-webkit-scrollbar-thumb {
+        #nameContainer::-webkit-scrollbar-thumb, .control-scroll::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.3);
             border-radius: 4px;
         }
@@ -121,13 +121,14 @@
         .rotate-180 { transform: rotate(180deg); }
         
         .dropdown-content {
-            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
             max-height: 0;
             opacity: 0;
             overflow: hidden;
         }
         .dropdown-content.open {
-            max-height: 500px;
+            /* Set tinggi sangat besar agar konten tidak terpotong (tidak scroll di dalam) */
+            max-height: 2000px; 
             opacity: 1;
         }
     </style>
@@ -144,7 +145,7 @@
             <p class="text-[10px] sm:text-xs text-emerald-100/70" id="currentDateDisplay"></p>
         </header>
 
-        <!-- Daftar Nama (Scrollable) -->
+        <!-- Daftar Nama (Area ini Tetap Fixed 5 Baris + Scroll Internal) -->
         <section class="flex flex-col gap-1 shrink-0">
             <div class="flex items-center justify-between">
                 <h2 class="text-xs font-semibold uppercase tracking-widest text-emerald-200">
@@ -155,13 +156,14 @@
                 </button>
             </div>
             
+            <!-- max-height 280px = sekitar 5 baris -->
             <div class="space-y-1 overflow-y-auto pr-1 custom-scrollbar" id="nameContainer" style="max-height: 280px;">
                 <!-- List akan di-render di sini -->
             </div>
         </section>
 
-        <!-- Panel Kontrol -->
-        <div class="flex-1 overflow-y-auto pr-1 custom-scrollbar flex flex-col gap-3">
+        <!-- Panel Kontrol (Area ini yang akan scroll jika dropdown memanjang) -->
+        <div class="flex-1 overflow-y-auto pr-1 control-scroll flex flex-col gap-3">
             <div class="glass-box p-3 rounded-xl bg-black/10 shrink-0">
                 <p class="text-[10px] text-emerald-200 uppercase mb-2 font-bold flex justify-between">
                     <span>Detail Keterangan :</span>
@@ -198,6 +200,7 @@
                     </button>
                     
                     <div id="activityDropdownContent" class="dropdown-content">
+                        <!-- Container ini TIDAK punya scrollbar, dia akan tumbuh sesuai konten -->
                         <div id="activityListContainer" class="mt-2 space-y-1"></div>
                     </div>
                 </div>
