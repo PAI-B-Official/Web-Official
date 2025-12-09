@@ -1,1414 +1,545 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta name="google-site-verification" content="UPioXeNFpoiCMVwsJoWNkGvlqM1BpkfIDV5AGhLXsUo" />
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- 1. JUDUL WEBSITE (Muncul di Tab Browser & Judul Pencarian Google) -->
-    <!-- GANTI INI sesuai nama yang Anda inginkan -->
-    <title>PAI B 2025 Official IAINU Kebumen</title>
-
-    <!-- 2. SEO META TAGS (Agar Google paham isi web ini) -->
-    <meta name="description" content="Website Resmi Kelas PAI B Angkatan 2025 IAINU Kebumen. Profil mahasiswa, struktur organisasi, dan galeri dokumentasi kegiatan kelas.">
-    <meta name="keywords" content="PAI B, IAINU Kebumen, Tarbiyah, Mahasiswa PAI, Kelas PAI B 2025">
-    <meta name="author" content="PAI B Family">
-    <meta name="robots" content="index, follow">
-
-    <!-- 3. OPEN GRAPH (Agar link terlihat bagus saat dishare di WhatsApp/FB) -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="PAI B 2025 - Generation of Success">
-    <meta property="og:description" content="Kunjungi website resmi keluarga besar PAI B IAINU Kebumen. Lihat profil dan kenangan kami di sini.">
-    <!-- Pastikan file gambar ini ada atau ganti dengan link gambar online (URL lengkap) -->
-    <meta property="og:image" content="PAI B.jpg">
-
-    <!-- 4. LOGO DI PENCARIAN GOOGLE (Favicon) -->
-    <link rel="icon" type="image/jpeg" href="PAI B.jpg">
-    <link rel="shortcut icon" type="image/jpeg" href="PAI B.jpg">
-    <link rel="apple-touch-icon" href="PAI B.jpg">
-    
-    <!-- 5. STRUCTURED DATA (JSON-LD) -->
-    <!-- Ini adalah cara PRO agar Logo muncul di samping hasil pencarian Google -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "PAI B IAINU Kebumen",
-      "url": "https://namadomainanda.com", 
-      "logo": "https://namadomainanda.com/PAI B.jpg",
-      "description": "Website Resmi Kelas PAI B Angkatan 2025 Fakultas Tarbiyah IAINU Kebumen."
-    }
-    </script>
-    
-    <!-- Tailwind CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Data Personel PAI 1B</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'crimson-dark': '#1a0505',
-                        'crimson-main': '#8a0000',
-                        'crimson-light': '#ff1f1f',
-                        'glass': 'rgba(255, 255, 255, 0.05)',
-                    },
-                    fontFamily: {
-                        'tech': ['Orbitron', 'sans-serif'],
-                        'body': ['Poppins', 'sans-serif'],
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #0a0000;
-            color: #e5e5e5;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
+            font-family: 'Poppins', sans-serif;
+            background-color: #064e3b; /* Dark Green Base */
+            color: white;
+            /* Kembali ke fixed height agar tidak scroll body, tapi scroll konten */
+            height: 100dvh; 
+            overflow: hidden; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* Custom Scrollbar untuk Container Nama */
+        #nameContainer::-webkit-scrollbar, #activityListContainer::-webkit-scrollbar {
+            width: 4px;
         }
-        ::-webkit-scrollbar-track {
-            background: #1a0505;
+        #nameContainer::-webkit-scrollbar-track, #activityListContainer::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #8a0000;
+        #nameContainer::-webkit-scrollbar-thumb, #activityListContainer::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ff1f1f;
+
+        /* Glass Effect */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transform: translateZ(0);
         }
 
-        /* Glassmorphism Utilities */
-        .glass-panel {
-            background: rgba(40, 0, 0, 0.6);
-            border: 1px solid rgba(255, 50, 50, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            transform: translateZ(0); 
-            -webkit-transform: translateZ(0);
+        .glass-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
         }
 
-        @media (min-width: 768px) {
-            .glass-panel {
-                background: rgba(40, 0, 0, 0.4);
-                backdrop-filter: blur(12px);
-                -webkit-backdrop-filter: blur(12px);
-            }
+        .glass-item:active { transform: scale(0.98); }
+
+        .glass-item.selected {
+            background: rgba(16, 185, 129, 0.4);
+            border-color: #34d399;
+            font-weight: 600;
         }
 
-        /* Intro Animation */
-        #intro-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #000000, #2b0000);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
-            will-change: transform, opacity;
+        /* Locked State (Sudah diisi) */
+        .glass-item.locked {
+            opacity: 0.7;
+            background: rgba(0, 0, 0, 0.2);
+            border-color: transparent;
+            cursor: not-allowed;
         }
 
-        .hidden-section {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
+        /* Status Colors */
+        .status-hadir { border-left: 4px solid #10b981; } 
+        .status-izin { border-left: 4px solid #facc15; background: rgba(250, 204, 21, 0.1); } 
+        .status-sakit { border-left: 4px solid #ef4444; background: rgba(239, 68, 68, 0.1); } 
+        .status-alpha { border-left: 4px solid #9ca3af; background: rgba(156, 163, 175, 0.1); } 
 
-        .active-section {
-            display: block;
-            animation: fadeIn 0.6s forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Typing Cursor */
-        .typing-cursor::after {
-            content: '|';
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* Neon Glow Text */
-        .neon-text {
-            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #8a0000;
-        }
-
-        /* Organizational Chart Styles (Tree) - DESKTOP ONLY */
-        .tree {
-            display: flex;
-            justify-content: center;
-        }
-        .tree ul {
-            padding-top: 20px; 
-            position: relative;
-            transition: all 0.5s;
-            display: flex;
-            justify-content: center;
-        }
-        .tree li {
-            float: left; text-align: center;
-            list-style-type: none;
-            position: relative;
-            padding: 20px 5px 0 5px;
-            transition: all 0.5s;
-        }
-        /* Connectors */
-        .tree li::before, .tree li::after {
-            content: '';
-            position: absolute; top: 0; right: 50%;
-            border-top: 2px solid #8a0000;
-            width: 50%; height: 20px;
-        }
-        .tree li::after {
-            right: auto; left: 50%;
-            border-left: 2px solid #8a0000;
-        }
-        .tree li:only-child::after, .tree li:only-child::before {
-            display: none;
-        }
-        .tree li:only-child { padding-top: 0;}
-        .tree li:first-child::before, .tree li:last-child::after {
-            border: 0 none;
-        }
-        .tree li:last-child::before{
-            border-right: 2px solid #8a0000;
-            border-radius: 0 5px 0 0;
-        }
-        .tree li:first-child::after{
-            border-radius: 5px 0 0 0;
-        }
-        .tree ul ul::before{
-            content: '';
-            position: absolute; top: 0; left: 50%;
-            border-left: 2px solid #8a0000;
-            width: 0; height: 20px;
-        }
-
-        /* Family Gallery & All Files Modal */
-        .fullscreen-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 0, 0, 0.95);
-            z-index: 100;
-            overflow-y: auto;
-            transform: scale(0.9);
-            opacity: 0;
-            pointer-events: none;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            will-change: transform, opacity;
-        }
-        .fullscreen-overlay.open {
-            transform: scale(1);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* Bio Modal & Media Modal */
-        .custom-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9); /* Dark backdrop */
-            z-index: 200;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-            will-change: opacity;
-        }
-        .custom-modal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* Styling untuk List Info di Bio agar lebih rapi */
-        .bio-info-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 1.25rem; /* gap-5 */
-            padding: 0.5rem 0;
-            transition: background-color 0.3s;
-        }
-        .bio-icon-box {
-            flex-shrink: 0;
-            width: 3rem; /* w-12 */
-            height: 3rem; /* h-12 */
+        /* Background Blobs */
+        .blob {
+            position: absolute;
             border-radius: 50%;
-            background: rgba(127, 29, 29, 0.2); /* red-900/20 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ef4444; /* red-500 */
-            font-size: 1.25rem; /* text-xl */
-            border: 1px solid rgba(239, 68, 68, 0.1);
-            transition: transform 0.3s, background-color 0.3s, color 0.3s;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: float 20s infinite alternate;
+            z-index: -1;
         }
-        .bio-info-row:hover .bio-icon-box {
-            background: #dc2626; /* red-600 */
-            color: white;
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
-        }
+        .blob-1 { top: -10%; left: -10%; width: 400px; height: 400px; background: #059669; }
+        .blob-2 { bottom: -10%; right: -10%; width: 300px; height: 300px; background: #047857; animation-delay: -5s; }
         
-        /* Music Control Button Animation */
-        .music-pulse {
-            animation: musicPulse 1.5s infinite;
-        }
-        @keyframes musicPulse {
-            0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+        @keyframes float {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            100% { transform: translate3d(20px, 40px, 0) scale(1.1); }
         }
 
-        /* Play Button Overlay */
-        .play-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: rgba(220, 38, 38, 0.85);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .custom-input {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
-            font-size: 24px;
-            transition: transform 0.3s, background-color 0.3s;
-            box-shadow: 0 0 25px rgba(220, 38, 38, 0.6);
-            z-index: 10;
+            transition: all 0.3s;
         }
-        .group:hover .play-overlay {
-            background: rgba(255, 255, 255, 0.95);
-            color: #dc2626;
-            transform: translate(-50%, -50%) scale(1.15);
+        .custom-input:focus {
+            outline: none;
+            border-color: #34d399;
+            background: rgba(0, 0, 0, 0.4);
         }
 
-        /* Image Loading Skeleton */
-        .img-loading-skeleton {
-            position: absolute;
-            inset: 0;
-            background-color: #1f2937; /* gray-800 */
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 0;
+        .static-logo {
+            width: 70px; height: 70px; margin: 0 auto 0.5rem auto;
+            object-fit: contain; display: block;
         }
-        .img-loaded {
-            opacity: 1 !important;
+
+        /* Modal Animation */
+        #confirmModal { transition: opacity 0.3s ease; }
+        #confirmModal.hidden { pointer-events: none; opacity: 0; }
+        #confirmModal:not(.hidden) { opacity: 1; pointer-events: auto; }
+
+        /* Dropdown Chevron Animation */
+        .chevron-icon { transition: transform 0.3s ease; }
+        .rotate-180 { transform: rotate(180deg); }
+        
+        .dropdown-content {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .dropdown-content.open {
+            max-height: 500px;
+            opacity: 1;
         }
     </style>
 </head>
-<body class="font-body selection:bg-red-500 selection:text-white">
+<body class="p-3 sm:p-4">
 
-    <!-- AUDIO ELEMENT -->
-    <audio id="bg-music" loop>
-        <source src="Qolbi Fil Madinah.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
 
-    <!-- INTRO PAGE (SPLASH SCREEN) -->
-    <div id="intro-screen">
-        <div class="text-center">
-            <h1 class="font-tech text-4xl md:text-7xl font-bold text-white mb-4 tracking-widest neon-text">
-                PRODI <span id="typing-text" class="text-red-500 typing-cursor"></span>
-            </h1>
-            <p class="text-gray-400 text-sm md:text-lg mb-8 font-light tracking-[0.3em]">2025 | GENERATION OF SUCCESS</p>
+    <!-- Main Container -->
+    <main class="w-full max-w-lg glass-box rounded-2xl p-4 sm:p-5 relative z-10 flex flex-col gap-3 h-full max-h-[95vh]">
+        <!-- Header -->
+        <header class="text-center border-b border-white/20 pb-2 shrink-0">
+            <img src="IAINU.jpg" alt="Logo" class="static-logo" onerror="this.style.display='none'">
+            <h1 class="text-lg sm:text-xl font-bold tracking-wider text-emerald-300">PRESENSI KEHADIRAN MAHASISWA PAI B</h1>
+            <p class="text-[10px] sm:text-xs text-emerald-100/70" id="currentDateDisplay"></p>
+        </header>
+
+        <!-- Daftar Nama (DIBATASI HEIGHT 5 ITEM) -->
+        <section class="flex flex-col gap-1 shrink-0">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xs font-semibold uppercase tracking-widest text-emerald-200">
+                    Nama-nama Mahasiswa
+                </h2>
+                <button onclick="resetAllData()" class="text-[10px] bg-red-500/20 hover:bg-red-500/40 text-red-100 border border-red-500/30 px-3 py-1 rounded transition active:scale-95">
+                    Refresh / Reset
+                </button>
+            </div>
             
-            <button onclick="enterSite()" class="group relative px-8 py-3 bg-transparent overflow-hidden rounded-full border border-red-600 transition-all hover:shadow-[0_0_20px_rgba(255,0,0,0.5)]">
-                <span class="relative z-10 text-white font-tech tracking-wider group-hover:text-black transition-colors duration-300">VISIT CLASS</span>
-                <div class="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 group-hover:scale-100 group-hover:bg-red-600"></div>
-            </button>
-        </div>
-    </div>
+            <!-- max-height: 280px kira-kira cukup untuk 5 item. overflow-y-auto untuk scroll -->
+            <div class="space-y-1 overflow-y-auto pr-1 custom-scrollbar" id="nameContainer" style="max-height: 280px;">
+                <!-- Names rendered via JS -->
+            </div>
+        </section>
 
-    <!-- MAIN APP CONTAINER -->
-    <div id="main-app" class="hidden opacity-0 transition-opacity duration-1000 min-h-screen flex flex-col">
-        
-        <!-- Navigation -->
-        <nav class="fixed top-0 w-full z-50 glass-panel border-b border-red-900/30">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-16">
-                    <div class="flex-shrink-0">
-                        <span class="font-tech text-2xl font-bold text-red-500 tracking-tighter">PAI <span class="text-white">B</span></span>
-                    </div>
-                    <div class="hidden md:block">
-                        <div class="ml-10 flex items-baseline space-x-4">
-                            <button onclick="switchTab('home')" class="nav-btn text-white hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</button>
-                            <button onclick="switchTab('structure')" class="nav-btn text-gray-300 hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Structure</button>
-                            <button onclick="switchTab('documentation')" class="nav-btn text-gray-300 hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Documentation</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Music & Mobile Menu Controls -->
-                    <div class="flex items-center gap-4">
-                        <button onclick="toggleMusic()" id="music-btn" class="w-8 h-8 rounded-full bg-red-900/50 flex items-center justify-center text-red-400 border border-red-500/30 hover:bg-red-600 hover:text-white transition-all music-pulse">
-                            <i class="fas fa-music"></i>
-                        </button>
-                        <div class="md:hidden">
-                            <button onclick="toggleMobileMenu()" class="text-gray-300 hover:text-white p-2">
-                                <i class="fas fa-bars text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
+        <!-- Panel Kontrol (Scrollable sisa ruang) -->
+        <div class="flex-1 overflow-y-auto pr-1 custom-scrollbar flex flex-col gap-3">
+            <!-- 1. Input Absensi -->
+            <div class="glass-box p-3 rounded-xl bg-black/10 shrink-0">
+                <p class="text-[10px] text-emerald-200 uppercase mb-2 font-bold flex justify-between">
+                    <span>Detail Keterangan :</span>
+                    <span class="text-[9px] opacity-60 normal-case">Pilih Status</span>
+                </p>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="setStatusForSelected('Alpha')" class="bg-gray-600/40 hover:bg-gray-600 border border-gray-500/50 rounded py-2 text-xs transition active:scale-95 font-medium">Alpha</button>
+                    <button onclick="setStatusForSelected('Izin')" class="bg-yellow-600/40 hover:bg-yellow-600 border border-yellow-500/50 rounded py-2 text-xs transition active:scale-95 font-medium">Izin</button>
+                    <button onclick="setStatusForSelected('Sakit')" class="bg-red-600/40 hover:bg-red-600 border border-red-500/50 rounded py-2 text-xs transition active:scale-95 font-medium">Sakit</button>
                 </div>
             </div>
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-red-900/30">
-                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <button onclick="switchTab('home')" class="text-gray-300 hover:text-red-400 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Home</button>
-                    <button onclick="switchTab('structure')" class="text-gray-300 hover:text-red-400 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Structure</button>
-                    <button onclick="switchTab('documentation')" class="text-gray-300 hover:text-red-400 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Documentation</button>
-                </div>
-            </div>
-        </nav>
 
-        <!-- BACKGROUND PARTICLES -->
-        <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-            <!-- Mobile Optimized Background -->
-            <div class="absolute inset-0 bg-gradient-to-b from-black via-[#1a0000] to-black opacity-80"></div>
-            
-            <!-- Desktop Only Heavy Animations -->
-            <div class="hidden md:block absolute top-[-10%] left-[-10%] w-96 h-96 bg-red-900 rounded-full mix-blend-multiply filter blur-[100px] opacity-30 animate-pulse-slow" style="will-change: transform, opacity;"></div>
-            <div class="hidden md:block absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-red-800 rounded-full mix-blend-multiply filter blur-[100px] opacity-30 animate-pulse-slow" style="will-change: transform, opacity;"></div>
-        </div>
-
-        <!-- CONTENT SECTIONS -->
-        <main class="flex-grow pt-20 px-4 md:px-8 max-w-7xl mx-auto w-full">
-
-            <!-- 1. HOME SECTION -->
-            <section id="home" class="active-section py-10">
-                <div class="grid md:grid-cols-2 gap-10 items-center">
-                    <div class="space-y-6 text-center md:text-left">
-                        <!-- LOGO MOBILE -->
-                        <div class="md:hidden mb-4 flex justify-center">
-                            <img src="IAINU.jpg" alt="Class Logo Mobile" 
-                                 class="w-30 h-30 object-contain filter drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]"
-                                 onerror="this.style.display='none'">
-                        </div>
-
-                        <h2 class="text-5xl md:text-6xl font-bold font-tech leading-tight">
-                            WELCOME TO <br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-600">FACULTY TARBIYAH</span>
-                        </h2>
-                        <p class="text-gray-400 leading-relaxed text-lg">
-                            "Kami tidak hanya diajarkan cara mentransfer ilmu, tapi juga cara menanamkan adab. Karena ilmu tanpa adab seperti api tanpa kayu bakar, tak akan memberi kehangatan yang lama."
-                        </p>
-                        <div class="flex gap-4 pt-4 justify-center md:justify-start">
-                            <button onclick="switchTab('documentation')" class="px-6 py-3 bg-red-700 hover:bg-red-600 rounded-lg text-white font-semibold transition-all shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-                                Let's Go !!!
-                            </button>
-                            <button onclick="switchTab('structure')" class="px-6 py-3 border border-gray-600 hover:border-red-500 hover:text-red-400 rounded-lg text-gray-300 font-semibold transition-all">
-                                Mahasiswa
-                            </button>
-                        </div>
-                        
-                        <!-- Stats -->
-                        <div class="grid grid-cols-3 gap-4 pt-8 border-t border-gray-800">
-                            <div>
-                                <h3 class="text-2xl font-bold text-white">24</h3>
-                                <p class="text-xs text-gray-500 uppercase tracking-wider">Siswa</p>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-white">6</h3>
-                                <p class="text-xs text-gray-500 uppercase tracking-wider">Laki-laki</p>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-white">18</h3>
-                                <p class="text-xs text-gray-500 uppercase tracking-wider">Perempuan</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right Side Card -->
-                    <div class="relative animate-float hidden md:block">
-                        <div class="flex justify-center mb-6">
-                            <!-- Logo Utama Desktop -->
-                            <img src="IAINU.jpg" alt="Class Logo" 
-                                 class="w-32 h-32 object-contain filter drop-shadow-[0_0_15px_rgba(220,38,38,0.5)] hover:scale-110 transition-transform duration-300"
-                                 onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2997/2997322.png';">
-                        </div>
-
-                        <div class="glass-panel p-8 rounded-2xl transform rotate-3 hover:rotate-0 transition-all duration-500 border border-red-500/20">
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-black flex items-center justify-center">
-                                    <i class="fas fa-quote-left text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-lg">Motto Kelas</h4>
-                                    <p class="text-xs text-red-400">Since 2025</p>
-                                </div>
-                            </div>
-                            <blockquote class="text-xl font-light italic text-gray-300 mb-6">
-                                "Microteaching itu memang mendebarkan, tapi lebih mendebarkan lagi kalau melihat generasi muda rusak karena kurangnya pendidikan karakter."
-                            </blockquote>
-                            <div class="flex justify-between items-center text-sm text-gray-500">
-                                <span>PAI B Family</span>
-                                <i class="fas fa-fingerprint text-red-500 text-2xl"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 2. STRUCTURE SECTION -->
-            <section id="structure" class="hidden-section py-10">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">STRUKTUR KELAS</h2>
-                    <div class="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
-                </div>
-
-                <!-- A. MOBILE VIEW (Vertical Stack) -->
-                <div class="md:hidden flex flex-col items-center gap-6 pb-8">
-                    <!-- Ketua -->
-                    <div class="glass-panel p-4 rounded-xl border border-red-500/30 w-64 text-center hover:bg-red-900/40 transition-colors">
-                        <div class="w-20 h-20 mx-auto bg-gray-700 rounded-full mb-3 overflow-hidden border-2 border-red-500">
-                            <img src="https://i.ibb.co.com/8DTHNmN1/Ubaidillah.jpg" alt="Ketua" 
-                                 class="w-full h-full object-cover"
-                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Ubaidillah+M&background=random';">
-                        </div>
-                        <h3 class="font-bold text-red-400 text-lg">Ubaidillah M.</h3>
-                        <p class="text-sm text-gray-400">Ketua Kelas</p>
-                    </div>
-
-                    <!-- Arrow Down -->
-                    <div class="text-red-600 text-2xl"><i class="fas fa-arrow-down"></i></div>
-
-                    <!-- Wakil -->
-                    <div class="glass-panel p-4 rounded-xl border border-red-500/30 w-64 text-center hover:bg-red-900/40 transition-colors">
-                        <div class="w-20 h-20 mx-auto bg-gray-700 rounded-full mb-3 overflow-hidden border-2 border-red-500">
-                            <img src="https://i.ibb.co.com/35y5ZszF/Pniel.jpg" alt="Wakil" 
-                                 class="w-full h-full object-cover"
-                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Pniel+Munandar&background=random';">
-                        </div>
-                        <h3 class="font-bold text-white text-lg">Pniel Munandar</h3>
-                        <p class="text-sm text-gray-400">Wakil Ketua</p>
-                    </div>
-
-                    <!-- Divider Line -->
-                    <div class="w-full max-w-xs border-t border-red-800 my-2"></div>
-
-                    <!-- Grid for Sek & Ben (Mobile) -->
-                    <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
-                        <!-- Sek 1 -->
-                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
-                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                <img src="https://i.ibb.co.com/T6G584W/Ayu.jpg" alt="Sek1" class="w-full h-full object-cover"
-                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Riska+Ayu&background=random';">
-                            </div>
-                            <h3 class="font-semibold text-white text-xs">Riska Ayu K</h3>
-                            <p class="text-[10px] text-red-400 uppercase">Sekretaris 1</p>
-                        </div>
-                        <!-- Sek 2 -->
-                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
-                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                <img src="https://i.ibb.co.com/8g9FF4zH/Yoana.jpg" alt="Sek2" class="w-full h-full object-cover"
-                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yoana+Dian&background=random';">
-                            </div>
-                            <h3 class="font-semibold text-white text-xs">Yoana Dian R.A.</h3>
-                            <p class="text-[10px] text-red-400 uppercase">Sekretaris 2</p>
-                        </div>
-                        <!-- Ben 1 -->
-                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
-                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                <img src="https://i.ibb.co.com/xK65ZXBK/Putri.jpg" alt="Ben1" class="w-full h-full object-cover"
-                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Putri+Dwi&background=random';">
-                            </div>
-                            <h3 class="font-semibold text-white text-xs">Putri Dwi Astuti</h3>
-                            <p class="text-[10px] text-red-400 uppercase">Bendahara 1</p>
-                        </div>
-                        <!-- Ben 2 -->
-                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
-                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                <img src="https://i.ibb.co.com/PZBVB5qN/Anggun.jpg" alt="Ben2" class="w-full h-full object-cover"
-                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Anggun+Lolyka&background=random';">
-                            </div>
-                            <h3 class="font-semibold text-white text-xs">Anggun Lolyka H.</h3>
-                            <p class="text-[10px] text-red-400 uppercase">Bendahara 2</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- B. DESKTOP VIEW (Tree Chart) -->
-                <div class="hidden md:flex justify-center overflow-x-auto pb-8">
-                    <div class="tree min-w-[800px]">
-                        <ul>
-                            <li>
-                                <!-- Ketua -->
-                                <div class="glass-panel p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative">
-                                    <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
-                                        <img src="https://i.ibb.co.com/8DTHNmN1/Ubaidillah.jpg" alt="Ketua" class="w-full h-full object-cover"
-                                             onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Ubaidillah&background=random';">
-                                    </div>
-                                    <h3 class="font-bold text-red-400">Ubaidillah M.</h3>
-                                    <p class="text-xs text-gray-400">Ketua Kelas</p>
-                                </div>
-                                <ul>
-                                    <li>
-                                        <!-- Wakil -->
-                                        <div class="glass-panel p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative">
-                                            <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
-                                                <img src="https://i.ibb.co.com/35y5ZszF/Pniel.jpg" alt="Wakil" class="w-full h-full object-cover"
-                                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Pniel&background=random';">
-                                            </div>
-                                            <h3 class="font-bold text-white">Pniel Munandar</h3>
-                                            <p class="text-xs text-gray-400">Wakil Ketua</p>
-                                        </div>
-                                        
-                                        <!-- Cabang Bawah Wakil -->
-                                        <ul class="flex justify-center gap-8">
-                                            <!-- Group Sekretaris -->
-                                            <li>
-                                                <div class="flex flex-col gap-4 items-center pt-4">
-                                                    <!-- Sek 1 -->
-                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
-                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                                            <img src="https://i.ibb.co.com/T6G584W/Ayu.jpg" alt="Sek1" class="w-full h-full object-cover"
-                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Riska&background=random';">
-                                                        </div>
-                                                        <h3 class="font-semibold text-white text-sm">Riska Ayu K.</h3>
-                                                        <p class="text-[10px] text-red-400 uppercase">Sekretaris 1</p>
-                                                    </div>
-                                                    <!-- Sek 2 -->
-                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
-                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                                            <img src="https://i.ibb.co.com/8g9FF4zH/Yoana.jpg" alt="Sek2" class="w-full h-full object-cover"
-                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yoana&background=random';">
-                                                        </div>
-                                                        <h3 class="font-semibold text-white text-sm">Yoana Dian R.A.</h3>
-                                                        <p class="text-[10px] text-red-400 uppercase">Sekretaris 2</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-
-                                            <!-- Group Bendahara -->
-                                            <li>
-                                                <div class="flex flex-col gap-4 items-center pt-4">
-                                                    <!-- Ben 1 -->
-                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
-                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                                            <img src="https://i.ibb.co.com/xK65ZXBK/Putri.jpg" alt="Ben1" class="w-full h-full object-cover"
-                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Putri&background=random';">
-                                                        </div>
-                                                        <h3 class="font-semibold text-white text-sm">Putri Dwi Astuti</h3>
-                                                        <p class="text-[10px] text-red-400 uppercase">Bendahara 1</p>
-                                                    </div>
-                                                    <!-- Ben 2 -->
-                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
-                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                                            <img src="https://i.ibb.co.com/PZBVB5qN/Anggun.jpg" alt="Ben2" class="w-full h-full object-cover"
-                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Anggun&background=random';">
-                                                        </div>
-                                                        <h3 class="font-semibold text-white text-sm">Anggun Lolyka H.</h3>
-                                                        <p class="text-[10px] text-red-400 uppercase">Bendahara 2</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+            <!-- 2. Input Aktivitas & Dropdown -->
+            <div class="glass-box p-3 rounded-xl bg-black/10 shrink-0">
+                <p class="text-[10px] text-blue-200 uppercase mb-2 font-bold">Mengajukan Tentang :</p>
+                <div class="grid grid-cols-3 gap-2 mb-2">
+                    <button onclick="setActivityType(this, 'Bertanya')" class="act-btn glass-item rounded py-1.5 text-xs text-center hover:bg-blue-500/30 active:scale-95">Bertanya</button>
+                    <button onclick="setActivityType(this, 'Menjawab')" class="act-btn glass-item rounded py-1.5 text-xs text-center hover:bg-blue-500/30 active:scale-95">Menjawab</button>
+                    <button onclick="setActivityType(this, 'Menyanggah')" class="act-btn glass-item rounded py-1.5 text-xs text-center hover:bg-blue-500/30 active:scale-95">Menyanggah</button>
                 </div>
                 
-                <!-- Seksi Divisions -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 mb-12">
-                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-red-600 hover:translate-y-[-5px] transition-transform">
-                        <h4 class="font-tech text-xl text-white mb-4"><i class="fas fa-user-tie mr-2"></i> Ketua & Wakil Ketua</h4>
-                        <ul class="text-sm text-gray-400 space-y-2">
-                            <li>• Ketua : Ubaidillah M.</li>
-                            <li>• Wakil : Pniel Munandar</li>
-                        </ul>
-                    </div>
-                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-orange-600 hover:translate-y-[-5px] transition-transform">
-                        <h4 class="font-tech text-xl text-white mb-4"><i class="fas fa-file-alt mr-2"></i> Sekretaris</h4>
-                        <ul class="text-sm text-gray-400 space-y-2">
-                            <li>• Sekretaris 1 : Riska Ayu K.</li>
-                            <li>• Sekretaris 2 : Yoana Dian R.A.</li>
-                        </ul>
-                    </div>
-                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-yellow-600 hover:translate-y-[-5px] transition-transform">
-                        <h4 class="font-tech text-xl text-white mb-4"><i class="fas fa-coins mr-2"></i> Bendahara</h4>
-                        <ul class="text-sm text-gray-400 space-y-2">
-                            <li>• Bendahara 1 : Putri Dwi Astuti</li>
-                            <li>• Bendahara 2 : Anggun Lolyka H.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- FAMILY BUTTON -->
-                <div class="text-center pb-12">
-                    <button onclick="toggleFamilyGallery()" class="group relative px-10 py-4 bg-gradient-to-r from-red-900 to-black overflow-hidden rounded-xl border border-red-600/50 shadow-[0_0_30px_rgba(220,38,38,0.2)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] transition-all duration-300">
-                        <div class="flex items-center gap-3 relative z-10">
-                            <i class="fas fa-users text-2xl text-red-400 group-hover:text-white transition-colors"></i>
-                            <span class="font-tech text-xl font-bold text-white tracking-widest">FAMILY PAI B</span>
-                        </div>
-                        <div class="absolute inset-0 bg-red-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <!-- Input Area -->
+                <div class="flex gap-2 mb-3">
+                    <textarea id="activityNote" rows="1" class="custom-input flex-1 rounded-lg p-2 text-xs resize-none" placeholder="Ketik isi aktivitas..."></textarea>
+                    <button onclick="addActivityLog()" class="bg-blue-600 hover:bg-blue-500 text-white rounded-lg px-4 flex items-center justify-center shadow-lg transition active:scale-95 border border-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                     </button>
-                    <p class="mt-4 text-gray-500 text-sm">Klik untuk melihat seluruh anggota keluarga kelas</p>
                 </div>
-            </section>
 
-            <!-- 3. DOCUMENTATION SECTION -->
-            <section id="documentation" class="hidden-section py-10">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">ARCHIVES</h2>
-                    <div class="h-1 w-20 bg-red-600 mx-auto rounded-full mb-4"></div>
-                    <p class="text-gray-400 mb-6">Class Memories & Moments</p>
+                <!-- Dropdown / Accordion untuk hasil aktivitas -->
+                <div class="border-t border-white/10 pt-2">
+                    <button onclick="toggleActivityDropdown()" class="w-full flex items-center justify-between text-[10px] text-blue-200 uppercase font-bold py-1 hover:bg-white/5 rounded px-2 transition">
+                        <span id="activityHeader">Daftar Aktivitas (0)</span>
+                        <svg id="activityChevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 chevron-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                    </button>
                     
-                    <div class="flex flex-col md:flex-row justify-center items-center gap-3 max-w-xl mx-auto">
-                        <!-- SEARCH BAR -->
-                        <div class="relative w-full">
-                            <input type="text" id="doc-search" placeholder="Search by title..." 
-                                   onkeyup="handleSearch(event)"
-                                   class="w-full bg-black/40 border border-red-500/30 rounded-lg px-4 py-2 text-white text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 placeholder-gray-500 transition-all text-center md:text-left">
-                            <button onclick="handleSearch({key: 'Enter'})" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                        <!-- ALL FILES BUTTON -->
-                        <button onclick="openAllFiles()" class="w-full md:w-auto bg-red-900/30 hover:bg-red-800 border border-red-500/50 text-white px-6 py-2 rounded-lg text-sm transition-all whitespace-nowrap flex items-center justify-center gap-2">
-                            <i class="fas fa-th-large"></i> All Files
-                        </button>
-                    </div>
-                </div>
-
-                <!-- DYNAMIC GRID CONTAINER -->
-                <div id="documentation-grid" class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-                    <!-- Javascript will populate this based on data/search -->
-                </div>
-            </section>
-
-        </main>
-
-        <!-- Footer -->
-        <footer class="border-t border-red-900/30 bg-black/90 mt-12 pt-12 pb-8">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8 border-b border-red-900/30 pb-8">
-                    <div class="text-left">
-                         <h3 class="font-tech text-xl text-white font-bold mb-4 border-b-2 border-red-600 inline-block pb-1">FAKULTAS TARBIYAH</h3>
-                         <p class="text-gray-400 text-sm leading-relaxed mt-2">
-                             Mencetak pendidik yang berakhlak mulia, berwawasan luas, dan kompeten dalam menjawab tantangan zaman.
-                         </p>
-                    </div>
-                    <div class="text-left">
-                        <h3 class="font-tech text-xl text-white font-bold mb-4 border-b-2 border-red-600 inline-block pb-1">KONTAK KAMI</h3>
-                        <div class="mt-2 flex flex-col gap-2">
-                            <a href="https://maps.app.goo.gl/tfdwTJTneTn89ey36" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
-                                <i class="fas fa-map-marker-alt text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
-                                Jl. Tentara Pelajar No. 55B
-                            </a>
-                            <a href="https://wa.me/6281216024273" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
-                                <i class="fas fa-phone text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
-                                0812-1602-4273
-                            </a>
-                            <a href="https://twitter.com/iainu_kebumen" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
-                                <i class="fab fa-twitter text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
-                                @iainu_kebumen
-                            </a>
-                        </div>
-                    </div>
-                    <div class="text-left">
-                        <h3 class="font-tech text-xl text-white font-bold mb-4 border-b-2 border-red-600 inline-block pb-1">AKADEMIK</h3>
-                        <div class="mt-2">
-                            <p class="text-gray-400 text-sm mb-2"><i class="fas fa-graduation-cap text-red-500 mr-2"></i> Pendidikan Agama Islam</p>
-                            <p class="text-gray-400 text-sm mb-2"><i class="fas fa-calendar-alt text-red-500 mr-2"></i> Angkatan 2025</p>
-                            <p class="text-gray-400 text-sm"><i class="fas fa-users text-red-500 mr-2"></i> Kelas B</p>
+                    <div id="activityDropdownContent" class="dropdown-content">
+                        <div id="activityListContainer" class="mt-2 space-y-1">
+                            <!-- Daftar aktivitas muncul di sini -->
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p class="font-tech text-gray-500 text-sm text-center md:text-left">© 2025 PAI B - IAINU KEBUMEN. All Rights Reserved.</p>
-                    <div class="flex gap-4">
-                        <a href="https://www.instagram.com/iainukebumen/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white transition-all duration-300">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://iainu-kebumen.ac.id/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnQrL_efXSleeESFYk2QKkN6BzFcbkVuHqkuvpD0AKrYYmzGs-kkm7mzH8qUk_aem_h2VNO5wVlciA0OHIwGrFxg" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-500 hover:text-white transition-all duration-300">
-                            <i class="fas fa-globe"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- FAMILY GALLERY OVERLAY (Hidden by default) -->
-    <div id="family-gallery" class="fullscreen-overlay">
-        <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
-            <button onclick="toggleFamilyGallery()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="text-center mb-12">
-                <h2 class="text-4xl md:text-6xl font-tech font-bold text-white mb-2">KELUARGA PAI B</h2>
-                <p class="text-red-400 text-lg">24 Souls, One Heart</p>
-            </div>
-            <div id="student-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
-        </div>
-    </div>
-
-    <!-- ALL FILES OVERLAY (New Feature) -->
-    <div id="all-files-overlay" class="fullscreen-overlay">
-        <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
-            <button onclick="closeAllFiles()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <div class="text-center mb-12">
-                <h2 class="text-4xl md:text-5xl font-tech font-bold text-white mb-2">ALL UPLOADED FILES</h2>
             </div>
 
-            <!-- Masonry Grid for All Files (Mixed Aspect Ratios) -->
-            <div id="all-files-grid" class="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-                <!-- Javascript will populate this with 25 slots -->
-            </div>
-        </div>
-    </div>
-
-    <!-- BIO MODAL -->
-    <div id="bio-modal" class="custom-modal" onclick="closeBioModal(event)">
-        <div id="bio-content" class="glass-panel w-[90%] md:w-full max-w-6xl max-h-[90vh] md:max-h-[85vh] overflow-y-auto transform scale-95 transition-all duration-300 rounded-2xl flex flex-col md:flex-row bg-black/90 border border-red-500/30 shadow-2xl relative overflow-hidden">
-            <div class="w-full md:w-5/12 aspect-[9/16] relative bg-gray-900 group shrink-0">
-                <div id="modal-img-loader" class="img-loading-skeleton">
-                    <i class="fas fa-spinner fa-spin text-red-900 text-4xl"></i>
-                </div>
-                <img id="modal-img" src="" alt="Profile Photo" class="relative z-10 w-full h-full object-cover transition-opacity duration-500 opacity-0" onerror="this.src='https://placehold.co/400x500?text=No+Image';">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/90 z-20 pointer-events-none"></div>
-                <button onclick="closeBioModal(null, true)" class="md:hidden absolute top-4 right-4 z-50 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
-                    <i class="fas fa-times"></i>
+            <!-- Tombol Aksi -->
+            <div class="space-y-3 mt-2 pb-2">
+                <button onclick="markAllPresent()" class="w-full bg-blue-600/80 hover:bg-blue-500 text-white font-bold py-3 rounded-xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2 border border-blue-400/50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>Hadir Semua</span>
                 </button>
-            </div>
-            <div class="w-full md:w-7/12 p-6 md:p-10 flex flex-col justify-center text-left relative bg-black/50 md:bg-transparent">
-                <div class="absolute top-0 right-0 p-6 opacity-10 hidden md:block">
-                    <i class="fas fa-fingerprint text-9xl text-red-600"></i>
-                </div>
-                <div class="mb-6 md:mb-10 relative z-10">
-                    <h2 id="modal-name" class="text-2xl md:text-6xl font-bold text-white font-tech mb-2 tracking-wide leading-tight drop-shadow-lg">Name Here</h2>
-                    <div class="flex items-center gap-3">
-                        <span class="px-4 py-1 bg-red-900/40 border border-red-500/30 rounded text-red-400 font-mono text-xs md:text-base tracking-wider" id="modal-nim">NIM: 00000000</span>
-                    </div>
-                </div>
-                <div class="space-y-6 relative z-10">
-                    <div class="bio-info-row group">
-                        <div class="bio-icon-box w-10 h-10 md:w-14 md:h-14 text-lg md:text-2xl">
-                            <i class="fab fa-instagram"></i>
-                        </div>
-                        <div class="flex-grow pt-1 md:pt-2">
-                            <span class="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">Instagram</span>
-                            <div id="modal-ig" class="text-sm md:text-xl"></div>
-                        </div>
-                    </div>
-                    <div class="bio-info-row group">
-                        <div class="bio-icon-box w-10 h-10 md:w-14 md:h-14 text-lg md:text-2xl">
-                            <i class="fas fa-quote-left"></i>
-                        </div>
-                        <div class="flex-grow pt-1 md:pt-2">
-                            <span class="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">About Me</span>
-                            <p id="modal-bio" class="text-gray-300 font-light leading-relaxed text-sm md:text-xl italic pr-2 md:pr-8 text-justify">"..."</p>
-                        </div>
-                    </div>
-                </div>
-                 <button onclick="closeBioModal(null, true)" class="hidden md:flex absolute top-6 right-6 z-50 bg-transparent text-white/50 hover:text-white transition w-10 h-10 items-center justify-center text-2xl">
-                    <i class="fas fa-times"></i>
+
+                <button onclick="prepareWhatsapp()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2 group border border-emerald-400">
+                    <span>Kirim ke WhatsApp</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 group-hover:translate-x-1 transition-transform"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.126A59.768 59.768 0 0 1 21.485 12 59.77 59.77 0 0 1 3.27 20.876L5.999 12Zm0 0h7.5" /></svg>
                 </button>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- MEDIA PREVIEW MODAL -->
-    <div id="media-modal" class="custom-modal" onclick="closeMediaModal(event)">
-        <div class="relative max-w-5xl w-full mx-4 flex justify-center">
-            <button onclick="closeMediaModal(null, true)" class="absolute -top-12 right-0 md:-right-12 text-white hover:text-red-500 text-3xl transition z-50">
-                <i class="fas fa-times"></i>
-            </button>
-            <div id="media-container" class="max-h-[85vh] rounded-lg shadow-2xl border border-red-500/30">
-                <!-- Content Injected Here -->
+    <!-- Modal Konfirmasi WA -->
+    <div id="confirmModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="glass-box bg-gray-900/90 rounded-2xl p-6 max-w-sm w-full text-center border border-emerald-500/30 shadow-2xl transform transition-all scale-100">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 mb-4">
+                <svg class="h-6 w-6 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Konfirmasi</h3>
+            <p class="text-sm text-gray-300 mb-6">Data sudah siap. Kirim laporan ke WhatsApp sekarang?</p>
+            <div class="flex gap-3 justify-center">
+                <button onclick="closeConfirmModal()" class="flex-1 px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg text-sm font-medium transition">Batal</button>
+                <button onclick="proceedToWhatsapp()" class="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-bold shadow-lg transition transform active:scale-95">Kirim</button>
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- Toast -->
+    <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur border border-emerald-500 text-white px-4 py-2 rounded-full shadow-2xl transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none z-50 text-xs">
+        <span id="toastMessage">Action Success</span>
+    </div>
+
     <script>
-        // --- 1. INTRO & NAVIGATION LOGIC ---
-        const textToType = "PAI B";
-        const typingElement = document.getElementById('typing-text');
-        let i = 0;
-
-        function typeWriter() {
-            if (i < textToType.length) {
-                typingElement.innerHTML += textToType.charAt(i);
-                i++;
-                setTimeout(typeWriter, 150);
-            }
-        }
-
-        window.onload = function() {
-            typeWriter();
-            generateStudents(); 
-            initDocumentation(); // Initialize Media Items
-            
-            if (!history.state) {
-                history.replaceState({ page: 'home' }, '', '#home');
-            }
-        };
-
-        function enterSite() {
-            const intro = document.getElementById('intro-screen');
-            const mainApp = document.getElementById('main-app');
-            const audio = document.getElementById('bg-music');
-            if (audio) {
-                audio.play().catch(error => { console.log("Audio autoplay blocked:", error); });
-            }
-            intro.style.transform = 'translateY(-100%)';
-            intro.style.opacity = '0';
-            mainApp.classList.remove('hidden');
-            setTimeout(() => {
-                mainApp.style.opacity = '1';
-                setTimeout(() => { intro.style.display = 'none'; }, 800);
-            }, 100);
-        }
-
-        // Music Toggle Logic
-        let isPlaying = true;
-        function toggleMusic() {
-            const audio = document.getElementById('bg-music');
-            const btn = document.getElementById('music-btn');
-            if (isPlaying) {
-                audio.pause();
-                btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                btn.classList.remove('music-pulse');
-                isPlaying = false;
-            } else {
-                audio.play();
-                btn.innerHTML = '<i class="fas fa-music"></i>';
-                btn.classList.add('music-pulse');
-                isPlaying = true;
-            }
-        }
-
-        // --- MOBILE AUDIO FIX (VISIBILITY API) ---
-        // Musik mati jika user pindah tab/aplikasi, nyala lagi saat kembali
-        document.addEventListener('visibilitychange', function() {
-            const audio = document.getElementById('bg-music');
-            if (document.hidden) {
-                audio.pause();
-            } else {
-                if(isPlaying) {
-                    audio.play().catch(e => console.log("Resume prevented", e));
-                }
-            }
-        });
-
-        // Helper to switch main tabs
-        function _switchTabUI(tabId) {
-            const sections = document.querySelectorAll('main section');
-            sections.forEach(section => {
-                section.classList.remove('active-section');
-                section.classList.add('hidden-section');
-                setTimeout(() => {
-                    if(!section.classList.contains('active-section')){
-                        section.style.display = 'none';
-                    }
-                }, 0); 
-            });
-            const target = document.getElementById(tabId);
-            if (target) {
-                target.style.display = 'block'; 
-                void target.offsetWidth; 
-                target.classList.remove('hidden-section');
-                target.classList.add('active-section');
-            }
-            document.getElementById('mobile-menu').classList.add('hidden');
-        }
-
-        function switchTab(tabId) {
-            _switchTabUI(tabId);
-            history.pushState({ page: tabId }, '', '#' + tabId);
-        }
-
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        }
-
-        // --- 2. FAMILY DATA & LOGIC ---
-        const studentsData = [
-            { name: "Ady Surya", nim: "2511038", ig: "@suryaadharm_", img: "https://i.ibb.co.com/3ycvDN0x/Ady.jpg", bioImg: "https://i.ibb.co.com/396vghCh/Ady-2.jpg", bio: "Saya orang yang menyukai berpetualang dan menikmati keindahan alam untuk menghilangkan kebosanan dan mengagumi ciptaan Tuhan, sungguh indah." },
-            { name: "A. Lubadul Fikri", nim: "2511046", ig: "@bangkriii_", img: "https://i.ibb.co.com/LDD9ZbFL/Fikri.jpg", bioImg: "https://i.ibb.co.com/prLDYGwg/Fikri-2.jpg", bio: "Seseorang yang berkepribadian introvert abizzz. Saya ingin melihat dan memahami dunia di luar sana.Saya tak ingin lenyap di dalam bagian beberapa penghalang yang ada ini tanpa mengetahui apa yang ada di luar sana." },
-            { name: "Alyvia Qurrotal A.", nim: "2511042 ", ig: "@piaa.ainiii", img: "https://i.ibb.co.com/j9kTSqVN/Alyvia.jpg", bioImg: "https://i.ibb.co.com/B21KKdQg/Alyvia-2.jpg", bio: "Saya dikenal sebagai pribadi yang ceria, aktif, dan antusias. Saya juga menyukai tentang hal-hal baru yang membuat saya berkembang." },
-            { name: "Anggun Lolyka H.", nim: "2511043", ig: "@_nnggunn_", img: "https://i.ibb.co.com/PZBVB5qN/Anggun.jpg", bioImg: "https://i.ibb.co.com/gMGhqBQn/Anggun-2.png", bio: "Saya orang yang kreatif dengan rasa ingin tahu yang tinggi. Saya senang mempelajari hal-hal baru dan bertemu orang-orang dari berbagai latar belakang karena saya percaya setiap orang memiliki keunikan tersendiri untuk dibagikan." },
-            { name: "Aqillah Mazaya", nim: "2511043", ig: "@aqilahmz._", img: "https://i.ibb.co.com/s9kRp6r0/Aqila.jpg", bioImg: "https://i.ibb.co.com/HLNnTg31/Aqila-2.jpg", bio: "Saya memiliki minat di bidang agama dan pendidikan. Saya berharap dapat menjadi pendidik yang amanah dan dapat membawa keberkahan bagi diri saya dan orang-orang di sekitar saya." },
-            { name: "Arina Manasika", nim: "2511065", ig: "@mnskaaa_", img: "https://i.ibb.co.com/HfFbTk5d/Arina.jpg", bioImg: "https://i.ibb.co.com/qYcRtzmh/Arina-2.jpg", bio: "Saya berusaha menjadi pribadi yang terus bertumbuh dan berani keluar dari zona nyaman, saya percaya bahwa setiap tantangan yang kita hadapi membentuk karakter dan membuka kesempatan baru untuk belajar." },
-            { name: "Devi Kurniasari", nim: "2511052", ig: "@devy____08", img: "https://i.ibb.co.com/jPpbP6mh/Devi.jpg", bioImg: "https://i.ibb.co.com/fzQ7pSBj/Devi-2.jpg", bio: "Saya pantang menyerah untuk meraih masa depan. Ke-depannya, saya ingin menjadi pribadi yang lebih baik." },
-            { name: "Elok Iis N.", nim: "2511060", ig: "@dhe.el", img: "https://i.ibb.co.com/b5dB7M6T/Elok.jpg", bioImg: "https://i.ibb.co.com/jvZ535PS/Elok-2.jpg", bio: "Senyum adalah sedekah termudah. Selalu berusaha menyebarkan positif vibes." },
-            { name: "Farihatul Azizah", nim: "2511037", ig: "@fariha_aziizah", img: "https://i.ibb.co.com/WvKp3sFy/Azizah.jpg", bioImg: "https://i.ibb.co.com/mC8myQFY/Azizah-2.jpg", bio: "Introvert, Bermimpilah dan raihlah mimpi itu dengan ilmu yang bermanfaat, serta berusaha menjadi pribadi yang lebih baik dari sebelumnya." },
-            { name: "Hanan Tsuroya A.", nim: "2511073", ig: "@hanan_akyasi", img: "https://i.ibb.co.com/ZRRX7M4p/Hanan.jpg", bioImg: "https://i.ibb.co.com/JwBMTXd3/Hanan-2.jpg", bio: "Saya sangat menyukai alam. Rumah saya di Kebumen dan saya sangat suka kuliah di IAINU Kebumen. Saya sangat menyukai kucing dan menikmati alam." },
-            { name: "Hanni Hasanati", nim: "2511068", ig: "@hannihsnt_", img: "https://i.ibb.co.com/WpRW8nk3/Hanni.jpg", bioImg: "https://i.ibb.co.com/ZpfVnYDx/Hanni-2.jpg", bio: "Saya anak kedua dari tiga bersaudara, dan semua saudara saya laki-laki. Saat ini saya kuliah di IAINU Kebumen, jurusan Pendidikan Agama Islam." },
-            { name: "Jembar Juli Y.", nim: "2511049", ig: "@jembarjulyy_", img: "https://i.ibb.co.com/cccBPB93/Juli.jpg", bioImg: "https://i.ibb.co.com/N2tbfsKz/Juli-2.jpg", bio: "Saya orang yang ceria dan periang. Saya suka tersenyum dan membuat orang lain merasa nyaman di sekitar saya. Dengan pandangan saya yang cerah dan optimis, saya selalu melihat sisi baik dari setiap situasi dan berusaha menyebarkan kebahagiaan kepada orang-orang di sekitar saya." },
-            { name: "Lusi Rahmah O.", nim: "2511080", ig: "@lusioktaviara", img: "https://i.ibb.co.com/LDqfr0GJ/Lusi.jpg", bioImg: "https://i.ibb.co.com/twy2986P/Lusi-2.jpg", bio: "Saya punya banyak impian untuk masa depan, terutama menjadi orang sukses, kaya, dan dermawan, dan masih banyak lagi impian." },
-            { name: "M. Hanif Fakhry", nim: "2511079", ig: "@hann_id1028", img: "https://i.ibb.co.com/3ytbB3bs/Fakhry.jpg", bioImg: "https://i.ibb.co.com/JRhVJy8b/Fakhry-2.jpg", bio: "Alhamdulillah saya mampu menguasai perangkat lunak desain seperti Canva, Solidwork, Panzoid, dll. Dan Alhamdulillah Saya juga memahami kebutuhan dan menerjemahkannya ke dalam desain pemodelan yang estetis dan fungsional. Saya berorientasi pada detail, imajinatif, dan selalu merencanakan ke depan." },
-            { name: "Pniel Munandar", nim: "2511053", ig: "@pniel76", img: "https://i.ibb.co.com/35y5ZszF/Pniel.jpg", bioImg: "https://i.ibb.co.com/9kkr0JjT/Pniel-2.jpg", bio: "Saya sangat suka bermain musik, terutama drum. Saya juga bekerja sebagai karyawan untuk mendapatkan penghasilan sendiri, tujuannya adalah untuk meringankan beban orang tua saya." },
-            { name: "Putri Dwi Astuti", nim: "2511061", ig: "@putridwia12_", img: "https://i.ibb.co.com/xK65ZXBK/Putri.jpg", bioImg: "https://i.ibb.co.com/bMYd4Smn/Putri-2.jpg", bio: "saya suka suasana yang damai dan sejuk karena membuat saya senang prinsip hidup saya adalah selalu berbuat yang terbaik dan cita cita saya ingin menjadi guru dan pengusaha yang sukses." },
-            { name: "Riska Ayu K.", nim: "2511039", ig: "@baiza_salma", img: "https://i.ibb.co.com/T6G584W/Ayu.jpg", bioImg: "https://i.ibb.co.com/bMXW2DBs/Ayu-2.jpg", bio: "Saya seorang pemikir, pemilih, dan individu yang sangat ambisius di dunia akademis. Saya bercita-cita menjadi pembicara yang baik dan anggota yang cakap di organisasi mana pun." },
-            { name: "Siti Ulfatur R.", nim: "2511077", ig: "@sssittt_____", img: "https://i.ibb.co.com/fVnxMnbM/Ulfa.jpg", bioImg: "https://i.ibb.co.com/qFWXZzNN/Ulfa-2.jpg", bio: "Saya anak pertama dari 3 bersaudara. Menjadi anak pertama memang tidak mudah, apalagi perempuan. Tapi saya selalu berusaha menikmati perjalanan hidup saya." },
-            { name: "Tsabita Hasna H.", nim: "2511071", ig: "@tsabitahasna.__", img: "https://i.ibb.co.com/DH2s9tsY/Tsabita.jpg", bioImg: "https://i.ibb.co.com/Y7jz2r8W/Tsabita-2.jpg", bio: "Saya adalah seseorang yang terus belajar dari setiap langkah. Luka menguatkan saya, doa menenangkan saya, dan harapan selalu membuat saya berdiri kembali." },
-            { name: "Ubaidillah M.", nim: "2511064", ig: "@muss_tffa", img: "https://i.ibb.co.com/8DTHNmN1/Ubaidillah.jpg", bioImg: "https://i.ibb.co.com/v41TxJYx/Ubay-2.jpg", bio: "Saya ubaid,pribadi yang percaya bahwa selama aku bernapas, selalu ada harapan untuk terus maju. Hidupku adalah perjalanan belajar dan berjuang, di mana setiap tantangan menjadi peluang untuk tumbuh dan menjadi lebih baik.Keinginan ku suatu saat nanti ingin menjadi manusia yang bermanfaat sesama manusia lain." },
-            { name: "Yoana Dian R.A.", nim: "2511054", ig: "@yoana.diaan", img: "https://i.ibb.co.com/8g9FF4zH/Yoana.jpg", bioImg: "https://i.ibb.co.com/nM5j9mkn/Yoana-2.png", bio: "Prinsip hidup saya adalah tetap bersyukur, jangan membandingkan diri dengan orang lain, karena setiap manusia punya prosesnya masing-masing. Cita-cita saya ke depannya adalah menjadi perempuan yang kaya ilmu dan mampu mengamalkannya." },
-            { name: "Youvischa Aulia A.", nim: "2511057", ig: "@youvischa_sinta", img: "https://i.ibb.co.com/DDBT5PS0/Youvischa.jpg", bioImg: "https://i.ibb.co.com/HTDNyxVD/Youvischa-2.jpg", bio: "Halo, nama saya Vischa. Saya anak tertua dari dua bersaudara. Saat ini saya kuliah di IAINU Kebumen, jurusan Pendidikan Agama Islam." },
-            { name: "Yuyun Lutfiyatul K.", nim: "2511051", ig: "@yuyunltfykh_", img: "https://i.ibb.co.com/mrhGkwVg/Yuyun.jpg", bioImg: "https://i.ibb.co.com/cK2mPg4S/Yuyun-2.jpg", bio: "Saya menyukai aktivitas memasak dan berkebun. Pengalaman paling menyenangkan saya adalah saat mendaki gunung." },
-            { name: "Zain Nur Fadilah", nim: "2511076", ig: "@Artyzeen08", img: "https://i.ibb.co.com/35LTF95t/Zain.jpg", bioImg: "https://i.ibb.co.com/DTLyKRx/Zain-2.png", bio: "Takdir menempatkan saya sebagai yang tertua di PAI B 2025, tapi itu hanyalah angka di atas kertas. Menjadi tua itu pasti, tapi menjadi dewasa dan berilmu adalah pilihan yang harus diperjuangkan dan saya masih berjuang untuk itu Maka, anggaplah saya teman diskusi yang setara. Mari kita buktikan bahwa PAI B 2025 bukan sekadar kelas kuliah, tapi inkubator persaudaraan dunia akhirat. Sukses kita bukan saat satu orang lari duluan ke garis finis, tapi saat kita semua saling gandeng tangan sampai tujuan." }
+        const names = [
+            "Ady Surya", "Ahmad Lubadul Fikri", "Alyvia Qurrotal ’Aini", "Anggun Lolyka Hastuti",
+            "Aqillah Mazaya", "Arina Manasika", "Devi Kurniasari", "Elok Iis Nurrohmah",
+            "Farikhatul Azizah", "Hanan Tsuroya Akyasi", "Hanni Hasanati", "Jembar Juli Yuasti",
+            "Lusi Rahmah Oktavia", "Muhammad Hanif Fakhry", "Pniel Munandar", "Putri Dwi Astuti",
+            "Riska Ayu Kesuma", "Siti Ulfatur Rohmah", "Tsabita Hasna Hanifah", "Ubaidillah Musthofa",
+            "Yoana Dian Riski Astuti", "Youvischa Aulia Arsynta", "Yuyun Lutfiyatul Kh", "Zain Nur Fadilah"
         ];
 
-        function generateStudents() {
-            const grid = document.getElementById('student-grid');
-            let html = '';
-            studentsData.forEach((student, index) => {
-                const bio = student.bio || "Mahasiswa PAI B 2025."; 
-                html += `
-                    <div onclick="openBioModal('${index}')" class="group cursor-pointer">
-                        <div class="relative overflow-hidden rounded-xl aspect-square border-2 border-transparent group-hover:border-red-500 transition-all duration-300 bg-gray-900">
-                            <div class="img-loading-skeleton z-0"><i class="fas fa-spinner fa-spin text-red-900 text-2xl"></i></div>
-                            <img src="${student.img}" alt="${student.name}" 
-                                 class="relative z-10 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:scale-110"
-                                 onload="this.classList.replace('opacity-0', 'opacity-100')"
-                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=random&size=200'; this.classList.replace('opacity-0', 'opacity-100');">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-20 pointer-events-none"></div>
-                            <div class="absolute bottom-2 left-2 right-2 z-20 pointer-events-none">
-                                <p class="text-white font-bold text-sm truncate group-hover:text-red-400 transition-colors">${student.name}</p>
-                            </div>
+        let attendanceData = {}; 
+        let activityLogs = [];   
+        let selectedNames = new Set();
+        let currentActivityType = null;
+        let pendingWhatsappMessage = "";
+        let isDropdownOpen = false;
+
+        const nameContainer = document.getElementById('nameContainer');
+        const dateDisplay = document.getElementById('currentDateDisplay');
+
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const dateString = today.toLocaleDateString('id-ID', options);
+        dateDisplay.innerText = dateString;
+
+        function initAttendance() {
+            names.forEach(name => { attendanceData[name] = 'Hadir'; });
+        }
+        initAttendance();
+
+        function initList() {
+            nameContainer.innerHTML = '';
+            names.forEach((name, index) => {
+                const div = document.createElement('div');
+                div.id = `person-${index}`;
+                // Default class
+                div.className = `glass-item p-3 rounded flex items-center justify-between text-sm select-none status-hadir cursor-pointer hover:bg-white/10`;
+                div.onclick = () => toggleSelection(name, index);
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="opacity-50 w-6 text-right">${index + 1}.</span>
+                        <span class="font-medium">${name}</span>
+                        <span class="status-text text-[10px] opacity-75 font-bold ml-1 uppercase tracking-wider"></span>
+                    </div>
+                    <div class="indicator w-2.5 h-2.5 rounded-full bg-white/10 transition-colors duration-300"></div>
+                `;
+                nameContainer.appendChild(div);
+            });
+        }
+
+        function updateListItem(index) {
+            const name = names[index];
+            const div = document.getElementById(`person-${index}`);
+            if (!div) return;
+            const status = attendanceData[name];
+            const isSelected = selectedNames.has(name);
+            const statusTextSpan = div.querySelector('.status-text');
+            const indicator = div.querySelector('.indicator');
+
+            // Reset Classes
+            div.className = `glass-item p-3 rounded flex items-center justify-between text-sm select-none cursor-pointer hover:bg-white/10`;
+            
+            // Apply Selection Style
+            if (isSelected) div.classList.add('selected');
+
+            // Apply Status Logic & Locking
+            if (status === 'Hadir') {
+                div.classList.add('status-hadir');
+                statusTextSpan.innerText = '';
+                statusTextSpan.classList.remove('text-yellow-300', 'text-red-300', 'text-gray-300');
+            } else {
+                // LOCK LOGIC: Jika status BUKAN Hadir, maka item terkunci.
+                div.classList.add('locked');
+                div.onclick = () => showToast("Data sudah dikunci. Klik Refresh untuk ulang."); // Override click handler
+                
+                if (status === 'Izin') {
+                    div.classList.add('status-izin');
+                    statusTextSpan.innerText = 'IZIN';
+                    statusTextSpan.classList.add('text-yellow-300');
+                }
+                else if (status === 'Sakit') {
+                    div.classList.add('status-sakit');
+                    statusTextSpan.innerText = 'SAKIT';
+                    statusTextSpan.classList.add('text-red-300');
+                }
+                else if (status === 'Alpha') {
+                    div.classList.add('status-alpha');
+                    statusTextSpan.innerText = 'ALPHA';
+                    statusTextSpan.classList.add('text-gray-300');
+                }
+            }
+
+            indicator.className = `indicator w-2.5 h-2.5 rounded-full ${isSelected ? 'bg-emerald-400 shadow-[0_0_8px_#34d399]' : 'bg-white/10'}`;
+        }
+
+        function refreshAllList() { names.forEach((_, index) => updateListItem(index)); }
+
+        function toggleSelection(name, index) {
+            // Cek apakah item terkunci (status sudah diubah sebelumnya)
+            if (attendanceData[name] !== 'Hadir') {
+                showToast("Nama ini sudah diisi (Terkunci)");
+                return;
+            }
+
+            if (selectedNames.has(name)) selectedNames.delete(name);
+            else selectedNames.add(name);
+            updateListItem(index); 
+        }
+
+        function resetAllData() {
+            initAttendance();
+            activityLogs = [];
+            selectedNames.clear();
+            document.getElementById('activityNote').value = '';
+            if(isDropdownOpen) toggleActivityDropdown();
+            
+            // Re-bind click handlers karena updateListItem mungkin mengubahnya saat locked
+            nameContainer.innerHTML = '';
+            initList(); // Re-build list to reset event listeners clean
+            
+            refreshAllList();
+            renderActivityPreview();
+            showToast("Semua data di-reset");
+        }
+
+        function markAllPresent() {
+            // Ini akan mereset status 'locked' menjadi Hadir semua
+            names.forEach(name => {
+                attendanceData[name] = 'Hadir';
+                // Tidak perlu select semua, cukup set status Hadir
+                // Tapi user minta "Hadir Semua" klik -> terpilih -> kirim
+                // Kita anggap "Hadir Semua" = Reset status ke Hadir (Default)
+            });
+            
+            // Kosongkan selection agar rapi
+            selectedNames.clear();
+            
+            // Rebuild untuk hilangkan lock handler
+            nameContainer.innerHTML = '';
+            initList();
+            refreshAllList();
+            
+            showToast("Semua ditandai Hadir");
+        }
+
+        function setStatusForSelected(status) {
+            if (selectedNames.size === 0) { showToast("⚠️ Pilih nama dulu!"); return; }
+            
+            const indicesToUpdate = [];
+            selectedNames.forEach(name => {
+                attendanceData[name] = status;
+                const idx = names.indexOf(name);
+                if(idx !== -1) indicesToUpdate.push(idx);
+            });
+            
+            // Clear selection setelah set status
+            selectedNames.clear();
+            
+            // Update UI (akan memicu lock)
+            indicesToUpdate.forEach(idx => updateListItem(idx));
+            showToast(`✅ Status disimpan: ${status}`);
+        }
+
+        function setActivityType(btn, type) {
+            document.querySelectorAll('.act-btn').forEach(b => {
+                b.classList.remove('bg-blue-500', 'text-white', 'font-bold');
+                b.classList.add('glass-item');
+            });
+            btn.classList.remove('glass-item');
+            btn.classList.add('bg-blue-500', 'text-white', 'font-bold');
+            currentActivityType = type;
+        }
+
+        function addActivityLog() {
+            const note = document.getElementById('activityNote').value;
+            if (selectedNames.size === 0) { showToast("⚠️ Pilih nama mahasiswa dulu!"); return; }
+            if (!currentActivityType) { showToast("⚠️ Pilih jenis aktivitas!"); return; }
+            if (!note.trim()) { showToast("⚠️ Isi catatan aktivitas!"); return; }
+
+            const indicesToUpdate = [];
+            selectedNames.forEach(name => {
+                activityLogs.push({ name: name, type: currentActivityType, note: note });
+                const idx = names.indexOf(name);
+                if(idx !== -1) indicesToUpdate.push(idx);
+            });
+            document.getElementById('activityNote').value = '';
+            selectedNames.clear();
+            indicesToUpdate.forEach(idx => updateListItem(idx));
+            renderActivityPreview();
+            
+            if (!isDropdownOpen) toggleActivityDropdown();
+            showToast("✅ Aktivitas ditambahkan");
+        }
+
+        function toggleActivityDropdown() {
+            isDropdownOpen = !isDropdownOpen;
+            const content = document.getElementById('activityDropdownContent');
+            const chevron = document.getElementById('activityChevron');
+            
+            if (isDropdownOpen) {
+                content.classList.add('open');
+                chevron.classList.add('rotate-180');
+            } else {
+                content.classList.remove('open');
+                chevron.classList.remove('rotate-180');
+            }
+        }
+
+        function renderActivityPreview() {
+            const container = document.getElementById('activityListContainer');
+            const header = document.getElementById('activityHeader');
+            container.innerHTML = '';
+            
+            header.innerText = `Daftar Aktivitas (${activityLogs.length})`;
+
+            if (activityLogs.length > 0) {
+                activityLogs.forEach((log, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'text-[10px] bg-white/5 p-2 rounded flex justify-between items-start border border-white/10';
+                    div.innerHTML = `
+                        <div>
+                            <span class="font-bold text-blue-200">${log.name}</span>
+                            <span class="opacity-70 mx-1">=</span>
+                            <span class="text-emerald-200">${log.type}</span>
+                            <span class="italic opacity-70">"${log.note}"</span>
                         </div>
-                    </div>
-                `;
-            });
-            grid.innerHTML = html;
-        }
-
-        // --- 3. MEDIA & SEARCH DATA LOGIC ---
-        // Defines existing files (Data awal 8 file)
-        const existingMedia = [
-            { type: 'video', src: 'JJ 1.mp4', title: 'JJ', ratio: 'aspect-[9/16]' },
-            { type: 'image', src: 'PAI B.jpg', title: 'Logo', ratio: 'aspect-square' },
-            { type: 'video', src: 'English Tim.mp4', title: 'English Game', ratio: 'aspect-video' },
-            { type: 'image', src: 'Fotbar Sekelas 2.jpg', title: 'Fotbar', ratio: 'aspect-[4/5]' },
-            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Clip', ratio: 'aspect-[4/5]' },
-            { type: 'image', src: 'Series PAI B.jpg', title: 'PAI B SERIES', ratio: 'aspect-video' },
-            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Vlog', ratio: 'aspect-square' },
-            { type: 'image', src: 'Fotbar Sekelas.jpg', title: 'Fotbar', ratio: 'aspect-[9/16]' }
-        ];
-
-        // --- LIBRARY DATA: 25 SLOT YANG SIAP DIISI ---
-        // SAYA SUDAH SIAPKAN 25 OBJECT DI SINI. 
-        // ANDA TINGGAL GANTI 'src' (LINK GAMBAR/VIDEO) DAN 'title' (JUDUL).
-        // TIPE BISA 'image' ATAU 'video'.
-        // UPDATE: Placeholder 'src' untuk video diisi 'JJ 1.mp4' agar bisa diklik sebagai demo.
-        const allFilesData = [
-            // --- 1 SAMPAI 8 (DATA LAMA) ---
-            ...existingMedia,
-
-            // --- 9 SAMPAI 25 (SLOT BARU SIAP PAKAI) ---
-            // Slot 9
-            { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+9', title: '-', ratio: 'aspect-[3/4]' },
-            
-            // Slot 10 (VIDEO - Placeholder Active)
-            { type: 'video', src: 'JJ 1.mp4', title: 'Video 10', ratio: 'aspect-[9/16]' },
-
-            // Slot 11
-            { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+11', title: '-', ratio: 'aspect-video' },
-
-            // Slot 12
-            { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+12', title: '-', ratio: 'aspect-square' },
-
-            // Slot 13 (VIDEO - Placeholder Active)
-            { type: 'video', src: 'JJ 1.mp4', title: 'Video 13', ratio: 'aspect-[4/5]' },
-
-            // Slot 14
-            { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+14', title: '-', ratio: 'aspect-[9/16]' },
-
-            // Slot 15
-            { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+15', title: '-', ratio: 'aspect-video' },
-
-            // Slot 16 (VIDEO - Placeholder Active)
-            { type: 'video', src: 'JJ 1.mp4', title: 'Video 16', ratio: 'aspect-square' },
-
-            // Slot 17
-            { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+17', title: '-', ratio: 'aspect-[3/4]' },
-
-            // Slot 18
-            { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+18', title: '-', ratio: 'aspect-square' },
-
-            // Slot 19 (VIDEO - Placeholder Active)
-            { type: 'video', src: 'JJ 1.mp4', title: 'Video 19', ratio: 'aspect-[9/16]' },
-
-            // Slot 20
-            { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+20', title: '-', ratio: 'aspect-video' },
-
-            // Slot 21
-            { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+21', title: '-', ratio: 'aspect-[4/5]' },
-
-            // Slot 22 (VIDEO - Placeholder Active)
-            { type: 'video', src: 'JJ 1.mp4', title: 'Video 22', ratio: 'aspect-square' },
-
-            // Slot 23
-            { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+23', title: '-', ratio: 'aspect-[9/16]' },
-
-            // Slot 24
-            { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+24', title: '-', ratio: 'aspect-video' },
-
-            // Slot 25
-            { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+25', title: '-', ratio: 'aspect-square' }
-        ];
-
-
-        // Function to render the Main Documentation Grid (Filtered)
-        function renderMainDocGrid(filter = "") {
-            const container = document.getElementById('documentation-grid');
-            let html = '';
-            
-            // Only show the original 8 items OR filtered items from the full list
-            // If filter exists, search ALL data. If no filter, show only Top 8.
-            let itemsToShow = filter ? allFilesData : existingMedia;
-
-            itemsToShow.forEach(item => {
-                // Search Filter
-                if (filter && !item.title.toLowerCase().includes(filter.toLowerCase())) return;
-
-                html += createMediaCard(item);
-            });
-
-            if(html === '') {
-                html = `<div class="col-span-3 text-center text-gray-500 py-10">No media found matching "${filter}"</div>`;
-            }
-            container.innerHTML = html;
-        }
-
-        // Function to render All Files Grid (The 25 slots)
-        function renderAllFilesGrid() {
-            const container = document.getElementById('all-files-grid');
-            let html = '';
-            
-            allFilesData.forEach(item => {
-                // Semua item dirender sebagai kartu media asli (bukan placeholder kosong)
-                html += createMediaCard(item, true); 
-            });
-            container.innerHTML = html;
-        }
-
-        // Helper to create HTML string for a media card
-        function createMediaCard(item, isSmall = false) {
-             // mb-6 for main grid, mb-4 for dense grid
-            const margin = isSmall ? 'mb-4' : 'mb-6'; 
-            
-            // Custom Styling for Logo (Circle)
-            // Cek jika rasionya square (1:1) DAN judulnya mengandung kata "Logo"
-            const isLogo = item.ratio === 'aspect-square' && item.title.toLowerCase().includes('logo');
-            
-            // Jika Logo: Rounded Full (Lingkaran) + Border + Shadow Khusus
-            // Jika Bukan: Rounded XL biasa
-            const shapeClass = isLogo 
-                ? `rounded-full aspect-square border-4 border-red-600/30 shadow-[0_0_25px_rgba(220,38,38,0.4)]` 
-                : `rounded-xl ${item.ratio}`;
-
-            // Adjust text position for circle (centered) vs standard (bottom-left)
-            const textPosition = isLogo 
-                ? 'inset-0 flex items-end justify-center pb-6' 
-                : 'bottom-4 left-4';
-
-            if (item.type === 'video') {
-                return `
-                <div class="break-inside-avoid relative group ${shapeClass} overflow-hidden glass-panel cursor-pointer ${margin}" onclick="openMediaModal('video', '${item.src}')">
-                    <div class="w-full h-full bg-black/50 flex items-center justify-center">
-                        ${item.src ? 
-                            `<video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
-                                <source src="${item.src}" type="video/mp4">
-                             </video>` 
-                            : `<i class="fas fa-video text-gray-600 text-4xl"></i>` // Placeholder icon if src empty
-                        }
-                    </div>
-                    <div class="play-overlay"><i class="fas fa-play"></i></div>
-                    <div class="absolute z-10 ${textPosition}">
-                        <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded shadow-lg">${item.title}</span>
-                    </div>
-                </div>`;
+                        <button onclick="removeLog(${idx})" class="text-red-400 hover:text-red-300 font-bold px-1">x</button>
+                    `;
+                    container.appendChild(div);
+                });
             } else {
-                return `
-                <div class="break-inside-avoid relative group ${shapeClass} overflow-hidden glass-panel cursor-pointer ${margin}" onclick="openMediaModal('image', '${item.src}')">
-                    <img src="${item.src}" alt="${item.title}" 
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            onerror="this.src='https://placehold.co/600x800/1a0505/FFF?text=No+Image';">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                    <div class="absolute ${textPosition}">
-                        <h3 class="text-lg font-bold text-white drop-shadow-md">${item.title}</h3>
-                    </div>
-                </div>`;
+                container.innerHTML = '<div class="text-[10px] text-center opacity-50 italic py-2">Belum ada aktivitas</div>';
             }
         }
 
-        function initDocumentation() {
-            renderMainDocGrid();
+        function removeLog(index) {
+            activityLogs.splice(index, 1);
+            renderActivityPreview();
         }
 
-        // Search Handler
-        function handleSearch(event) {
-            // Trigger on Enter key or direct call
-            if (event.key === 'Enter' || event.type === 'click' || event.type === 'keyup') {
-                const query = document.getElementById('doc-search').value;
-                renderMainDocGrid(query);
-            }
-        }
-
-        // --- 4. ALL FILES MODAL LOGIC ---
-        function openAllFiles() {
-            renderAllFilesGrid();
-            const modal = document.getElementById('all-files-overlay');
-            modal.classList.add('open');
-            document.body.style.overflow = 'hidden';
-            history.pushState({ page: 'all-files' }, '', '#all-files');
-        }
-
-        function closeAllFiles() {
-            const modal = document.getElementById('all-files-overlay');
-            modal.classList.remove('open');
-            document.body.style.overflow = 'auto';
-            history.replaceState({ page: 'documentation' }, '', '#documentation');
-        }
-
-        // --- NAVIGATION STATE HANDLER ---
         window.addEventListener('popstate', function(event) {
-            const state = event.state || { page: 'home' };
-            
-            const bioModal = document.getElementById('bio-modal');
-            const mediaModal = document.getElementById('media-modal');
-            const familyGallery = document.getElementById('family-gallery');
-            const allFilesModal = document.getElementById('all-files-overlay');
-            const mediaContainer = document.getElementById('media-container');
-
-            // Handle Media Close & Music Resume
-            if (mediaModal.classList.contains('active')) {
-                if (mediaContainer.dataset.mediaType === 'video') {
-                    const bgMusic = document.getElementById('bg-music');
-                    const musicBtn = document.getElementById('music-btn'); 
-                    if (bgMusic && bgMusic.dataset.wasPlaying === "true") {
-                        bgMusic.play().catch(e => console.log(e));
-                        if(musicBtn) {
-                             musicBtn.innerHTML = '<i class="fas fa-music"></i>';
-                             musicBtn.classList.add('music-pulse');
-                             isPlaying = true;
-                        }
-                    }
-                }
-                mediaContainer.innerHTML = '';
-            }
-
-            // Reset All Modals
-            bioModal.classList.remove('active');
-            mediaModal.classList.remove('active');
-            
-            // Handle Fullscreen Overlays
-            if (state.page === 'family-gallery' || state.page === 'bio-details') {
-                familyGallery.classList.add('open');
-                allFilesModal.classList.remove('open');
-                document.body.style.overflow = 'hidden';
-            } 
-            else if (state.page === 'all-files') {
-                allFilesModal.classList.add('open');
-                familyGallery.classList.remove('open');
-                document.body.style.overflow = 'hidden';
-            }
-            else {
-                familyGallery.classList.remove('open');
-                allFilesModal.classList.remove('open');
-                document.body.style.overflow = 'auto';
-            }
-
-            // Handle Main Tabs
-            if (['home', 'structure', 'documentation'].includes(state.page)) {
-                _switchTabUI(state.page);
-            }
+            const modal = document.getElementById('confirmModal');
+            if (!modal.classList.contains('hidden')) { modal.classList.add('hidden'); }
         });
 
-        // Toggle functions for close buttons (logic sync with popstate)
-        function toggleFamilyGallery() {
-            const gallery = document.getElementById('family-gallery');
-            if (gallery.classList.contains('open')) {
-                gallery.classList.remove('open');
-                document.body.style.overflow = 'auto';
-                const activeSection = document.querySelector('.active-section');
-                history.replaceState({ page: activeSection ? activeSection.id : 'home' }, '', '#' + (activeSection ? activeSection.id : 'home'));
-            } else {
-                gallery.classList.add('open');
-                document.body.style.overflow = 'hidden';
-                history.pushState({ page: 'family-gallery' }, '', '#family');
-            }
-        }
+        function prepareWhatsapp() {
+            const presentList = names.filter(name => attendanceData[name] === 'Hadir');
+            const absentList = names.filter(name => attendanceData[name] !== 'Hadir');
 
-        // --- 5. BIO MODAL ---
-        function openBioModal(index) {
-            const student = studentsData[index];
-            const modal = document.getElementById('bio-modal');
-            const content = document.getElementById('bio-content');
+            let message = `*Daftar Kehadiran Mahasiswa PAI 1B*\n`;
+            message += `*Tanggal : ${dateString}*\n`; 
             
-            document.getElementById('modal-name').innerText = student.name;
-            document.getElementById('modal-nim').innerText = "NIM: " + student.nim;
+            if (presentList.length > 0) {
+                presentList.forEach((name, index) => {
+                    message += `${index + 1}. ${name.toUpperCase()}\n`;
+                });
+            } else { message += `(Tidak ada yang hadir)\n`; }
+
+            message += `\n*Daftar Tidak Hadir Mahasiswa PAI 1B*\n`;
+            if (absentList.length === 0) { message += `• NIHIL\n`; } 
+            else {
+                absentList.forEach(name => {
+                    const status = attendanceData[name];
+                    let textStatus = status;
+                    if (status === 'Alpha') textStatus = 'Tanpa Keterangan';
+                    message += `• ${name} (${textStatus})\n`;
+                });
+            }
+
+            message += `\n*Daftar Nama Mahasiswa Aktif Kegiatan Perkuliahan (Bertanya, Menjawab, & Menyanggah)*\n`;
+            if (activityLogs.length === 0) { message += `• Tidak ada.`; } 
+            else {
+                activityLogs.forEach(log => {
+                    message += `• ${log.name} : ${log.type} "${log.note}"\n`;
+                });
+            }
             
-            const igContainer = document.getElementById('modal-ig');
-            if(student.ig === '-' || student.ig === '') {
-                igContainer.innerHTML = `<span class="text-gray-500">-</span>`;
-            } else {
-                const username = student.ig.replace('@', '').trim();
-                igContainer.innerHTML = `<a href="https://www.instagram.com/${username}" target="_blank" rel="noopener noreferrer" class="text-lg text-white font-medium hover:text-red-400 transition cursor-pointer flex items-center gap-1">${student.ig} <i class="fas fa-external-link-alt text-xs ml-1 opacity-50"></i></a>`;
-            }
-            document.getElementById('modal-bio').innerText = `"${student.bio}"`;
-            const imgElement = document.getElementById('modal-img');
-            const loaderElement = document.getElementById('modal-img-loader');
-            imgElement.classList.remove('img-loaded');
-            imgElement.style.opacity = '0';
-            loaderElement.style.display = 'flex'; 
-            imgElement.onload = function() {
-                imgElement.style.opacity = '1';
-                loaderElement.style.display = 'none'; 
-            };
-            imgElement.onerror = function() {
-                this.onerror = null;
-                this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=random&size=400`;
-                imgElement.style.opacity = '1';
-                loaderElement.style.display = 'none';
-            };
-            imgElement.src = student.bioImg;
-
-            modal.classList.add('active');
-            content.classList.remove('scale-95');
-            content.classList.add('scale-100');
-            history.pushState({ page: 'bio-details' }, '', '#student-bio');
+            pendingWhatsappMessage = message;
+            document.getElementById('confirmModal').classList.remove('hidden');
+            history.pushState({ modalOpen: true }, "", "#confirm");
         }
 
-        function closeBioModal(e, force = false) {
-            if (e && !force) {
-                const content = document.getElementById('bio-content');
-                if (content.contains(e.target)) return;
-            }
-            document.getElementById('bio-modal').classList.remove('active');
-            history.replaceState({ page: 'family-gallery' }, '', '#family');
+        function closeConfirmModal() { history.back(); }
+
+        function proceedToWhatsapp() {
+            const encodedMessage = encodeURIComponent(pendingWhatsappMessage);
+            window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+            resetAllData();
+            history.back();
         }
 
-        // --- 6. MEDIA MODAL ---
-        function openMediaModal(type, src) {
-            // Prevent opening if src is empty (for placeholders)
-            if(!src) return;
-
-            if (type === 'video') {
-                const bgMusic = document.getElementById('bg-music');
-                if (bgMusic && !bgMusic.paused) {
-                    bgMusic.pause();
-                    bgMusic.dataset.wasPlaying = "true";
-                }
-            }
-            const modal = document.getElementById('media-modal');
-            const container = document.getElementById('media-container');
-            
-            if (type === 'video') {
-                container.innerHTML = `
-                    <div class="bg-black w-full h-full flex items-center justify-center">
-                        <video controls autoplay class="w-full h-auto max-h-[85vh]">
-                            <source src="${src}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>`;
-                container.dataset.mediaType = 'video';
-            } else {
-                // Update structure for Zoomable Image
-                container.innerHTML = `
-                    <img src="${src}" class="w-full h-auto max-h-[85vh] object-contain bg-black" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';">
-                `;
-                container.dataset.mediaType = 'image';
-            }
-            modal.classList.add('active');
-            history.pushState({ page: 'media-preview' }, '', '#preview');
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.remove('opacity-0', 'translate-y-[-20px]');
+            setTimeout(() => { toast.classList.add('opacity-0', 'translate-y-[-20px]'); }, 2500);
         }
 
-        function closeMediaModal(e, force = false) {
-            if (e && !force) {
-                 const container = document.getElementById('media-container');
-                 if (container.contains(e.target)) return;
-            }
-            const container = document.getElementById('media-container');
-            if (container.dataset.mediaType === 'video') {
-                 const bgMusic = document.getElementById('bg-music');
-                 const musicBtn = document.getElementById('music-btn'); 
-                 if (bgMusic && bgMusic.dataset.wasPlaying === "true") {
-                     bgMusic.play().catch(e => console.log(e));
-                     if(musicBtn) {
-                         musicBtn.innerHTML = '<i class="fas fa-music"></i>';
-                         musicBtn.classList.add('music-pulse');
-                         isPlaying = true;
-                     }
-                 }
-            }
-            container.innerHTML = ''; 
-            document.getElementById('media-modal').classList.remove('active');
-            
-            // Check where to go back
-            const allFilesModal = document.getElementById('all-files-overlay');
-            if(allFilesModal.classList.contains('open')) {
-                 history.replaceState({ page: 'all-files' }, '', '#all-files');
-            } else {
-                 history.replaceState({ page: 'documentation' }, '', '#documentation');
-            }
-        }
-        
-        function previewVideo(video) {
-            video.muted = true;
-            var playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {}).catch(error => { if (error.name !== 'AbortError') console.log("Prev prevented"); });
-            }
-        }
-
-        function stopPreview(video) {
-            video.pause();
-            video.currentTime = 0; 
-        }
+        initList(); 
+        refreshAllList(); 
+        renderActivityPreview(); 
     </script>
 </body>
 </html>
-
