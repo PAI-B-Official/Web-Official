@@ -47,7 +47,7 @@
             transition: all 0.2s ease;
         }
 
-        /* FIX MOBILE: Hanya animasi tekan jika TIDAK terkunci */
+        /* Animasi Tekan (Aktif di semua device untuk item yang tidak terkunci) */
         .glass-item:not(.locked):active { transform: scale(0.98); }
 
         .glass-item.selected {
@@ -62,7 +62,7 @@
             background: rgba(0, 0, 0, 0.3);
             border-color: transparent;
             cursor: not-allowed;
-            pointer-events: auto; /* Agar bisa diklik untuk toast warning */
+            pointer-events: auto;
         }
 
         /* Status Colors */
@@ -127,22 +127,21 @@
             overflow: hidden;
         }
         .dropdown-content.open {
-            /* Set tinggi sangat besar agar konten tidak terpotong (tidak scroll di dalam) */
             max-height: 2000px; 
             opacity: 1;
         }
     </style>
 </head>
-<body class="p-3 sm:p-4">
+<body class="p-3">
 
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
-    <main class="w-full max-w-lg glass-box rounded-2xl p-4 sm:p-5 relative z-10 flex flex-col gap-3 h-full max-h-[95vh]">
+    <main class="w-full max-w-lg glass-box rounded-2xl p-4 relative z-10 flex flex-col gap-3 h-full max-h-[95vh]">
         <header class="text-center border-b border-white/20 pb-2 shrink-0">
             <img src="IAINU.jpg" alt="Logo" class="static-logo" onerror="this.style.display='none'">
-            <h1 class="text-lg sm:text-xl font-bold tracking-wider text-emerald-300">PRESENSI KEHADIRAN MAHASISWA PAI B</h1>
-            <p class="text-[10px] sm:text-xs text-emerald-100/70" id="currentDateDisplay"></p>
+            <h1 class="text-lg font-bold tracking-wider text-emerald-300">PRESENSI KEHADIRAN MAHASISWA PAI B</h1>
+            <p class="text-[10px] text-emerald-100/70" id="currentDateDisplay"></p>
         </header>
 
         <!-- Daftar Nama (Area ini Tetap Fixed 5 Baris + Scroll Internal) -->
@@ -156,7 +155,6 @@
                 </button>
             </div>
             
-            <!-- max-height 280px = sekitar 5 baris -->
             <div class="space-y-1 overflow-y-auto pr-1 custom-scrollbar" id="nameContainer" style="max-height: 280px;">
                 <!-- List akan di-render di sini -->
             </div>
