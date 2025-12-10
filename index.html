@@ -256,6 +256,10 @@
             opacity: 1;
             pointer-events: auto;
         }
+        /* FIX ANDROID TV: Remove outline when focused for scrolling */
+        .fullscreen-overlay:focus {
+            outline: none;
+        }
 
         /* Bio Modal & Media Modal */
         .custom-modal {
@@ -277,6 +281,10 @@
         .custom-modal.active {
             opacity: 1;
             pointer-events: auto;
+        }
+        /* FIX ANDROID TV: Make sure content is focusable without ugly border */
+        #bio-content:focus {
+            outline: none;
         }
 
         /* Styling untuk List Info di Bio agar lebih rapi */
@@ -794,7 +802,8 @@
     </div>
 
     <!-- FAMILY GALLERY OVERLAY (Hidden by default) -->
-    <div id="family-gallery" class="fullscreen-overlay">
+    <!-- ANDROID TV FIX: Added tabindex="0" so the overlay can receive focus -->
+    <div id="family-gallery" class="fullscreen-overlay" tabindex="0">
         <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
             <button onclick="toggleFamilyGallery()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
                 <i class="fas fa-times"></i>
@@ -808,7 +817,8 @@
     </div>
 
     <!-- ALL FILES OVERLAY (New Feature) -->
-    <div id="all-files-overlay" class="fullscreen-overlay">
+    <!-- ANDROID TV FIX: Added tabindex="0" so the overlay can receive focus -->
+    <div id="all-files-overlay" class="fullscreen-overlay" tabindex="0">
         <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
             <button onclick="closeAllFiles()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
                 <i class="fas fa-times"></i>
@@ -828,7 +838,8 @@
 
     <!-- BIO MODAL -->
     <div id="bio-modal" class="custom-modal" onclick="closeBioModal(event)">
-        <div id="bio-content" class="glass-panel w-[90%] md:w-full max-w-6xl max-h-[90vh] md:max-h-[85vh] overflow-y-auto transform scale-95 transition-all duration-300 rounded-2xl flex flex-col md:flex-row bg-black/90 border border-red-500/30 shadow-2xl relative overflow-hidden">
+        <!-- ANDROID TV FIX: Added tabindex="0" to the content container -->
+        <div id="bio-content" class="glass-panel w-[90%] md:w-full max-w-6xl max-h-[90vh] md:max-h-[85vh] overflow-y-auto transform scale-95 transition-all duration-300 rounded-2xl flex flex-col md:flex-row bg-black/90 border border-red-500/30 shadow-2xl relative overflow-hidden" tabindex="0">
             <div class="w-full md:w-5/12 aspect-[9/16] relative bg-gray-900 group shrink-0">
                 <div id="modal-img-loader" class="img-loading-skeleton">
                     <i class="fas fa-spinner fa-spin text-red-900 text-4xl"></i>
@@ -1050,17 +1061,13 @@
             { type: 'image', src: 'PAI B.jpg', title: 'Logo', ratio: 'aspect-square' },
             { type: 'video', src: 'English Tim.mp4', title: 'English Game', ratio: 'aspect-video' },
             { type: 'image', src: 'Fotbar Sekelas 2.jpg', title: 'Fotbar', ratio: 'aspect-[4/5]' },
-            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Clip', ratio: 'aspect-[4/5]' },
+            { type: 'video', src: '.mp4', title: 'Clip', ratio: 'aspect-[4/5]' },
             { type: 'image', src: 'Series PAI B.jpg', title: 'PAI B SERIES', ratio: 'aspect-video' },
-            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Vlog', ratio: 'aspect-square' },
+            { type: 'video', src: '.mp4', title: 'Vlog', ratio: 'aspect-square' },
             { type: 'image', src: 'Fotbar Sekelas.jpg', title: 'Fotbar', ratio: 'aspect-[9/16]' }
         ];
 
         // --- LIBRARY DATA: 25 SLOT YANG SIAP DIISI ---
-        // SAYA SUDAH SIAPKAN 25 OBJECT DI SINI. 
-        // ANDA TINGGAL GANTI 'src' (LINK GAMBAR/VIDEO) DAN 'title' (JUDUL).
-        // TIPE BISA 'image' ATAU 'video'.
-        // UPDATE: Placeholder 'src' untuk video diisi 'JJ 1.mp4' agar bisa diklik sebagai demo.
         const allFilesData = [
             // --- 1 SAMPAI 8 (DATA LAMA) ---
             ...existingMedia,
@@ -1070,7 +1077,7 @@
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+9', title: '-', ratio: 'aspect-[3/4]' },
             
             // Slot 10 (VIDEO - Placeholder Active)
-            { type: 'video', src: 'JJ 1.mp4', title: 'Video 10', ratio: 'aspect-[9/16]' },
+            { type: 'video', src: '.mp4', title: 'Video 10', ratio: 'aspect-[9/16]' },
 
             // Slot 11
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+11', title: '-', ratio: 'aspect-video' },
@@ -1079,7 +1086,7 @@
             { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+12', title: '-', ratio: 'aspect-square' },
 
             // Slot 13 (VIDEO - Placeholder Active)
-            { type: 'video', src: 'JJ 1.mp4', title: 'Video 13', ratio: 'aspect-[4/5]' },
+            { type: 'video', src: '.mp4', title: 'Video 13', ratio: 'aspect-[4/5]' },
 
             // Slot 14
             { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+14', title: '-', ratio: 'aspect-[9/16]' },
@@ -1088,7 +1095,7 @@
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+15', title: '-', ratio: 'aspect-video' },
 
             // Slot 16 (VIDEO - Placeholder Active)
-            { type: 'video', src: 'JJ 1.mp4', title: 'Video 16', ratio: 'aspect-square' },
+            { type: 'video', src: '.mp4', title: 'Video 16', ratio: 'aspect-square' },
 
             // Slot 17
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+17', title: '-', ratio: 'aspect-[3/4]' },
@@ -1097,7 +1104,7 @@
             { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+18', title: '-', ratio: 'aspect-square' },
 
             // Slot 19 (VIDEO - Placeholder Active)
-            { type: 'video', src: 'JJ 1.mp4', title: 'Video 19', ratio: 'aspect-[9/16]' },
+            { type: 'video', src: '.mp4', title: 'Video 19', ratio: 'aspect-[9/16]' },
 
             // Slot 20
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+20', title: '-', ratio: 'aspect-video' },
@@ -1106,7 +1113,7 @@
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+21', title: '-', ratio: 'aspect-[4/5]' },
 
             // Slot 22 (VIDEO - Placeholder Active)
-            { type: 'video', src: 'JJ 1.mp4', title: 'Video 22', ratio: 'aspect-square' },
+            { type: 'video', src: '.mp4', title: 'Video 22', ratio: 'aspect-square' },
 
             // Slot 23
             { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+23', title: '-', ratio: 'aspect-[9/16]' },
@@ -1223,6 +1230,8 @@
             modal.classList.add('open');
             document.body.style.overflow = 'hidden';
             history.pushState({ page: 'all-files' }, '', '#all-files');
+            // FIX ANDROID TV: Force focus to modal so D-pad works immediately
+            modal.focus();
         }
 
         function closeAllFiles() {
@@ -1268,11 +1277,15 @@
                 familyGallery.classList.add('open');
                 allFilesModal.classList.remove('open');
                 document.body.style.overflow = 'hidden';
+                // FIX ANDROID TV
+                if(state.page === 'family-gallery') familyGallery.focus();
             } 
             else if (state.page === 'all-files') {
                 allFilesModal.classList.add('open');
                 familyGallery.classList.remove('open');
                 document.body.style.overflow = 'hidden';
+                // FIX ANDROID TV
+                allFilesModal.focus();
             }
             else {
                 familyGallery.classList.remove('open');
@@ -1298,6 +1311,8 @@
                 gallery.classList.add('open');
                 document.body.style.overflow = 'hidden';
                 history.pushState({ page: 'family-gallery' }, '', '#family');
+                // FIX ANDROID TV
+                gallery.focus();
             }
         }
 
@@ -1339,6 +1354,11 @@
             content.classList.remove('scale-95');
             content.classList.add('scale-100');
             history.pushState({ page: 'bio-details' }, '', '#student-bio');
+            
+            // FIX ANDROID TV: Set focus to content so it can be scrolled
+            setTimeout(() => {
+                content.focus();
+            }, 100);
         }
 
         function closeBioModal(e, force = false) {
@@ -1430,4 +1450,3 @@
     </script>
 </body>
 </html>
-
