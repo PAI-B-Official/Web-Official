@@ -1,63 +1,40 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta name="google-site-verification" content="UPioXeNFpoiCMVwsJoWNkGvlqM1BpkfIDV5AGhLXsUo" />
+    <meta name="google-site-verification" content="pz72A_SOUbG4L7dPVTVI81N2NCn6mhxR7WBHsYVQMho" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- ========================================== -->
-    <!-- SEO & GOOGLE SETTINGS (UBAH DISINI)       -->
-    <!-- ========================================== -->
-    
-    <!-- 1. JUDUL WEB (Ini yang muncul tulisan Biru Besar di Google) -->
     <title>PAI B IAINU Kebumen Official 2025</title>
     
-    <!-- 2. DESKRIPSI (Teks kecil di bawah judul) -->
     <meta name="description" content="Website Resmi Kelas PAI B Angkatan 2025 Fakultas Tarbiyah IAINU Kebumen. Galeri, Struktur Organisasi, dan Dokumentasi Kegiatan Mahasiswa.">
-    
-    <!-- 3. KATA KUNCI (Agar mudah dicari) -->
     <meta name="keywords" content="PAI B, IAINU Kebumen, Kelas PAI B 2025, Fakultas Tarbiyah, Mahasiswa Kebumen">
+    <meta name="theme-color" content="#000000">
     
-    <!-- 4. IDENTITAS NAMA SITUS (Agar tidak cuma muncul github.io) -->
     <meta property="og:site_name" content="PAI B Official IAINU Kebumen">
-
-    <!-- ========================================== -->
-    <!-- PENTING: PENGATURAN GAMBAR LINK (WA/IG)    -->
-    <!-- ========================================== -->
-    <!-- Agar gambar PAI B.jpg muncul, pastikan file gambar ada di folder yang sama dengan index.html -->
-    
-    <!-- Facebook / WhatsApp / LinkedIn -->
     <meta property="og:type" content="website">
-    <!-- PASTIKAN LINK INI SESUAI DENGAN ALAMAT ASLI WEB ANDA NANTI -->
-    <meta property="og:url" content="https://pai-b-official.github.io/Web-Official/"> 
+    <meta property="og:url" content="https://paib-official.com/"> 
     <meta property="og:title" content="PAI B Official - IAINU Kebumen">
     <meta property="og:description" content="Website Resmi Keluarga Besar PAI B 2025. One Heart, One Goal.">
-    
-    <!-- PERBAIKAN: Gunakan Link Lengkap (https://...) agar Google bisa baca gambar -->
-    <!-- PERBAIKAN: Mengganti spasi dengan %20 agar valid URL -->
-    <meta property="og:image" content="https://pai-b-official.github.io/Web-Official/PAI%20B.jpg"> 
+    <meta property="og:image" content="PAI B.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="PAI B Official - IAINU Kebumen">
     <meta name="twitter:description" content="Website Resmi Keluarga Besar PAI B 2025. One Heart, One Goal.">
-    <!-- PERBAIKAN: Gunakan Link Lengkap -->
-    <meta name="twitter:image" content="https://pai-b-official.github.io/Web-Official/PAI%20B.jpg">
+    <meta name="twitter:image" content="PAI B.jpg">
 
-    <!-- Fallback Image (Cadangan) -->
-    <meta itemprop="image" content="https://pai-b-official.github.io/Web-Official/PAI%20B.jpg">
+    <meta itemprop="image" content="PAI B.jpg">
 
-    <!-- 5. SCHEMA MARKUP (Agar Logo & Nama Situs Muncul Benar) -->
     <script type="application/ld+json">
     [
       {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "PAI B Official",
-        "url": "https://pai-b-official.github.io/Web-Official/", 
-        "logo": "https://pai-b-official.github.io/Web-Official/PAI%20B.jpg",
+        "url": "https://paib-official.com", 
+        "logo": "PAI B.jpg",
         "sameAs": [
           "https://www.instagram.com/iainukebumen/",
           "https://twitter.com/iainu_kebumen"
@@ -68,21 +45,16 @@
         "@type": "WebSite",
         "name": "PAI B Official IAINU Kebumen",
         "alternateName": ["PAI B 2025", "PAI B Kebumen"],
-        "url": "https://pai-b-official.github.io/Web-Official/"
+        "url": "https://paib-official.com"
       }
     ]
     </script>
-    <!-- ========================================== -->
 
-    <!-- Favicon / Logo Browser -->
-    <link rel="icon" type="image/jpeg" href="PAI%20B.jpg">
-    <link rel="shortcut icon" type="image/jpeg" href="PAI%20B.jpg">
+    <link rel="icon" type="image/jpeg" href="PAI B.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="PAI B.jpg">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <script>
@@ -102,6 +74,7 @@
                     animation: {
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'float': 'float 6s ease-in-out infinite',
+                        'bounce-slow': 'bounce 3s infinite',
                     },
                     keyframes: {
                         float: {
@@ -121,9 +94,11 @@
             overflow-x: hidden;
             scroll-behavior: smooth;
             -webkit-font-smoothing: antialiased;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -138,7 +113,6 @@
             background: #ff1f1f;
         }
 
-        /* Glassmorphism Utilities */
         .glass-panel {
             background: rgba(40, 0, 0, 0.6);
             border: 1px solid rgba(255, 50, 50, 0.1);
@@ -155,7 +129,6 @@
             }
         }
 
-        /* Intro Animation */
         #intro-screen {
             position: fixed;
             top: 0;
@@ -188,7 +161,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Typing Cursor */
         .typing-cursor::after {
             content: '|';
             animation: blink 1s infinite;
@@ -199,12 +171,10 @@
             50% { opacity: 0; }
         }
 
-        /* Neon Glow Text */
         .neon-text {
             text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #8a0000;
         }
 
-        /* Organizational Chart Styles (Tree) - DESKTOP ONLY */
         .tree {
             display: flex;
             justify-content: center;
@@ -223,7 +193,6 @@
             padding: 20px 5px 0 5px;
             transition: all 0.5s;
         }
-        /* Connectors */
         .tree li::before, .tree li::after {
             content: '';
             position: absolute; top: 0; right: 50%;
@@ -255,7 +224,6 @@
             width: 0; height: 20px;
         }
 
-        /* Family Gallery & All Files Modal */
         .fullscreen-overlay {
             position: fixed;
             top: 0;
@@ -276,19 +244,17 @@
             opacity: 1;
             pointer-events: auto;
         }
-        /* FIX ANDROID TV: Remove outline when focused for scrolling */
         .fullscreen-overlay:focus {
             outline: none;
         }
 
-        /* Bio Modal & Media Modal */
         .custom-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9); /* Dark backdrop */
+            background: rgba(0,0,0,0.9); 
             z-index: 200;
             display: flex;
             justify-content: center;
@@ -302,41 +268,38 @@
             opacity: 1;
             pointer-events: auto;
         }
-        /* FIX ANDROID TV: Make sure content is focusable without ugly border */
         #bio-content:focus {
             outline: none;
         }
 
-        /* Styling untuk List Info di Bio agar lebih rapi */
         .bio-info-row {
             display: flex;
             align-items: flex-start;
-            gap: 1.25rem; /* gap-5 */
+            gap: 1.25rem; 
             padding: 0.5rem 0;
             transition: background-color 0.3s;
         }
         .bio-icon-box {
             flex-shrink: 0;
-            width: 3rem; /* w-12 */
-            height: 3rem; /* h-12 */
+            width: 3rem; 
+            height: 3rem; 
             border-radius: 50%;
-            background: rgba(127, 29, 29, 0.2); /* red-900/20 */
+            background: rgba(127, 29, 29, 0.2); 
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ef4444; /* red-500 */
-            font-size: 1.25rem; /* text-xl */
+            color: #ef4444; 
+            font-size: 1.25rem; 
             border: 1px solid rgba(239, 68, 68, 0.1);
             transition: transform 0.3s, background-color 0.3s, color 0.3s;
         }
         .bio-info-row:hover .bio-icon-box {
-            background: #dc2626; /* red-600 */
+            background: #dc2626; 
             color: white;
             transform: scale(1.1);
             box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
         }
         
-        /* Music Control Button Animation */
         .music-pulse {
             animation: musicPulse 1.5s infinite;
         }
@@ -346,7 +309,6 @@
             100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
         }
 
-        /* Play Button Overlay */
         .play-overlay {
             position: absolute;
             top: 50%;
@@ -371,11 +333,10 @@
             transform: translate(-50%, -50%) scale(1.15);
         }
 
-        /* Image Loading Skeleton */
         .img-loading-skeleton {
             position: absolute;
             inset: 0;
-            background-color: #1f2937; /* gray-800 */
+            background-color: #1f2937; 
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
             display: flex;
             align-items: center;
@@ -387,15 +348,13 @@
         }
     </style>
 </head>
-<body class="font-body selection:bg-red-500 selection:text-white">
+<body class="font-body selection:bg-red-500 selection:text-white" oncontextmenu="return false;">
 
-    <!-- AUDIO ELEMENT -->
     <audio id="bg-music" loop>
-        <source src="Waheshna.mp3" type="audio/mpeg">
+        <source src="Qolbi Fil Madinah.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
-    <!-- INTRO PAGE (SPLASH SCREEN) -->
     <div id="intro-screen">
         <div class="text-center">
             <h1 class="font-tech text-4xl md:text-7xl font-bold text-white mb-4 tracking-widest neon-text">
@@ -410,10 +369,8 @@
         </div>
     </div>
 
-    <!-- MAIN APP CONTAINER -->
     <div id="main-app" class="hidden opacity-0 transition-opacity duration-1000 min-h-screen flex flex-col">
         
-        <!-- Navigation -->
         <nav class="fixed top-0 w-full z-50 glass-panel border-b border-red-900/30">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
@@ -428,7 +385,6 @@
                         </div>
                     </div>
                     
-                    <!-- Music & Mobile Menu Controls -->
                     <div class="flex items-center gap-4">
                         <button onclick="toggleMusic()" id="music-btn" class="w-8 h-8 rounded-full bg-red-900/50 flex items-center justify-center text-red-400 border border-red-500/30 hover:bg-red-600 hover:text-white transition-all music-pulse">
                             <i class="fas fa-music"></i>
@@ -441,7 +397,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-red-900/30">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <button onclick="switchTab('home')" class="text-gray-300 hover:text-red-400 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Home</button>
@@ -451,24 +406,18 @@
             </div>
         </nav>
 
-        <!-- BACKGROUND PARTICLES -->
         <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-            <!-- Mobile Optimized Background -->
             <div class="absolute inset-0 bg-gradient-to-b from-black via-[#1a0000] to-black opacity-80"></div>
             
-            <!-- Desktop Only Heavy Animations -->
             <div class="hidden md:block absolute top-[-10%] left-[-10%] w-96 h-96 bg-red-900 rounded-full mix-blend-multiply filter blur-[100px] opacity-30 animate-pulse-slow" style="will-change: transform, opacity;"></div>
             <div class="hidden md:block absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-red-800 rounded-full mix-blend-multiply filter blur-[100px] opacity-30 animate-pulse-slow" style="will-change: transform, opacity;"></div>
         </div>
 
-        <!-- CONTENT SECTIONS -->
         <main class="flex-grow pt-20 px-4 md:px-8 max-w-7xl mx-auto w-full">
 
-            <!-- 1. HOME SECTION -->
             <section id="home" class="active-section py-10">
                 <div class="grid md:grid-cols-2 gap-10 items-center">
                     <div class="space-y-6 text-center md:text-left">
-                        <!-- LOGO MOBILE -->
                         <div class="md:hidden mb-4 flex justify-center">
                             <img src="IAINU.jpg" alt="Class Logo Mobile" 
                                  class="w-30 h-30 object-contain filter drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]"
@@ -491,7 +440,6 @@
                             </button>
                         </div>
                         
-                        <!-- Stats -->
                         <div class="grid grid-cols-3 gap-4 pt-8 border-t border-gray-800">
                             <div>
                                 <h3 class="text-2xl font-bold text-white">24</h3>
@@ -508,10 +456,8 @@
                         </div>
                     </div>
 
-                    <!-- Right Side Card -->
                     <div class="relative animate-float hidden md:block">
                         <div class="flex justify-center mb-6">
-                            <!-- Logo Utama Desktop -->
                             <img src="IAINU.jpg" alt="Class Logo" 
                                  class="w-32 h-32 object-contain filter drop-shadow-[0_0_15px_rgba(220,38,38,0.5)] hover:scale-110 transition-transform duration-300"
                                  onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2997/2997322.png';">
@@ -539,16 +485,13 @@
                 </div>
             </section>
 
-            <!-- 2. STRUCTURE SECTION -->
             <section id="structure" class="hidden-section py-10">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">STRUKTUR KELAS</h2>
                     <div class="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
                 </div>
 
-                <!-- A. MOBILE VIEW (Vertical Stack) -->
                 <div class="md:hidden flex flex-col items-center gap-6 pb-8">
-                    <!-- Ketua -->
                     <div class="glass-panel p-4 rounded-xl border border-red-500/30 w-64 text-center hover:bg-red-900/40 transition-colors">
                         <div class="w-20 h-20 mx-auto bg-gray-700 rounded-full mb-3 overflow-hidden border-2 border-red-500">
                             <img src="https://i.ibb.co.com/8DTHNmN1/Ubaidillah.jpg" alt="Ketua" 
@@ -559,10 +502,8 @@
                         <p class="text-sm text-gray-400">Ketua Kelas</p>
                     </div>
 
-                    <!-- Arrow Down -->
                     <div class="text-red-600 text-2xl"><i class="fas fa-arrow-down"></i></div>
 
-                    <!-- Wakil -->
                     <div class="glass-panel p-4 rounded-xl border border-red-500/30 w-64 text-center hover:bg-red-900/40 transition-colors">
                         <div class="w-20 h-20 mx-auto bg-gray-700 rounded-full mb-3 overflow-hidden border-2 border-red-500">
                             <img src="https://i.ibb.co.com/35y5ZszF/Pniel.jpg" alt="Wakil" 
@@ -573,12 +514,9 @@
                         <p class="text-sm text-gray-400">Wakil Ketua</p>
                     </div>
 
-                    <!-- Divider Line -->
                     <div class="w-full max-w-xs border-t border-red-800 my-2"></div>
 
-                    <!-- Grid for Sek & Ben (Mobile) -->
                     <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
-                        <!-- Sek 1 -->
                         <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
                             <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
                                 <img src="https://i.ibb.co.com/T6G584W/Ayu.jpg" alt="Sek1" class="w-full h-full object-cover"
@@ -587,7 +525,6 @@
                             <h3 class="font-semibold text-white text-xs">Riska Ayu K</h3>
                             <p class="text-[10px] text-red-400 uppercase">Sekretaris 1</p>
                         </div>
-                        <!-- Sek 2 -->
                         <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
                             <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
                                 <img src="https://i.ibb.co.com/8g9FF4zH/Yoana.jpg" alt="Sek2" class="w-full h-full object-cover"
@@ -596,7 +533,6 @@
                             <h3 class="font-semibold text-white text-xs">Yoana Dian R.A.</h3>
                             <p class="text-[10px] text-red-400 uppercase">Sekretaris 2</p>
                         </div>
-                        <!-- Ben 1 -->
                         <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
                             <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
                                 <img src="https://i.ibb.co.com/xK65ZXBK/Putri.jpg" alt="Ben1" class="w-full h-full object-cover"
@@ -605,7 +541,6 @@
                             <h3 class="font-semibold text-white text-xs">Putri Dwi Astuti</h3>
                             <p class="text-[10px] text-red-400 uppercase">Bendahara 1</p>
                         </div>
-                        <!-- Ben 2 -->
                         <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
                             <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
                                 <img src="https://i.ibb.co.com/PZBVB5qN/Anggun.jpg" alt="Ben2" class="w-full h-full object-cover"
@@ -617,12 +552,10 @@
                     </div>
                 </div>
 
-                <!-- B. DESKTOP VIEW (Tree Chart) -->
                 <div class="hidden md:flex justify-center overflow-x-auto pb-8">
                     <div class="tree min-w-[800px]">
                         <ul>
                             <li>
-                                <!-- Ketua -->
                                 <div class="glass-panel p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative">
                                     <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
                                         <img src="https://i.ibb.co.com/8DTHNmN1/Ubaidillah.jpg" alt="Ketua" class="w-full h-full object-cover"
@@ -633,7 +566,6 @@
                                 </div>
                                 <ul>
                                     <li>
-                                        <!-- Wakil -->
                                         <div class="glass-panel p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative">
                                             <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
                                                 <img src="https://i.ibb.co.com/35y5ZszF/Pniel.jpg" alt="Wakil" class="w-full h-full object-cover"
@@ -643,12 +575,9 @@
                                             <p class="text-xs text-gray-400">Wakil Ketua</p>
                                         </div>
                                         
-                                        <!-- Cabang Bawah Wakil -->
                                         <ul class="flex justify-center gap-8">
-                                            <!-- Group Sekretaris -->
                                             <li>
                                                 <div class="flex flex-col gap-4 items-center pt-4">
-                                                    <!-- Sek 1 -->
                                                     <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
                                                         <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
                                                             <img src="https://i.ibb.co.com/T6G584W/Ayu.jpg" alt="Sek1" class="w-full h-full object-cover"
@@ -657,7 +586,6 @@
                                                         <h3 class="font-semibold text-white text-sm">Riska Ayu K.</h3>
                                                         <p class="text-[10px] text-red-400 uppercase">Sekretaris 1</p>
                                                     </div>
-                                                    <!-- Sek 2 -->
                                                     <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
                                                         <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
                                                             <img src="https://i.ibb.co.com/8g9FF4zH/Yoana.jpg" alt="Sek2" class="w-full h-full object-cover"
@@ -669,10 +597,8 @@
                                                 </div>
                                             </li>
 
-                                            <!-- Group Bendahara -->
                                             <li>
                                                 <div class="flex flex-col gap-4 items-center pt-4">
-                                                    <!-- Ben 1 -->
                                                     <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
                                                         <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
                                                             <img src="https://i.ibb.co.com/xK65ZXBK/Putri.jpg" alt="Ben1" class="w-full h-full object-cover"
@@ -681,7 +607,6 @@
                                                         <h3 class="font-semibold text-white text-sm">Putri Dwi Astuti</h3>
                                                         <p class="text-[10px] text-red-400 uppercase">Bendahara 1</p>
                                                     </div>
-                                                    <!-- Ben 2 -->
                                                     <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
                                                         <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
                                                             <img src="https://i.ibb.co.com/PZBVB5qN/Anggun.jpg" alt="Ben2" class="w-full h-full object-cover"
@@ -700,7 +625,6 @@
                     </div>
                 </div>
                 
-                <!-- Seksi Divisions -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 mb-12">
                     <div class="glass-panel p-6 rounded-xl border-l-4 border-l-red-600 hover:translate-y-[-5px] transition-transform">
                         <h4 class="font-tech text-xl text-white mb-4"><i class="fas fa-user-tie mr-2"></i> Ketua & Wakil Ketua</h4>
@@ -725,7 +649,6 @@
                     </div>
                 </div>
 
-                <!-- FAMILY BUTTON -->
                 <div class="text-center pb-12">
                     <button onclick="toggleFamilyGallery()" class="group relative px-10 py-4 bg-gradient-to-r from-red-900 to-black overflow-hidden rounded-xl border border-red-600/50 shadow-[0_0_30px_rgba(220,38,38,0.2)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] transition-all duration-300">
                         <div class="flex items-center gap-3 relative z-10">
@@ -738,7 +661,6 @@
                 </div>
             </section>
 
-            <!-- 3. DOCUMENTATION SECTION -->
             <section id="documentation" class="hidden-section py-10">
                 <div class="text-center mb-10">
                     <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">ARCHIVES</h2>
@@ -746,7 +668,6 @@
                     <p class="text-gray-400 mb-6">Class Memories & Moments</p>
                     
                     <div class="flex flex-col md:flex-row justify-center items-center gap-3 max-w-xl mx-auto">
-                        <!-- SEARCH BAR -->
                         <div class="relative w-full">
                             <input type="text" id="doc-search" placeholder="Search by title..." 
                                    onkeyup="handleSearch(event)"
@@ -755,22 +676,18 @@
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
-                        <!-- ALL FILES BUTTON -->
                         <button onclick="openAllFiles()" class="w-full md:w-auto bg-red-900/30 hover:bg-red-800 border border-red-500/50 text-white px-6 py-2 rounded-lg text-sm transition-all whitespace-nowrap flex items-center justify-center gap-2">
                             <i class="fas fa-th-large"></i> All Files
                         </button>
                     </div>
                 </div>
 
-                <!-- DYNAMIC GRID CONTAINER -->
                 <div id="documentation-grid" class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-                    <!-- Javascript will populate this based on data/search -->
                 </div>
             </section>
 
         </main>
 
-        <!-- Footer -->
         <footer class="border-t border-red-900/30 bg-black/90 mt-12 pt-12 pb-8">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8 border-b border-red-900/30 pb-8">
@@ -821,8 +738,6 @@
         </footer>
     </div>
 
-    <!-- FAMILY GALLERY OVERLAY (Hidden by default) -->
-    <!-- ANDROID TV FIX: Added tabindex="0" so the overlay can receive focus -->
     <div id="family-gallery" class="fullscreen-overlay" tabindex="0">
         <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
             <button onclick="toggleFamilyGallery()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
@@ -836,8 +751,6 @@
         </div>
     </div>
 
-    <!-- ALL FILES OVERLAY (New Feature) -->
-    <!-- ANDROID TV FIX: Added tabindex="0" so the overlay can receive focus -->
     <div id="all-files-overlay" class="fullscreen-overlay" tabindex="0">
         <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
             <button onclick="closeAllFiles()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
@@ -849,16 +762,12 @@
                 <p class="text-gray-400 text-sm">Memories Activities PAI B 2025</p>
             </div>
 
-            <!-- Masonry Grid for All Files (Mixed Aspect Ratios) -->
             <div id="all-files-grid" class="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-                <!-- Javascript will populate this with 25 slots -->
             </div>
         </div>
     </div>
 
-    <!-- BIO MODAL -->
     <div id="bio-modal" class="custom-modal" onclick="closeBioModal(event)">
-        <!-- ANDROID TV FIX: Added tabindex="0" to the content container -->
         <div id="bio-content" class="glass-panel w-[90%] md:w-full max-w-6xl max-h-[90vh] md:max-h-[85vh] overflow-y-auto transform scale-95 transition-all duration-300 rounded-2xl flex flex-col md:flex-row bg-black/90 border border-red-500/30 shadow-2xl relative overflow-hidden" tabindex="0">
             <div class="w-full md:w-5/12 aspect-[9/16] relative bg-gray-900 group shrink-0">
                 <div id="modal-img-loader" class="img-loading-skeleton">
@@ -907,21 +816,17 @@
         </div>
     </div>
 
-    <!-- MEDIA PREVIEW MODAL -->
     <div id="media-modal" class="custom-modal" onclick="closeMediaModal(event)">
         <div class="relative max-w-5xl w-full mx-4 flex justify-center">
             <button onclick="closeMediaModal(null, true)" class="absolute -top-12 right-0 md:-right-12 text-white hover:text-red-500 text-3xl transition z-50">
                 <i class="fas fa-times"></i>
             </button>
             <div id="media-container" class="max-h-[85vh] rounded-lg shadow-2xl border border-red-500/30">
-                <!-- Content Injected Here -->
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- 1. INTRO & NAVIGATION LOGIC ---
         const textToType = "PAI B";
         const typingElement = document.getElementById('typing-text');
         let i = 0;
@@ -937,11 +842,33 @@
         window.onload = function() {
             typeWriter();
             generateStudents(); 
-            initDocumentation(); // Initialize Media Items
+            initDocumentation(); 
             
             if (!history.state) {
                 history.replaceState({ page: 'home' }, '', '#home');
             }
+            
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                }
+                if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                    e.preventDefault();
+                }
+                if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                    e.preventDefault();
+                }
+                if (e.ctrlKey && e.key === 'u') {
+                    e.preventDefault();
+                }
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                }
+            });
         };
 
         function enterSite() {
@@ -960,7 +887,6 @@
             }, 100);
         }
 
-        // Music Toggle Logic
         let isPlaying = true;
         function toggleMusic() {
             const audio = document.getElementById('bg-music');
@@ -978,8 +904,6 @@
             }
         }
 
-        // --- MOBILE AUDIO FIX (VISIBILITY API) ---
-        // Musik mati jika user pindah tab/aplikasi, nyala lagi saat kembali
         document.addEventListener('visibilitychange', function() {
             const audio = document.getElementById('bg-music');
             if (document.hidden) {
@@ -991,7 +915,6 @@
             }
         });
 
-        // Helper to switch main tabs
         function _switchTabUI(tabId) {
             const sections = document.querySelectorAll('main section');
             sections.forEach(section => {
@@ -1022,7 +945,6 @@
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
-        // --- 2. FAMILY DATA & LOGIC ---
         const studentsData = [
             { name: "Ady Surya", nim: "2511038", ig: "@suryaadharm_", img: "https://i.ibb.co.com/3ycvDN0x/Ady.jpg", bioImg: "https://i.ibb.co.com/396vghCh/Ady-2.jpg", bio: "Saya orang yang menyukai berpetualang dan menikmati keindahan alam untuk menghilangkan kebosanan dan mengagumi ciptaan Tuhan, sungguh indah." },
             { name: "A. Lubadul Fikri", nim: "2511046", ig: "@bangkriii_", img: "https://i.ibb.co.com/LDD9ZbFL/Fikri.jpg", bioImg: "https://i.ibb.co.com/prLDYGwg/Fikri-2.jpg", bio: "Seseorang yang berkepribadian introvert abizzz. Saya ingin melihat dan memahami dunia di luar sana.Saya tak ingin lenyap di dalam bagian beberapa penghalang yang ada ini tanpa mengetahui apa yang ada di luar sana." },
@@ -1074,89 +996,63 @@
             grid.innerHTML = html;
         }
 
-        // --- 3. MEDIA & SEARCH DATA LOGIC ---
-        // Defines existing files (Data awal 8 file)
         const existingMedia = [
             { type: 'video', src: 'JJ 1.mp4', title: 'JJ', ratio: 'aspect-[9/16]' },
             { type: 'image', src: 'PAI B.jpg', title: 'Logo', ratio: 'aspect-square' },
             { type: 'video', src: 'English Tim.mp4', title: 'English Game', ratio: 'aspect-video' },
             { type: 'image', src: 'Fotbar Sekelas 2.jpg', title: 'Fotbar', ratio: 'aspect-[4/5]' },
-            { type: 'video', src: '.mp4', title: 'Clip', ratio: 'aspect-[4/5]' },
+            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Clip', ratio: 'aspect-[4/5]' },
             { type: 'image', src: 'Series PAI B.jpg', title: 'PAI B SERIES', ratio: 'aspect-video' },
-            { type: 'video', src: '.mp4', title: 'Vlog', ratio: 'aspect-square' },
+            { type: 'video', src: 'WhatsApp Video 2025-11-30 at 10.44.47.mp4', title: 'Vlog', ratio: 'aspect-square' },
             { type: 'image', src: 'Fotbar Sekelas.jpg', title: 'Fotbar', ratio: 'aspect-[9/16]' }
         ];
 
-        // --- LIBRARY DATA: 25 SLOT YANG SIAP DIISI ---
         const allFilesData = [
-            // --- 1 SAMPAI 8 (DATA LAMA) ---
             ...existingMedia,
 
-            // --- 9 SAMPAI 25 (SLOT BARU SIAP PAKAI) ---
-            // Slot 9
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+9', title: '-', ratio: 'aspect-[3/4]' },
             
-            // Slot 10 (VIDEO - Placeholder Active)
-            { type: 'video', src: '.mp4', title: 'Video 10', ratio: 'aspect-[9/16]' },
+            { type: 'video', src: 'JJ 1.mp4', title: 'Video 10', ratio: 'aspect-[9/16]' },
 
-            // Slot 11
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+11', title: '-', ratio: 'aspect-video' },
 
-            // Slot 12
             { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+12', title: '-', ratio: 'aspect-square' },
 
-            // Slot 13 (VIDEO - Placeholder Active)
-            { type: 'video', src: '.mp4', title: 'Video 13', ratio: 'aspect-[4/5]' },
+            { type: 'video', src: 'JJ 1.mp4', title: 'Video 13', ratio: 'aspect-[4/5]' },
 
-            // Slot 14
             { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+14', title: '-', ratio: 'aspect-[9/16]' },
 
-            // Slot 15
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+15', title: '-', ratio: 'aspect-video' },
 
-            // Slot 16 (VIDEO - Placeholder Active)
-            { type: 'video', src: '.mp4', title: 'Video 16', ratio: 'aspect-square' },
+            { type: 'video', src: 'JJ 1.mp4', title: 'Video 16', ratio: 'aspect-square' },
 
-            // Slot 17
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+17', title: '-', ratio: 'aspect-[3/4]' },
 
-            // Slot 18
             { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+18', title: '-', ratio: 'aspect-square' },
 
-            // Slot 19 (VIDEO - Placeholder Active)
-            { type: 'video', src: '.mp4', title: 'Video 19', ratio: 'aspect-[9/16]' },
+            { type: 'video', src: 'JJ 1.mp4', title: 'Video 19', ratio: 'aspect-[9/16]' },
 
-            // Slot 20
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+20', title: '-', ratio: 'aspect-video' },
 
-            // Slot 21
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+21', title: '-', ratio: 'aspect-[4/5]' },
 
-            // Slot 22 (VIDEO - Placeholder Active)
-            { type: 'video', src: '.mp4', title: 'Video 22', ratio: 'aspect-square' },
+            { type: 'video', src: 'JJ 1.mp4', title: 'Video 22', ratio: 'aspect-square' },
 
-            // Slot 23
             { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+23', title: '-', ratio: 'aspect-[9/16]' },
 
-            // Slot 24
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+24', title: '-', ratio: 'aspect-video' },
 
-            // Slot 25
             { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+25', title: '-', ratio: 'aspect-square' }
         ];
 
 
-        // Function to render the Main Documentation Grid (Filtered)
         function renderMainDocGrid(filter = "") {
             const container = document.getElementById('documentation-grid');
             let html = '';
             
-            // Only show the original 8 items OR filtered items from the full list
-            // If filter exists, search ALL data. If no filter, show only Top 8.
             let itemsToShow = filter ? allFilesData : existingMedia;
 
             itemsToShow.forEach(item => {
-                // Search Filter
                 if (filter && !item.title.toLowerCase().includes(filter.toLowerCase())) return;
 
                 html += createMediaCard(item);
@@ -1168,34 +1064,25 @@
             container.innerHTML = html;
         }
 
-        // Function to render All Files Grid (The 25 slots)
         function renderAllFilesGrid() {
             const container = document.getElementById('all-files-grid');
             let html = '';
             
             allFilesData.forEach(item => {
-                // Semua item dirender sebagai kartu media asli (bukan placeholder kosong)
                 html += createMediaCard(item, true); 
             });
             container.innerHTML = html;
         }
 
-        // Helper to create HTML string for a media card
         function createMediaCard(item, isSmall = false) {
-             // mb-6 for main grid, mb-4 for dense grid
             const margin = isSmall ? 'mb-4' : 'mb-6'; 
             
-            // Custom Styling for Logo (Circle)
-            // Cek jika rasionya square (1:1) DAN judulnya mengandung kata "Logo"
             const isLogo = item.ratio === 'aspect-square' && item.title.toLowerCase().includes('logo');
             
-            // Jika Logo: Rounded Full (Lingkaran) + Border + Shadow Khusus
-            // Jika Bukan: Rounded XL biasa
             const shapeClass = isLogo 
                 ? `rounded-full aspect-square border-4 border-red-600/30 shadow-[0_0_25px_rgba(220,38,38,0.4)]` 
                 : `rounded-xl ${item.ratio}`;
 
-            // Adjust text position for circle (centered) vs standard (bottom-left)
             const textPosition = isLogo 
                 ? 'inset-0 flex items-end justify-center pb-6' 
                 : 'bottom-4 left-4';
@@ -1208,7 +1095,7 @@
                             `<video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
                                 <source src="${item.src}" type="video/mp4">
                              </video>` 
-                            : `<i class="fas fa-video text-gray-600 text-4xl"></i>` // Placeholder icon if src empty
+                            : `<i class="fas fa-video text-gray-600 text-4xl"></i>` 
                         }
                     </div>
                     <div class="play-overlay"><i class="fas fa-play"></i></div>
@@ -1234,23 +1121,19 @@
             renderMainDocGrid();
         }
 
-        // Search Handler
         function handleSearch(event) {
-            // Trigger on Enter key or direct call
             if (event.key === 'Enter' || event.type === 'click' || event.type === 'keyup') {
                 const query = document.getElementById('doc-search').value;
                 renderMainDocGrid(query);
             }
         }
 
-        // --- 4. ALL FILES MODAL LOGIC ---
         function openAllFiles() {
             renderAllFilesGrid();
             const modal = document.getElementById('all-files-overlay');
             modal.classList.add('open');
             document.body.style.overflow = 'hidden';
             history.pushState({ page: 'all-files' }, '', '#all-files');
-            // FIX ANDROID TV: Force focus to modal so D-pad works immediately
             modal.focus();
         }
 
@@ -1261,7 +1144,6 @@
             history.replaceState({ page: 'documentation' }, '', '#documentation');
         }
 
-        // --- NAVIGATION STATE HANDLER ---
         window.addEventListener('popstate', function(event) {
             const state = event.state || { page: 'home' };
             
@@ -1271,7 +1153,6 @@
             const allFilesModal = document.getElementById('all-files-overlay');
             const mediaContainer = document.getElementById('media-container');
 
-            // Handle Media Close & Music Resume
             if (mediaModal.classList.contains('active')) {
                 if (mediaContainer.dataset.mediaType === 'video') {
                     const bgMusic = document.getElementById('bg-music');
@@ -1288,23 +1169,19 @@
                 mediaContainer.innerHTML = '';
             }
 
-            // Reset All Modals
             bioModal.classList.remove('active');
             mediaModal.classList.remove('active');
             
-            // Handle Fullscreen Overlays
             if (state.page === 'family-gallery' || state.page === 'bio-details') {
                 familyGallery.classList.add('open');
                 allFilesModal.classList.remove('open');
                 document.body.style.overflow = 'hidden';
-                // FIX ANDROID TV
                 if(state.page === 'family-gallery') familyGallery.focus();
             } 
             else if (state.page === 'all-files') {
                 allFilesModal.classList.add('open');
                 familyGallery.classList.remove('open');
                 document.body.style.overflow = 'hidden';
-                // FIX ANDROID TV
                 allFilesModal.focus();
             }
             else {
@@ -1313,13 +1190,11 @@
                 document.body.style.overflow = 'auto';
             }
 
-            // Handle Main Tabs
             if (['home', 'structure', 'documentation'].includes(state.page)) {
                 _switchTabUI(state.page);
             }
         });
 
-        // Toggle functions for close buttons (logic sync with popstate)
         function toggleFamilyGallery() {
             const gallery = document.getElementById('family-gallery');
             if (gallery.classList.contains('open')) {
@@ -1331,12 +1206,10 @@
                 gallery.classList.add('open');
                 document.body.style.overflow = 'hidden';
                 history.pushState({ page: 'family-gallery' }, '', '#family');
-                // FIX ANDROID TV
                 gallery.focus();
             }
         }
 
-        // --- 5. BIO MODAL ---
         function openBioModal(index) {
             const student = studentsData[index];
             const modal = document.getElementById('bio-modal');
@@ -1375,7 +1248,6 @@
             content.classList.add('scale-100');
             history.pushState({ page: 'bio-details' }, '', '#student-bio');
             
-            // FIX ANDROID TV: Set focus to content so it can be scrolled
             setTimeout(() => {
                 content.focus();
             }, 100);
@@ -1390,9 +1262,7 @@
             history.replaceState({ page: 'family-gallery' }, '', '#family');
         }
 
-        // --- 6. MEDIA MODAL ---
         function openMediaModal(type, src) {
-            // Prevent opening if src is empty (for placeholders)
             if(!src) return;
 
             if (type === 'video') {
@@ -1415,7 +1285,6 @@
                     </div>`;
                 container.dataset.mediaType = 'video';
             } else {
-                // Update structure for Zoomable Image
                 container.innerHTML = `
                     <img src="${src}" class="w-full h-auto max-h-[85vh] object-contain bg-black" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';">
                 `;
@@ -1446,7 +1315,6 @@
             container.innerHTML = ''; 
             document.getElementById('media-modal').classList.remove('active');
             
-            // Check where to go back
             const allFilesModal = document.getElementById('all-files-overlay');
             if(allFilesModal.classList.contains('open')) {
                  history.replaceState({ page: 'all-files' }, '', '#all-files');
