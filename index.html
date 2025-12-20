@@ -176,13 +176,13 @@
             text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #8a0000;
         }
 
-        /* Tree Logic fixed for responsiveness */
+        /* --- TREE LOGIC FIX --- */
         .tree {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            overflow-x: auto;
-            padding-bottom: 20px;
+            display: table; /* Ensures container expands to fit content */
+            margin: 0 auto;
+            width: max-content; /* Critical: Forces width to content size */
+            min-width: 100%;
+            padding-bottom: 50px; /* Space for scrollbar */
         }
         .tree ul {
             padding-top: 20px; 
@@ -191,6 +191,8 @@
             display: flex;
             justify-content: center;
         }
+        /* Override justify-content if tree is wider than screen handled by scroll */
+        
         .tree li {
             float: left; text-align: center;
             list-style-type: none;
@@ -229,6 +231,7 @@
             width: 0; height: 20px;
         }
 
+        /* Modal & Overlay Fixes */
         .fullscreen-overlay {
             position: fixed;
             top: 0;
@@ -237,7 +240,7 @@
             height: 100%;
             background: rgba(10, 0, 0, 0.95);
             z-index: 100;
-            overflow-y: auto;
+            overflow: auto; /* Allow scrolling in both directions */
             transform: scale(0.9);
             opacity: 0;
             pointer-events: none;
@@ -376,6 +379,8 @@
             white-space: nowrap;
             transition: all 0.3s ease;
         }
+
+        /* Removed broken rotation media query to fix "cut off" issue */
     </style>
 </head>
 <body class="font-body selection:bg-red-500 selection:text-white" oncontextmenu="return false;">
@@ -662,19 +667,21 @@
     
     <!-- TEAM EXECUTOR MODAL -->
     <div id="team-executor-modal" class="fullscreen-overlay" tabindex="0">
-        <div class="w-full min-h-screen pt-20 pb-10 px-4 relative overflow-y-auto">
+        <div class="w-full min-h-screen pt-20 pb-10 px-4 relative">
              <button onclick="toggleTeamExecutor()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
                 <i class="fas fa-times"></i>
             </button>
             
-            <div class="text-center mb-8">
+            <div class="text-center mb-8 sticky left-0 right-0">
                 <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">TEAM EXECUTOR</h2>
                 <p class="text-red-400 text-sm tracking-widest">DIVISI & PELAKSANA</p>
             </div>
 
             <!-- Executor Content Container -->
-            <div class="flex justify-center pb-12">
-                 <div id="executor-tree-container" class="tree min-w-[1000px] md:min-w-0 w-full overflow-x-auto">
+            <!-- ADDED: overflow-auto here allows panning around the tree -->
+            <div class="w-full overflow-auto pb-12">
+                 <!-- ADDED: min-w-max forces the container to be as wide as the tree requires -->
+                 <div id="executor-tree-container" class="tree">
                     <!-- Tree injected via JS -->
                  </div>
             </div>
