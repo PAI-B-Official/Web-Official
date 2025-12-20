@@ -376,6 +376,55 @@
             white-space: nowrap;
             transition: all 0.3s ease;
         }
+
+        /* FORCE LANDSCAPE FOR TEAM EXECUTOR ON MOBILE 
+           Ini membuat modal Team Executor berputar 90 derajat saat dibuka di HP
+           agar struktur tree terlihat jelas
+        */
+        @media (max-width: 768px) {
+            #team-executor-modal.open {
+                /* Rotate visual 90 deg */
+                transform: rotate(90deg) !important;
+                /* Pivot from top left so we can push it into view */
+                transform-origin: top left !important;
+                
+                /* Swap Height and Width dimensions logic */
+                width: 100vh !important;
+                height: 100vw !important;
+                
+                /* Position correctly */
+                position: fixed !important;
+                top: 0 !important;
+                /* Move origin to the right edge of screen */
+                left: 100vw !important; 
+                
+                /* Reset styling that might conflict */
+                border-radius: 0 !important;
+                background: #0a0000 !important; /* Ensure background is solid */
+                z-index: 99999 !important;
+                margin: 0 !important;
+                
+                /* Enable scrolling in the new "vertical" (visually horizontal) direction */
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+            }
+
+            /* Adjust container inside rotated modal */
+            #team-executor-modal.open > div {
+                min-height: 100% !important;
+                width: 100% !important;
+                padding-top: 1rem !important;
+                padding-bottom: 2rem !important;
+            }
+
+            /* Adjust Close Button to be reachable in landscape */
+            #team-executor-modal.open button.fixed {
+                position: fixed !important; /* Relative to the rotated container context */
+                top: 1rem !important;
+                right: 2rem !important;
+                z-index: 100000 !important;
+            }
+        }
     </style>
 </head>
 <body class="font-body selection:bg-red-500 selection:text-white" oncontextmenu="return false;">
@@ -814,32 +863,6 @@
 
         // Standard Functions (enterSite, toggleMusic, switchTab, toggleMobileMenu) unchanged
         function enterSite() {
-            // 1. LOGIKA FULLSCREEN & LANDSCAPE (DITAMBAHKAN)
-            // Browser membutuhkan interaksi user (klik) untuk mengizinkan fullscreen
-            const docElm = document.documentElement;
-            
-            // Request Fullscreen (Support berbagai browser)
-            if (docElm.requestFullscreen) {
-                docElm.requestFullscreen().catch(err => console.log("Fullscreen denied:", err));
-            } else if (docElm.mozRequestFullScreen) { /* Firefox */
-                docElm.mozRequestFullScreen();
-            } else if (docElm.webkitRequestFullScreen) { /* Chrome, Safari & Opera */
-                docElm.webkitRequestFullScreen();
-            } else if (docElm.msRequestFullscreen) { /* IE/Edge */
-                docElm.msRequestFullscreen();
-            }
-
-            // Request Landscape Lock (Khusus Mobile Android/Chrome)
-            // Catatan: iOS Safari tidak mendukung screen.orientation.lock secara API,
-            // namun fullscreen video/canvas biasanya otomatis menyesuaikan.
-            if (screen.orientation && screen.orientation.lock) {
-                screen.orientation.lock('landscape').catch(function(error) {
-                    // Fail silently if lock is not supported or denied
-                    console.log("Orientation lock failed or not supported:", error);
-                });
-            }
-
-            // 2. LOGIKA TRANSISI ORIGINAL (TIDAK DIUBAH FUNGSINYA)
             const intro = document.getElementById('intro-screen');
             const mainApp = document.getElementById('main-app');
             const audio = document.getElementById('bg-music');
