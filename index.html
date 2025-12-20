@@ -75,6 +75,7 @@
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'float': 'float 6s ease-in-out infinite',
                         'bounce-slow': 'bounce 3s infinite',
+                        'spin-slow': 'spin 3s linear infinite',
                     },
                     keyframes: {
                         float: {
@@ -175,9 +176,13 @@
             text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #8a0000;
         }
 
+        /* Tree Logic fixed for responsiveness */
         .tree {
             display: flex;
             justify-content: center;
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 20px;
         }
         .tree ul {
             padding-top: 20px; 
@@ -346,6 +351,31 @@
         .img-loaded {
             opacity: 1 !important;
         }
+
+        /* Struktur Loading Overlay */
+        #structure-loading-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #structure-loading-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .semester-btn {
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body class="font-body selection:bg-red-500 selection:text-white" oncontextmenu="return false;">
@@ -356,6 +386,7 @@
     </audio>
 
     <div id="intro-screen">
+        <!-- Intro content unchanged -->
         <div class="text-center">
             <h1 class="font-tech text-4xl md:text-7xl font-bold text-white mb-4 tracking-widest neon-text">
                 PRODI <span id="typing-text" class="text-red-500 typing-cursor"></span>
@@ -370,11 +401,11 @@
     </div>
 
     <div id="main-app" class="hidden opacity-0 transition-opacity duration-1000 min-h-screen flex flex-col">
-        
+        <!-- Nav unchanged -->
         <nav class="fixed top-0 w-full z-50 glass-panel border-b border-red-900/30">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
-                    <div class="flex-shrink-0">
+                    <div class="flex-shrink-0 cursor-pointer" onclick="switchTab('home')">
                         <span class="font-tech text-2xl font-bold text-red-500 tracking-tighter">PAI <span class="text-white">B</span></span>
                     </div>
                     <div class="hidden md:block">
@@ -416,6 +447,7 @@
         <main class="flex-grow pt-20 px-4 md:px-8 max-w-7xl mx-auto w-full">
 
             <section id="home" class="active-section py-10">
+                <!-- Home section unchanged -->
                 <div class="grid md:grid-cols-2 gap-10 items-center">
                     <div class="space-y-6 text-center md:text-left">
                         <div class="md:hidden mb-4 flex justify-center">
@@ -485,171 +517,57 @@
                 </div>
             </section>
 
-            <section id="structure" class="hidden-section py-10">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">STRUKTUR KELAS</h2>
-                    <div class="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
-                </div>
-
-                <div class="md:hidden flex flex-col items-center gap-6 pb-8">
-                    <div class="glass-panel p-4 rounded-xl border border-red-500/30 w-64 text-center hover:bg-red-900/40 transition-colors">
-                        <div class="w-20 h-20 mx-auto bg-gray-700 rounded-full mb-3 overflow-hidden border-2 border-red-500">
-                            <img src="https://i.ibb.co.com/8DTHNmN1/Ubaidillah.jpg" alt="Ketua" 
-                                 class="w-full h-full object-cover"
-                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Ubaidillah+M&background=random';">
-                        </div>
-                        <h3 class="font-bold text-red-400 text-lg">Ubaidillah M.</h3>
-                        <p class="text-sm text-gray-400">Ketua Kelas</p>
+            <section id="structure" class="hidden-section py-10 relative min-h-[600px]">
+                <!-- Semester Navigation -->
+                <div class="mb-12">
+                    <div class="text-center mb-6">
+                        <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">STRUKTUR KELAS</h2>
+                        <div class="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
                     </div>
-
-                    <div class="text-red-600 text-2xl"><i class="fas fa-arrow-down"></i></div>
-
-                    <div class="glass-panel p-4 rounded-xl border border-red-500/30 w-64 text-center hover:bg-red-900/40 transition-colors">
-                        <div class="w-20 h-20 mx-auto bg-gray-700 rounded-full mb-3 overflow-hidden border-2 border-red-500">
-                            <img src="https://i.ibb.co.com/35y5ZszF/Pniel.jpg" alt="Wakil" 
-                                 class="w-full h-full object-cover"
-                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Pniel+Munandar&background=random';">
-                        </div>
-                        <h3 class="font-bold text-white text-lg">Pniel Munandar</h3>
-                        <p class="text-sm text-gray-400">Wakil Ketua</p>
-                    </div>
-
-                    <div class="w-full max-w-xs border-t border-red-800 my-2"></div>
-
-                    <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
-                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
-                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                <img src="https://i.ibb.co.com/T6G584W/Ayu.jpg" alt="Sek1" class="w-full h-full object-cover"
-                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Riska+Ayu&background=random';">
+                    
+                    <div class="max-w-4xl mx-auto px-4 flex justify-center">
+                        <!-- Updated Semester Nav with Fixed Arrow Positioning and z-index -->
+                        <div class="relative w-full max-w-sm flex items-center justify-center bg-black/40 h-16 rounded-full border border-red-900/30 backdrop-blur-sm">
+                            <button onclick="prevSemester()" id="btn-prev-sem" class="absolute left-4 z-20 text-2xl md:text-3xl text-red-600 hover:text-white transition-all transform active:scale-90 focus:outline-none">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            
+                            <div class="text-center w-full relative z-10">
+                                <h3 id="current-semester-display" class="font-tech text-2xl md:text-3xl text-white font-bold tracking-widest drop-shadow-[0_0_10px_rgba(220,38,38,0.8)] transition-all">
+                                    SEMESTER I
+                                </h3>
                             </div>
-                            <h3 class="font-semibold text-white text-xs">Riska Ayu K</h3>
-                            <p class="text-[10px] text-red-400 uppercase">Sekretaris 1</p>
-                        </div>
-                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
-                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                <img src="https://i.ibb.co.com/8g9FF4zH/Yoana.jpg" alt="Sek2" class="w-full h-full object-cover"
-                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yoana+Dian&background=random';">
-                            </div>
-                            <h3 class="font-semibold text-white text-xs">Yoana Dian R.A.</h3>
-                            <p class="text-[10px] text-red-400 uppercase">Sekretaris 2</p>
-                        </div>
-                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
-                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                <img src="https://i.ibb.co.com/xK65ZXBK/Putri.jpg" alt="Ben1" class="w-full h-full object-cover"
-                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Putri+Dwi&background=random';">
-                            </div>
-                            <h3 class="font-semibold text-white text-xs">Putri Dwi Astuti</h3>
-                            <p class="text-[10px] text-red-400 uppercase">Bendahara 1</p>
-                        </div>
-                        <div class="glass-panel p-3 rounded-lg border border-gray-700 text-center">
-                            <div class="w-12 h-12 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                <img src="https://i.ibb.co.com/PZBVB5qN/Anggun.jpg" alt="Ben2" class="w-full h-full object-cover"
-                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Anggun+Lolyka&background=random';">
-                            </div>
-                            <h3 class="font-semibold text-white text-xs">Anggun Lolyka H.</h3>
-                            <p class="text-[10px] text-red-400 uppercase">Bendahara 2</p>
+
+                            <button onclick="nextSemester()" id="btn-next-sem" class="absolute right-4 z-20 text-2xl md:text-3xl text-red-600 hover:text-white transition-all transform active:scale-90 focus:outline-none">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="hidden md:flex justify-center overflow-x-auto pb-8">
-                    <div class="tree min-w-[800px]">
-                        <ul>
-                            <li>
-                                <div class="glass-panel p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative">
-                                    <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
-                                        <img src="https://i.ibb.co.com/8DTHNmN1/Ubaidillah.jpg" alt="Ketua" class="w-full h-full object-cover"
-                                             onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Ubaidillah&background=random';">
-                                    </div>
-                                    <h3 class="font-bold text-red-400">Ubaidillah M.</h3>
-                                    <p class="text-xs text-gray-400">Ketua Kelas</p>
-                                </div>
-                                <ul>
-                                    <li>
-                                        <div class="glass-panel p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative">
-                                            <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
-                                                <img src="https://i.ibb.co.com/35y5ZszF/Pniel.jpg" alt="Wakil" class="w-full h-full object-cover"
-                                                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Pniel&background=random';">
-                                            </div>
-                                            <h3 class="font-bold text-white">Pniel Munandar</h3>
-                                            <p class="text-xs text-gray-400">Wakil Ketua</p>
-                                        </div>
-                                        
-                                        <ul class="flex justify-center gap-8">
-                                            <li>
-                                                <div class="flex flex-col gap-4 items-center pt-4">
-                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
-                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                                            <img src="https://i.ibb.co.com/T6G584W/Ayu.jpg" alt="Sek1" class="w-full h-full object-cover"
-                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Riska&background=random';">
-                                                        </div>
-                                                        <h3 class="font-semibold text-white text-sm">Riska Ayu K.</h3>
-                                                        <p class="text-[10px] text-red-400 uppercase">Sekretaris 1</p>
-                                                    </div>
-                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
-                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                                            <img src="https://i.ibb.co.com/8g9FF4zH/Yoana.jpg" alt="Sek2" class="w-full h-full object-cover"
-                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yoana&background=random';">
-                                                        </div>
-                                                        <h3 class="font-semibold text-white text-sm">Yoana Dian R.A.</h3>
-                                                        <p class="text-[10px] text-red-400 uppercase">Sekretaris 2</p>
-                                                    </div>
-                                                </div>
-                                            </li>
+                <!-- Content Container with Relative Positioning for Loader -->
+                <div class="relative">
+                    <!-- Loading Overlay -->
+                    <div id="structure-loading-overlay">
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin-slow mb-4 shadow-[0_0_15px_rgba(220,38,38,0.5)]"></div>
+                            <div class="text-red-500 font-tech text-lg tracking-widest animate-pulse" id="structure-loader-text">Beralih...</div>
+                        </div>
+                    </div>
 
-                                            <li>
-                                                <div class="flex flex-col gap-4 items-center pt-4">
-                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
-                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                                            <img src="https://i.ibb.co.com/xK65ZXBK/Putri.jpg" alt="Ben1" class="w-full h-full object-cover"
-                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Putri&background=random';">
-                                                        </div>
-                                                        <h3 class="font-semibold text-white text-sm">Putri Dwi Astuti</h3>
-                                                        <p class="text-[10px] text-red-400 uppercase">Bendahara 1</p>
-                                                    </div>
-                                                    <div class="glass-panel p-3 rounded-lg border border-gray-700 w-44 hover:border-red-500 transition-colors">
-                                                        <div class="w-10 h-10 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border border-red-500">
-                                                            <img src="https://i.ibb.co.com/PZBVB5qN/Anggun.jpg" alt="Ben2" class="w-full h-full object-cover"
-                                                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Anggun&background=random';">
-                                                        </div>
-                                                        <h3 class="font-semibold text-white text-sm">Anggun Lolyka H.</h3>
-                                                        <p class="text-[10px] text-red-400 uppercase">Bendahara 2</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 mb-12">
-                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-red-600 hover:translate-y-[-5px] transition-transform">
-                        <h4 class="font-tech text-xl text-white mb-4"><i class="fas fa-user-tie mr-2"></i> Ketua & Wakil Ketua</h4>
-                        <ul class="text-sm text-gray-400 space-y-2">
-                            <li>• Ketua : Ubaidillah M.</li>
-                            <li>• Wakil : Pniel Munandar</li>
-                        </ul>
-                    </div>
-                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-orange-600 hover:translate-y-[-5px] transition-transform">
-                        <h4 class="font-tech text-xl text-white mb-4"><i class="fas fa-file-alt mr-2"></i> Sekretaris</h4>
-                        <ul class="text-sm text-gray-400 space-y-2">
-                            <li>• Sekretaris 1 : Riska Ayu K.</li>
-                            <li>• Sekretaris 2 : Yoana Dian R.A.</li>
-                        </ul>
-                    </div>
-                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-yellow-600 hover:translate-y-[-5px] transition-transform">
-                        <h4 class="font-tech text-xl text-white mb-4"><i class="fas fa-coins mr-2"></i> Bendahara</h4>
-                        <ul class="text-sm text-gray-400 space-y-2">
-                            <li>• Bendahara 1 : Putri Dwi Astuti</li>
-                            <li>• Bendahara 2 : Anggun Lolyka H.</li>
-                        </ul>
+                    <!-- Structure Content Container (Dynamic Injection) -->
+                    <div id="structure-content-container">
+                        <!-- Initial Content (Semester I) will be injected via JS on load -->
                     </div>
                 </div>
 
-                <div class="text-center pb-12">
+                <div class="text-center pb-12 mt-8 flex flex-col gap-4 items-center">
+                     <!-- Team Executor Button -->
+                     <button onclick="toggleTeamExecutor()" class="px-6 py-2 bg-gray-900 border border-gray-600 hover:border-red-500 rounded-full text-xs font-bold tracking-wider text-gray-300 hover:text-white transition-all shadow-md">
+                        <i class="fas fa-sitemap mr-2"></i> TEAM EXECUTOR
+                    </button>
+
+                    <!-- Family Button -->
                     <button onclick="toggleFamilyGallery()" class="group relative px-10 py-4 bg-gradient-to-r from-red-900 to-black overflow-hidden rounded-xl border border-red-600/50 shadow-[0_0_30px_rgba(220,38,38,0.2)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] transition-all duration-300">
                         <div class="flex items-center gap-3 relative z-10">
                             <i class="fas fa-users text-2xl text-red-400 group-hover:text-white transition-colors"></i>
@@ -657,11 +575,12 @@
                         </div>
                         <div class="absolute inset-0 bg-red-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                     </button>
-                    <p class="mt-4 text-gray-500 text-sm">Klik untuk melihat seluruh anggota keluarga kelas</p>
+                    <p class="text-gray-500 text-sm">Klik untuk melihat seluruh anggota keluarga kelas</p>
                 </div>
             </section>
 
             <section id="documentation" class="hidden-section py-10">
+                <!-- Doc section unchanged -->
                 <div class="text-center mb-10">
                     <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">ARCHIVES</h2>
                     <div class="h-1 w-20 bg-red-600 mx-auto rounded-full mb-4"></div>
@@ -689,6 +608,7 @@
         </main>
 
         <footer class="border-t border-red-900/30 bg-black/90 mt-12 pt-12 pb-8">
+            <!-- Footer unchanged -->
             <div class="max-w-7xl mx-auto px-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8 border-b border-red-900/30 pb-8">
                     <div class="text-left">
@@ -738,7 +658,31 @@
         </footer>
     </div>
 
+    <!-- Modals (Family Gallery, All Files, Bio, Media, Team Executor) -->
+    
+    <!-- TEAM EXECUTOR MODAL -->
+    <div id="team-executor-modal" class="fullscreen-overlay" tabindex="0">
+        <div class="w-full min-h-screen pt-20 pb-10 px-4 relative overflow-y-auto">
+             <button onclick="toggleTeamExecutor()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">TEAM EXECUTOR</h2>
+                <p class="text-red-400 text-sm tracking-widest">DIVISI & PELAKSANA</p>
+            </div>
+
+            <!-- Executor Content Container -->
+            <div class="flex justify-center pb-12">
+                 <div id="executor-tree-container" class="tree min-w-[1000px] md:min-w-0 w-full overflow-x-auto">
+                    <!-- Tree injected via JS -->
+                 </div>
+            </div>
+        </div>
+    </div>
+
     <div id="family-gallery" class="fullscreen-overlay" tabindex="0">
+        <!-- Family Gallery Content unchanged -->
         <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
             <button onclick="toggleFamilyGallery()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
                 <i class="fas fa-times"></i>
@@ -752,6 +696,7 @@
     </div>
 
     <div id="all-files-overlay" class="fullscreen-overlay" tabindex="0">
+         <!-- All Files Content unchanged -->
         <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
             <button onclick="closeAllFiles()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
                 <i class="fas fa-times"></i>
@@ -767,6 +712,7 @@
         </div>
     </div>
 
+    <!-- Bio Modal & Media Modal unchanged -->
     <div id="bio-modal" class="custom-modal" onclick="closeBioModal(event)">
         <div id="bio-content" class="glass-panel w-[90%] md:w-full max-w-6xl max-h-[90vh] md:max-h-[85vh] overflow-y-auto transform scale-95 transition-all duration-300 rounded-2xl flex flex-col md:flex-row bg-black/90 border border-red-500/30 shadow-2xl relative overflow-hidden" tabindex="0">
             <div class="w-full md:w-5/12 aspect-[9/16] relative bg-gray-900 group shrink-0">
@@ -827,6 +773,7 @@
     </div>
 
     <script>
+        // Existing Scripts
         const textToType = "PAI B";
         const typingElement = document.getElementById('typing-text');
         let i = 0;
@@ -844,6 +791,10 @@
             generateStudents(); 
             initDocumentation(); 
             
+            // --- FIX: Initialize Buttons & Semester ---
+            // Ensure first semester is shown and button states are correct on load
+            updateSemesterDisplay(); // This will handle visibility of arrows and content
+            
             if (!history.state) {
                 history.replaceState({ page: 'home' }, '', '#home');
             }
@@ -851,27 +802,44 @@
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
             });
-            
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'F12') {
-                    e.preventDefault();
-                }
-                if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-                    e.preventDefault();
-                }
-                if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-                    e.preventDefault();
-                }
-                if (e.ctrlKey && e.key === 'u') {
-                    e.preventDefault();
-                }
-                if (e.ctrlKey && e.key === 's') {
-                    e.preventDefault();
-                }
+            // Keydown listeners unchanged...
+             document.addEventListener('keydown', function(e) {
+                if (e.key === 'F12') { e.preventDefault(); }
+                if (e.ctrlKey && e.shiftKey && e.key === 'I') { e.preventDefault(); }
+                if (e.ctrlKey && e.shiftKey && e.key === 'J') { e.preventDefault(); }
+                if (e.ctrlKey && e.key === 'u') { e.preventDefault(); }
+                if (e.ctrlKey && e.key === 's') { e.preventDefault(); }
             });
         };
 
+        // Standard Functions (enterSite, toggleMusic, switchTab, toggleMobileMenu) unchanged
         function enterSite() {
+            // 1. LOGIKA FULLSCREEN & LANDSCAPE (DITAMBAHKAN)
+            // Browser membutuhkan interaksi user (klik) untuk mengizinkan fullscreen
+            const docElm = document.documentElement;
+            
+            // Request Fullscreen (Support berbagai browser)
+            if (docElm.requestFullscreen) {
+                docElm.requestFullscreen().catch(err => console.log("Fullscreen denied:", err));
+            } else if (docElm.mozRequestFullScreen) { /* Firefox */
+                docElm.mozRequestFullScreen();
+            } else if (docElm.webkitRequestFullScreen) { /* Chrome, Safari & Opera */
+                docElm.webkitRequestFullScreen();
+            } else if (docElm.msRequestFullscreen) { /* IE/Edge */
+                docElm.msRequestFullscreen();
+            }
+
+            // Request Landscape Lock (Khusus Mobile Android/Chrome)
+            // Catatan: iOS Safari tidak mendukung screen.orientation.lock secara API,
+            // namun fullscreen video/canvas biasanya otomatis menyesuaikan.
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').catch(function(error) {
+                    // Fail silently if lock is not supported or denied
+                    console.log("Orientation lock failed or not supported:", error);
+                });
+            }
+
+            // 2. LOGIKA TRANSISI ORIGINAL (TIDAK DIUBAH FUNGSINYA)
             const intro = document.getElementById('intro-screen');
             const mainApp = document.getElementById('main-app');
             const audio = document.getElementById('bg-music');
@@ -945,6 +913,356 @@
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
+        /* --- SEMESTER & STRUCTURE LOGIC --- */
+
+        const semesterList = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
+        let currentSemesterIndex = 0; // Starts at I
+
+        // Helper to generate structure cards HTML
+        function createCard(img, name, role) {
+            return `
+             <div class="glass-panel p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative mx-2 mb-4">
+                <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
+                    <img src="${img}" alt="${role}" class="w-full h-full object-cover"
+                         onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random';">
+                </div>
+                <h3 class="font-bold text-white text-sm break-words">${name}</h3>
+                <p class="text-[10px] text-gray-400 uppercase tracking-wider">${role}</p>
+            </div>`;
+        }
+        
+        // --- DATA STRUKTUR PER SEMESTER ---
+        // Anda bisa mengisi data berbeda untuk setiap semester di sini.
+        const structureData = {
+            "I": {
+                ketua: { name: "Ubaidillah M.", img: "https://i.ibb.co.com/8DTHNmN1/Ubaidillah.jpg" },
+                wakil: { name: "Pniel Munandar", img: "https://i.ibb.co.com/35y5ZszF/Pniel.jpg" },
+                sek1: { name: "Riska Ayu K.", img: "https://i.ibb.co.com/T6G584W/Ayu.jpg" },
+                sek2: { name: "Yoana Dian R.A.", img: "https://i.ibb.co.com/8g9FF4zH/Yoana.jpg" },
+                ben1: { name: "Putri Dwi Astuti", img: "https://i.ibb.co.com/xK65ZXBK/Putri.jpg" },
+                ben2: { name: "Anggun Lolyka H.", img: "https://i.ibb.co.com/PZBVB5qN/Anggun.jpg" }
+            },
+            "II": {
+                // Isi data semester II di sini nanti
+                ketua: { name: "Belum Ditentukan", img: "" },
+                wakil: { name: "Belum Ditentukan", img: "" },
+                koor: { name: "Belum Ditentukan", img: "" },
+                sek1: { name: "Belum Ditentukan", img: "" },
+                sek2: { name: "Belum Ditentukan", img: "" },
+                ben1: { name: "Belum Ditentukan", img: "" }
+            },
+            // Tambahkan objek untuk "III", "IV" dst jika ingin data spesifik
+        };
+
+        function getStructData(sem) {
+            // Jika data spesifik semester ada di structureData, pakai itu.
+            // Jika tidak, pakai placeholder default.
+            if (structureData[sem]) {
+                // Merge dengan default agar tidak error jika ada field yang kurang
+                return { 
+                    ketua: { name: "Belum Ditentukan", img: "" },
+                    wakil: { name: "Belum Ditentukan", img: "" },
+                    koor: { name: "Belum Ditentukan", img: "" },
+                    sek1: { name: "Belum Ditentukan", img: "" },
+                    sek2: { name: "Belum Ditentukan", img: "" },
+                    ben1: { name: "Belum Ditentukan", img: "" },
+                    ...structureData[sem] 
+                };
+            }
+            
+            return {
+                ketua: { name: "Belum Ditentukan", img: "" },
+                wakil: { name: "Belum Ditentukan", img: "" },
+                koor: { name: "Belum Ditentukan", img: "" },
+                sek1: { name: "Belum Ditentukan", img: "" },
+                sek2: { name: "Belum Ditentukan", img: "" },
+                ben1: { name: "Belum Ditentukan", img: "" },
+                ben2: { name: "Belum Ditentukan", img: "" }
+            };
+        }
+
+        function updateSemesterDisplay() {
+            const sem = semesterList[currentSemesterIndex];
+            const displayEl = document.getElementById('current-semester-display');
+            const prevBtn = document.getElementById('btn-prev-sem');
+            const nextBtn = document.getElementById('btn-next-sem');
+
+            // Logic Visibility Anak Panah
+            if (currentSemesterIndex === 0) {
+                prevBtn.style.visibility = 'hidden';
+            } else {
+                prevBtn.style.visibility = 'visible';
+            }
+
+            if (currentSemesterIndex === semesterList.length - 1) {
+                nextBtn.style.visibility = 'hidden';
+            } else {
+                nextBtn.style.visibility = 'visible';
+            }
+            
+            // Animation effect for text change
+            displayEl.style.opacity = '0';
+            setTimeout(() => {
+                displayEl.innerText = `SEMESTER ${sem}`;
+                displayEl.style.opacity = '1';
+            }, 200);
+            
+            changeSemester(sem);
+        }
+
+        function nextSemester() {
+            if (currentSemesterIndex < semesterList.length - 1) {
+                currentSemesterIndex++;
+                updateSemesterDisplay();
+            }
+        }
+
+        function prevSemester() {
+            if (currentSemesterIndex > 0) {
+                currentSemesterIndex--;
+                updateSemesterDisplay();
+            }
+        }
+
+        function changeSemester(sem) {
+            const loader = document.getElementById('structure-loading-overlay');
+            const loaderText = document.getElementById('structure-loader-text');
+            const container = document.getElementById('structure-content-container');
+
+            loaderText.innerText = `Beralih Semester ${sem}...`;
+            loader.classList.add('active');
+            container.style.opacity = '0.3';
+
+            setTimeout(() => {
+                updateStructureUI(sem);
+                loader.classList.remove('active');
+                container.style.opacity = '1';
+            }, 800);
+        }
+
+        function updateStructureUI(sem) {
+            const container = document.getElementById('structure-content-container');
+            const data = getStructData(sem);
+            let html = '';
+
+            // Layout for Semester I (Existing)
+            if (sem === "I") {
+                // Mobile View (Linear)
+                const mobileHtml = `
+                    <div class="md:hidden flex flex-col items-center gap-6 pb-8">
+                        ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
+                        <div class="text-red-600 text-2xl"><i class="fas fa-arrow-down"></i></div>
+                        ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
+                        <div class="w-full max-w-xs border-t border-red-800 my-2"></div>
+                        <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+                            ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                            ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                            ${createCard(data.ben1.img, data.ben1.name, "Bendahara 1")}
+                            ${createCard(data.ben2.img, data.ben2.name, "Bendahara 2")}
+                        </div>
+                    </div>`;
+
+                // Desktop View (Tree)
+                const desktopHtml = `
+                    <div class="hidden md:flex justify-center overflow-x-auto pb-8">
+                        <div class="tree min-w-[800px]">
+                            <ul>
+                                <li>
+                                    ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
+                                    <ul>
+                                        <li>
+                                            ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
+                                            <ul class="flex justify-center gap-8">
+                                                <li>
+                                                    <div class="flex flex-col gap-4 items-center pt-4">
+                                                        ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                                                        ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="flex flex-col gap-4 items-center pt-4">
+                                                        ${createCard(data.ben1.img, data.ben1.name, "Bendahara 1")}
+                                                        ${createCard(data.ben2.img, data.ben2.name, "Bendahara 2")}
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>`;
+                html = mobileHtml + desktopHtml;
+
+            } else {
+                // Layout for Semester II+ (With Koordinator & 1 Bendahara)
+                 // Mobile View
+                 const mobileHtml = `
+                    <div class="md:hidden flex flex-col items-center gap-6 pb-8">
+                        ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
+                        <div class="text-red-600 text-2xl"><i class="fas fa-arrow-down"></i></div>
+                        ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
+                        <div class="text-red-600 text-2xl"><i class="fas fa-arrow-down"></i></div>
+                        ${createCard(data.koor.img, data.koor.name, "Koordinator")}
+                        <div class="w-full max-w-xs border-t border-red-800 my-2"></div>
+                        <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+                            ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                            ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                            <div class="col-span-2 flex justify-center">
+                                ${createCard(data.ben1.img, data.ben1.name, "Bendahara")}
+                            </div>
+                        </div>
+                    </div>`;
+
+                 // Desktop View
+                const desktopHtml = `
+                    <div class="hidden md:flex justify-center overflow-x-auto pb-8">
+                        <div class="tree min-w-[800px]">
+                            <ul>
+                                <li>
+                                    ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
+                                    <ul>
+                                        <li>
+                                            ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
+                                            <ul>
+                                                <li>
+                                                     ${createCard(data.koor.img, data.koor.name, "Koordinator")}
+                                                     <ul>
+                                                        <li>
+                                                            <div class="flex gap-4 items-start justify-center pt-4">
+                                                                <div class="flex flex-col gap-2">
+                                                                     ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                                                                     ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                                                                </div>
+                                                                <div class="flex flex-col gap-2">
+                                                                     ${createCard(data.ben1.img, data.ben1.name, "Bendahara")}
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                     </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>`;
+                html = mobileHtml + desktopHtml;
+            }
+
+            container.innerHTML = html;
+        }
+
+        /* --- TEAM EXECUTOR LOGIC --- */
+        
+        function toggleTeamExecutor() {
+            const modal = document.getElementById('team-executor-modal');
+            const container = document.getElementById('executor-tree-container');
+            
+            if (modal.classList.contains('open')) {
+                if (history.state && history.state.page === 'team-executor') {
+                    history.back();
+                    return;
+                }
+                modal.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            } else {
+                renderTeamExecutorTree(container);
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                history.pushState({ page: 'team-executor' }, '', '#team-executor');
+                modal.focus();
+            }
+        }
+
+        function renderTeamExecutorTree(container) {
+            // Placeholder Data for Executor
+            const data = {
+                ketua: { name: "Nama Ketua", img: "" },
+                wakil: { name: "Nama Wakil", img: "" },
+                koor: { name: "Nama Koordinator", img: "" },
+                sek1: { name: "Nama Sekretaris 1", img: "" }, 
+                sek2: { name: "Nama Sekretaris 2", img: "" }, 
+                ben: { name: "Nama Bendahara", img: "" },
+                div_kebersihan: Array(6).fill({name: "Anggota", img: ""}),
+                div_kreatif: Array(3).fill({name: "Anggota", img: ""}),
+                div_sosial: Array(3).fill({name: "Anggota", img: ""})
+            };
+
+            // Menggunakan struktur UL/LI agar garis (tree lines) terhubung otomatis dan rapi
+            const html = `
+            <ul>
+                <li>
+                    ${createCard(data.ketua.img, data.ketua.name, "Ketua Pelaksana")}
+                    <ul>
+                        <li>
+                            ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
+                            <ul>
+                                <li>
+                                    ${createCard(data.koor.img, data.koor.name, "Koordinator")}
+                                    <ul>
+                                        <!-- Cabang 1: Sekretaris (Stacked) -->
+                                        <li>
+                                            <div class="flex flex-col gap-4 items-center pt-4">
+                                                ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                                                ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                                            </div>
+                                        </li>
+                                        
+                                        <!-- Cabang 2: Bendahara (Sendiri, jadi ukurannya normal) -->
+                                        <li>
+                                            <div class="flex flex-col gap-4 items-center pt-4">
+                                                ${createCard(data.ben.img, data.ben.name, "Bendahara")}
+                                            </div>
+                                        </li>
+
+                                        <!-- Cabang 3: Divisi (Dikelompokkan) -->
+                                        <li>
+                                            <div class="pt-4 flex justify-center">
+                                                 <div class="flex flex-col gap-4 p-6 border border-red-500/30 rounded-xl bg-black/60 backdrop-blur-sm">
+                                                     <h4 class="text-white font-tech text-xl text-center border-b-2 border-red-600 pb-2 mb-2 tracking-widest">DIVISI</h4>
+                                                     
+                                                     <div class="flex flex-col xl:flex-row gap-8 items-start">
+                                                         <!-- Tim Kebersihan -->
+                                                         <div class="flex flex-col items-center gap-4 bg-red-900/10 p-4 rounded-lg border border-red-500/20">
+                                                             <h5 class="text-red-400 font-bold text-lg border-b border-red-500/50 pb-1 w-full text-center">TIM KEBERSIHAN</h5>
+                                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                                 ${data.div_kebersihan.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
+                                                             </div>
+                                                         </div>
+
+                                                         <!-- Tim Kreatif -->
+                                                         <div class="flex flex-col items-center gap-4 bg-orange-900/10 p-4 rounded-lg border border-orange-500/20">
+                                                             <h5 class="text-orange-400 font-bold text-lg border-b border-orange-500/50 pb-1 w-full text-center">TIM KREATIF</h5>
+                                                             <div class="flex flex-col gap-2">
+                                                                 ${data.div_kreatif.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
+                                                             </div>
+                                                         </div>
+
+                                                         <!-- Tim Sosial -->
+                                                         <div class="flex flex-col items-center gap-4 bg-yellow-900/10 p-4 rounded-lg border border-yellow-500/20">
+                                                             <h5 class="text-yellow-400 font-bold text-lg border-b border-yellow-500/50 pb-1 w-full text-center">TIM SOSIAL</h5>
+                                                             <div class="flex flex-col gap-2">
+                                                                 ${data.div_sosial.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            `;
+            container.innerHTML = html;
+        }
+
+        /* --- STUDENT DATA (Unchanged) --- */
         const studentsData = [
             { name: "Ady Surya", nim: "2511038", ig: "@suryaadharm_", img: "https://i.ibb.co.com/3ycvDN0x/Ady.jpg", bioImg: "https://i.ibb.co.com/396vghCh/Ady-2.jpg", bio: "Saya orang yang menyukai berpetualang dan menikmati keindahan alam untuk menghilangkan kebosanan dan mengagumi ciptaan Tuhan, sungguh indah." },
             { name: "A. Lubadul Fikri", nim: "2511046", ig: "@bangkriii_", img: "https://i.ibb.co.com/LDD9ZbFL/Fikri.jpg", bioImg: "https://i.ibb.co.com/prLDYGwg/Fikri-2.jpg", bio: "Seseorang yang berkepribadian introvert abizzz. Saya ingin melihat dan memahami dunia di luar sana.Saya tak ingin lenyap di dalam bagian beberapa penghalang yang ada ini tanpa mengetahui apa yang ada di luar sana." },
@@ -1009,39 +1327,22 @@
 
         const allFilesData = [
             ...existingMedia,
-
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+9', title: '-', ratio: 'aspect-[3/4]' },
-            
             { type: 'video', src: 'JJ 1.mp4', title: 'Video 10', ratio: 'aspect-[9/16]' },
-
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+11', title: '-', ratio: 'aspect-video' },
-
             { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+12', title: '-', ratio: 'aspect-square' },
-
             { type: 'video', src: 'JJ 1.mp4', title: 'Video 13', ratio: 'aspect-[4/5]' },
-
             { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+14', title: '-', ratio: 'aspect-[9/16]' },
-
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+15', title: '-', ratio: 'aspect-video' },
-
             { type: 'video', src: 'JJ 1.mp4', title: 'Video 16', ratio: 'aspect-square' },
-
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+17', title: '-', ratio: 'aspect-[3/4]' },
-
             { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+18', title: '-', ratio: 'aspect-square' },
-
             { type: 'video', src: 'JJ 1.mp4', title: 'Video 19', ratio: 'aspect-[9/16]' },
-
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+20', title: '-', ratio: 'aspect-video' },
-
             { type: 'image', src: 'https://placehold.co/600x800/1a0505/FFF?text=FOTO+21', title: '-', ratio: 'aspect-[4/5]' },
-
             { type: 'video', src: 'JJ 1.mp4', title: 'Video 22', ratio: 'aspect-square' },
-
             { type: 'image', src: 'https://placehold.co/600x900/1a0505/FFF?text=FOTO+23', title: '-', ratio: 'aspect-[9/16]' },
-
             { type: 'image', src: 'https://placehold.co/800x600/1a0505/FFF?text=FOTO+24', title: '-', ratio: 'aspect-video' },
-
             { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+25', title: '-', ratio: 'aspect-square' }
         ];
 
@@ -1138,6 +1439,10 @@
         }
 
         function closeAllFiles() {
+             if (history.state && history.state.page === 'all-files') {
+                history.back();
+                return;
+            }
             const modal = document.getElementById('all-files-overlay');
             modal.classList.remove('open');
             document.body.style.overflow = 'auto';
@@ -1152,7 +1457,9 @@
             const familyGallery = document.getElementById('family-gallery');
             const allFilesModal = document.getElementById('all-files-overlay');
             const mediaContainer = document.getElementById('media-container');
+            const teamExecutorModal = document.getElementById('team-executor-modal');
 
+            // Close Media Modal if active (Back pressed)
             if (mediaModal.classList.contains('active')) {
                 if (mediaContainer.dataset.mediaType === 'video') {
                     const bgMusic = document.getElementById('bg-music');
@@ -1167,26 +1474,38 @@
                     }
                 }
                 mediaContainer.innerHTML = '';
+                mediaModal.classList.remove('active');
             }
 
+            // Close other modals if active (Back pressed)
             bioModal.classList.remove('active');
-            mediaModal.classList.remove('active');
             
             if (state.page === 'family-gallery' || state.page === 'bio-details') {
                 familyGallery.classList.add('open');
                 allFilesModal.classList.remove('open');
+                teamExecutorModal.classList.remove('open');
                 document.body.style.overflow = 'hidden';
                 if(state.page === 'family-gallery') familyGallery.focus();
             } 
             else if (state.page === 'all-files') {
                 allFilesModal.classList.add('open');
                 familyGallery.classList.remove('open');
+                teamExecutorModal.classList.remove('open');
                 document.body.style.overflow = 'hidden';
                 allFilesModal.focus();
             }
-            else {
+            else if (state.page === 'team-executor') {
+                teamExecutorModal.classList.add('open');
                 familyGallery.classList.remove('open');
                 allFilesModal.classList.remove('open');
+                document.body.style.overflow = 'hidden';
+                teamExecutorModal.focus();
+            }
+            else {
+                // If popping back to a main tab state
+                familyGallery.classList.remove('open');
+                allFilesModal.classList.remove('open');
+                teamExecutorModal.classList.remove('open');
                 document.body.style.overflow = 'auto';
             }
 
@@ -1198,6 +1517,10 @@
         function toggleFamilyGallery() {
             const gallery = document.getElementById('family-gallery');
             if (gallery.classList.contains('open')) {
+                if (history.state && history.state.page === 'family-gallery') {
+                    history.back();
+                    return;
+                }
                 gallery.classList.remove('open');
                 document.body.style.overflow = 'auto';
                 const activeSection = document.querySelector('.active-section');
@@ -1258,8 +1581,12 @@
                 const content = document.getElementById('bio-content');
                 if (content.contains(e.target)) return;
             }
+
+            if (history.state && history.state.page === 'bio-details') {
+                history.back();
+                return;
+            }
             document.getElementById('bio-modal').classList.remove('active');
-            history.replaceState({ page: 'family-gallery' }, '', '#family');
         }
 
         function openMediaModal(type, src) {
@@ -1299,6 +1626,14 @@
                  const container = document.getElementById('media-container');
                  if (container.contains(e.target)) return;
             }
+
+            // CRITICAL FIX: If user is in preview state, go back instead of replacing state
+            if (history.state && history.state.page === 'media-preview') {
+                history.back();
+                return;
+            }
+
+            // Fallback cleanup if state is mismatched
             const container = document.getElementById('media-container');
             if (container.dataset.mediaType === 'video') {
                  const bgMusic = document.getElementById('bg-music');
@@ -1314,13 +1649,6 @@
             }
             container.innerHTML = ''; 
             document.getElementById('media-modal').classList.remove('active');
-            
-            const allFilesModal = document.getElementById('all-files-overlay');
-            if(allFilesModal.classList.contains('open')) {
-                 history.replaceState({ page: 'all-files' }, '', '#all-files');
-            } else {
-                 history.replaceState({ page: 'documentation' }, '', '#documentation');
-            }
         }
         
         function previewVideo(video) {
