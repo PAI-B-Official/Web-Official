@@ -379,8 +379,6 @@
             white-space: nowrap;
             transition: all 0.3s ease;
         }
-
-        /* Removed broken rotation media query to fix "cut off" issue */
     </style>
 </head>
 <body class="font-body selection:bg-red-500 selection:text-white" oncontextmenu="return false;">
@@ -568,7 +566,7 @@
 
                 <div class="text-center pb-12 mt-8 flex flex-col gap-4 items-center">
                      <!-- Team Executor Button -->
-                     <button onclick="toggleTeamExecutor()" class="px-6 py-2 bg-gray-900 border border-gray-600 hover:border-red-500 rounded-full text-xs font-bold tracking-wider text-gray-300 hover:text-white transition-all shadow-md">
+                     <button id="btn-team-executor" onclick="toggleTeamExecutor()" class="px-6 py-2 bg-gray-900 border border-gray-600 hover:border-red-500 rounded-full text-xs font-bold tracking-wider text-gray-300 hover:text-white transition-all shadow-md hidden">
                         <i class="fas fa-sitemap mr-2"></i> TEAM EXECUTOR
                     </button>
 
@@ -902,7 +900,7 @@
         // Helper to generate structure cards HTML
         function createCard(img, name, role) {
             return `
-             <div class="glass-panel p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative mx-2 mb-4">
+             <div class="glass-panel text-center p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative mx-2 mb-4">
                 <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
                     <img src="${img}" alt="${role}" class="w-full h-full object-cover"
                          onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random';">
@@ -979,6 +977,14 @@
                 nextBtn.style.visibility = 'hidden';
             } else {
                 nextBtn.style.visibility = 'visible';
+            }
+            
+            // Logic Team Executor Button
+            const teamExecutorBtn = document.getElementById('btn-team-executor');
+            if (currentSemesterIndex === 0) { // Semester I
+                if(teamExecutorBtn) teamExecutorBtn.style.display = 'none';
+            } else {
+                if(teamExecutorBtn) teamExecutorBtn.style.display = 'block'; // Or inline-flex if needed, but the parent aligns it.
             }
             
             // Animation effect for text change
