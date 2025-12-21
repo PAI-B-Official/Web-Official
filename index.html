@@ -176,10 +176,12 @@
             text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #8a0000;
         }
 
-        /* --- TREE LOGIC FIX (Flexbox Version) --- */
+        /* --- TREE LOGIC FIX --- */
         .tree {
             display: flex;
             justify-content: center;
+            /* Hapus max-content agar tidak memaksa scroll horizontal di desktop */
+            /* width: max-content; */ 
             min-width: 100%;
             padding-bottom: 50px;
         }
@@ -192,39 +194,27 @@
         }
         
         .tree li {
-            text-align: center;
+            float: left; text-align: center;
             list-style-type: none;
             position: relative;
-            padding: 20px 10px 0 10px; /* Adjusted padding to avoid crash */
+            padding: 20px 5px 0 5px;
             transition: all 0.5s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
-
-        /* Lines */
+        /* Garis Tree */
         .tree li::before, .tree li::after {
             content: '';
-            position: absolute; 
-            top: 0; 
-            right: 50%;
+            position: absolute; top: 0; right: 50%;
             border-top: 2px solid #8a0000;
-            width: 50%; 
-            height: 20px;
+            width: 50%; height: 20px;
         }
         .tree li::after {
-            right: auto; 
-            left: 50%;
+            right: auto; left: 50%;
             border-left: 2px solid #8a0000;
         }
-
-        /* First/Last Lines */
         .tree li:only-child::after, .tree li:only-child::before {
             display: none;
         }
-        .tree li:only-child { 
-            padding-top: 0;
-        }
+        .tree li:only-child { padding-top: 0;}
         .tree li:first-child::before, .tree li:last-child::after {
             border: 0 none;
         }
@@ -235,16 +225,11 @@
         .tree li:first-child::after{
             border-radius: 5px 0 0 0;
         }
-
-        /* Vertical Connector from UL */
         .tree ul ul::before{
             content: '';
-            position: absolute; 
-            top: 0; 
-            left: 50%;
+            position: absolute; top: 0; left: 50%;
             border-left: 2px solid #8a0000;
-            width: 0; 
-            height: 20px;
+            width: 0; height: 20px;
         }
 
         /* Modal & Overlay Fixes */
@@ -279,9 +264,6 @@
             transform: scale(1);
             opacity: 1;
             pointer-events: auto;
-        }
-        .fullscreen-overlay.open {
-            transform: scale(1) !important;
         }
         .fullscreen-overlay:focus {
             outline: none;
@@ -551,9 +533,9 @@
                 </div>
             </section>
 
-            <section id="structure" class="hidden-section py-10 relative min-h-[600px] flex flex-col items-center">
+            <section id="structure" class="hidden-section py-10 relative min-h-[600px]">
                 <!-- Semester Navigation -->
-                <div class="mb-12 w-full">
+                <div class="mb-12">
                     <div class="text-center mb-6">
                         <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">STRUKTUR KELAS</h2>
                         <div class="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
@@ -580,7 +562,7 @@
                 </div>
 
                 <!-- Content Container with Relative Positioning for Loader -->
-                <div class="relative w-full flex justify-center">
+                <div class="relative">
                     <!-- Loading Overlay -->
                     <div id="structure-loading-overlay">
                         <div class="flex flex-col items-center">
@@ -590,7 +572,7 @@
                     </div>
 
                     <!-- Structure Content Container (Dynamic Injection) -->
-                    <div id="structure-content-container" class="w-full flex justify-center">
+                    <div id="structure-content-container">
                         <!-- Initial Content (Semester I) will be injected via JS on load -->
                     </div>
                 </div>
@@ -1133,7 +1115,6 @@
                     </div>`;
 
                  // Desktop View
-                // FIX: Separated Sekretaris and Bendahara into their own LI to enforce proper tree lines
                 const desktopHtml = `
                     <div class="hidden md:flex justify-center overflow-x-auto pb-8">
                         <div class="tree min-w-[800px]">
@@ -1146,16 +1127,16 @@
                                             <ul>
                                                 <li>
                                                      ${createCard(data.koor.img, data.koor.name, "Koordinator")}
-                                                     <ul class="flex justify-center gap-8">
+                                                     <ul>
                                                         <li>
-                                                            <div class="flex flex-col gap-4 items-center pt-4">
-                                                                 ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
-                                                                 ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="flex flex-col gap-4 items-center pt-4">
-                                                                 ${createCard(data.ben1.img, data.ben1.name, "Bendahara")}
+                                                            <div class="flex gap-4 items-start justify-center pt-4">
+                                                                <div class="flex flex-col gap-2">
+                                                                     ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                                                                     ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                                                                </div>
+                                                                <div class="flex flex-col gap-2">
+                                                                     ${createCard(data.ben1.img, data.ben1.name, "Bendahara")}
+                                                                </div>
                                                             </div>
                                                         </li>
                                                      </ul>
