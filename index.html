@@ -176,13 +176,12 @@
             text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #8a0000;
         }
 
-        /* --- TREE LOGIC FIX --- */
+        /* --- TREE LOGIC FIX (Flexbox Version) --- */
         .tree {
-            display: table; /* Ensures container expands to fit content */
-            margin: 0 auto;
-            width: max-content; /* Critical: Forces width to content size */
+            display: flex;
+            justify-content: center;
             min-width: 100%;
-            padding-bottom: 50px; /* Space for scrollbar */
+            padding-bottom: 50px;
         }
         .tree ul {
             padding-top: 20px; 
@@ -191,29 +190,41 @@
             display: flex;
             justify-content: center;
         }
-        /* Override justify-content if tree is wider than screen handled by scroll */
         
         .tree li {
-            float: left; text-align: center;
+            text-align: center;
             list-style-type: none;
             position: relative;
-            padding: 20px 5px 0 5px;
+            padding: 20px 10px 0 10px; /* Adjusted padding to avoid crash */
             transition: all 0.5s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        /* Lines */
         .tree li::before, .tree li::after {
             content: '';
-            position: absolute; top: 0; right: 50%;
+            position: absolute; 
+            top: 0; 
+            right: 50%;
             border-top: 2px solid #8a0000;
-            width: 50%; height: 20px;
+            width: 50%; 
+            height: 20px;
         }
         .tree li::after {
-            right: auto; left: 50%;
+            right: auto; 
+            left: 50%;
             border-left: 2px solid #8a0000;
         }
+
+        /* First/Last Lines */
         .tree li:only-child::after, .tree li:only-child::before {
             display: none;
         }
-        .tree li:only-child { padding-top: 0;}
+        .tree li:only-child { 
+            padding-top: 0;
+        }
         .tree li:first-child::before, .tree li:last-child::after {
             border: 0 none;
         }
@@ -224,11 +235,16 @@
         .tree li:first-child::after{
             border-radius: 5px 0 0 0;
         }
+
+        /* Vertical Connector from UL */
         .tree ul ul::before{
             content: '';
-            position: absolute; top: 0; left: 50%;
+            position: absolute; 
+            top: 0; 
+            left: 50%;
             border-left: 2px solid #8a0000;
-            width: 0; height: 20px;
+            width: 0; 
+            height: 20px;
         }
 
         /* Modal & Overlay Fixes */
@@ -240,17 +256,32 @@
             height: 100%;
             background: rgba(10, 0, 0, 0.95);
             z-index: 100;
-            overflow: auto; /* Allow scrolling in both directions */
+            /* Scroll hanya vertikal di desktop, auto di mobile jika perlu */
+            overflow-y: auto; 
+            overflow-x: hidden;
             transform: scale(0.9);
             opacity: 0;
             pointer-events: none;
             transition: transform 0.3s ease, opacity 0.3s ease;
             will-change: transform, opacity;
         }
+        /* Pada mobile, biarkan scroll x jika konten melebihi layar */
+        @media (max-width: 768px) {
+            .fullscreen-overlay {
+                overflow-x: auto;
+            }
+            .tree {
+                 width: max-content; /* Di mobile boleh melebar agar bisa digeser */
+            }
+        }
+        
         .fullscreen-overlay.open {
             transform: scale(1);
             opacity: 1;
             pointer-events: auto;
+        }
+        .fullscreen-overlay.open {
+            transform: scale(1) !important;
         }
         .fullscreen-overlay:focus {
             outline: none;
@@ -520,9 +551,9 @@
                 </div>
             </section>
 
-            <section id="structure" class="hidden-section py-10 relative min-h-[600px]">
+            <section id="structure" class="hidden-section py-10 relative min-h-[600px] flex flex-col items-center">
                 <!-- Semester Navigation -->
-                <div class="mb-12">
+                <div class="mb-12 w-full">
                     <div class="text-center mb-6">
                         <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">STRUKTUR KELAS</h2>
                         <div class="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
@@ -549,7 +580,7 @@
                 </div>
 
                 <!-- Content Container with Relative Positioning for Loader -->
-                <div class="relative">
+                <div class="relative w-full flex justify-center">
                     <!-- Loading Overlay -->
                     <div id="structure-loading-overlay">
                         <div class="flex flex-col items-center">
@@ -559,7 +590,7 @@
                     </div>
 
                     <!-- Structure Content Container (Dynamic Injection) -->
-                    <div id="structure-content-container">
+                    <div id="structure-content-container" class="w-full flex justify-center">
                         <!-- Initial Content (Semester I) will be injected via JS on load -->
                     </div>
                 </div>
@@ -677,7 +708,7 @@
 
             <!-- Executor Content Container -->
             <!-- ADDED: overflow-auto here allows panning around the tree -->
-            <div class="w-full overflow-auto pb-12">
+            <div class="w-full overflow-y-auto overflow-x-hidden pb-12">
                  <!-- ADDED: min-w-max forces the container to be as wide as the tree requires -->
                  <div id="executor-tree-container" class="tree">
                     <!-- Tree injected via JS -->
@@ -1102,6 +1133,7 @@
                     </div>`;
 
                  // Desktop View
+                // FIX: Separated Sekretaris and Bendahara into their own LI to enforce proper tree lines
                 const desktopHtml = `
                     <div class="hidden md:flex justify-center overflow-x-auto pb-8">
                         <div class="tree min-w-[800px]">
@@ -1114,16 +1146,16 @@
                                             <ul>
                                                 <li>
                                                      ${createCard(data.koor.img, data.koor.name, "Koordinator")}
-                                                     <ul>
+                                                     <ul class="flex justify-center gap-8">
                                                         <li>
-                                                            <div class="flex gap-4 items-start justify-center pt-4">
-                                                                <div class="flex flex-col gap-2">
-                                                                     ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
-                                                                     ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
-                                                                </div>
-                                                                <div class="flex flex-col gap-2">
-                                                                     ${createCard(data.ben1.img, data.ben1.name, "Bendahara")}
-                                                                </div>
+                                                            <div class="flex flex-col gap-4 items-center pt-4">
+                                                                 ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                                                                 ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="flex flex-col gap-4 items-center pt-4">
+                                                                 ${createCard(data.ben1.img, data.ben1.name, "Bendahara")}
                                                             </div>
                                                         </li>
                                                      </ul>
@@ -1178,6 +1210,7 @@
             };
 
             // Menggunakan struktur UL/LI agar garis (tree lines) terhubung otomatis dan rapi
+            // FIX: Divisi dibuat horizontal (flex-row) pada layar MD ke atas
             const html = `
             <ul>
                 <li>
@@ -1210,7 +1243,8 @@
                                                  <div class="flex flex-col gap-4 p-6 border border-red-500/30 rounded-xl bg-black/60 backdrop-blur-sm">
                                                      <h4 class="text-white font-tech text-xl text-center border-b-2 border-red-600 pb-2 mb-2 tracking-widest">DIVISI</h4>
                                                      
-                                                     <div class="flex flex-col xl:flex-row gap-8 items-start">
+                                                     <!-- FIX: md:flex-row agar menyamping di laptop -->
+                                                     <div class="flex flex-col md:flex-row gap-8 items-start justify-center flex-wrap">
                                                          <!-- Tim Kebersihan -->
                                                          <div class="flex flex-col items-center gap-4 bg-red-900/10 p-4 rounded-lg border border-red-500/20">
                                                              <h5 class="text-red-400 font-bold text-lg border-b border-red-500/50 pb-1 w-full text-center">TIM KEBERSIHAN</h5>
