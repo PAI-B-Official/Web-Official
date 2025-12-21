@@ -176,12 +176,11 @@
             text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #8a0000;
         }
 
-        /* --- TREE LOGIC FIX --- */
+        /* --- TREE CSS (TREE LAYOUT FOR ALL SCREENS) --- */
         .tree {
-            display: flex;
-            justify-content: center;
-            /* Hapus max-content agar tidak memaksa scroll horizontal di desktop */
-            /* width: max-content; */ 
+            display: table; /* Ensures tree structure holds together */
+            margin: 0 auto;
+            width: max-content; /* Forces width to fit content (enables horizontal scroll if needed) */
             min-width: 100%;
             padding-bottom: 50px;
         }
@@ -194,13 +193,22 @@
         }
         
         .tree li {
-            float: left; text-align: center;
+            float: left; 
+            text-align: center;
             list-style-type: none;
             position: relative;
-            padding: 20px 5px 0 5px;
+            padding: 20px 2px 0 2px; /* Very small padding on mobile to save space */
             transition: all 0.5s;
         }
-        /* Garis Tree */
+        
+        /* Desktop padding adjustment */
+        @media (min-width: 768px) {
+            .tree li {
+                padding: 20px 10px 0 10px;
+            }
+        }
+        
+        /* Tree Lines (Global) */
         .tree li::before, .tree li::after {
             content: '';
             position: absolute; top: 0; right: 50%;
@@ -232,6 +240,14 @@
             width: 0; height: 20px;
         }
 
+        /* Container Scroll */
+        #structure-content-container {
+            width: 100%;
+            overflow-x: auto; /* Enable horizontal scroll */
+            padding-bottom: 2rem;
+            display: block; /* Change flex to block to allow scrolling child */
+        }
+        
         /* Modal & Overlay Fixes */
         .fullscreen-overlay {
             position: fixed;
@@ -241,29 +257,22 @@
             height: 100%;
             background: rgba(10, 0, 0, 0.95);
             z-index: 100;
-            /* Scroll hanya vertikal di desktop, auto di mobile jika perlu */
-            overflow-y: auto; 
-            overflow-x: hidden;
+            overflow: auto; /* Scroll both directions if needed */
             transform: scale(0.9);
             opacity: 0;
             pointer-events: none;
             transition: transform 0.3s ease, opacity 0.3s ease;
             will-change: transform, opacity;
         }
-        /* Pada mobile, biarkan scroll x jika konten melebihi layar */
-        @media (max-width: 768px) {
-            .fullscreen-overlay {
-                overflow-x: auto;
-            }
-            .tree {
-                 width: max-content; /* Di mobile boleh melebar agar bisa digeser */
-            }
-        }
         
         .fullscreen-overlay.open {
             transform: scale(1);
             opacity: 1;
             pointer-events: auto;
+        }
+        .fullscreen-overlay.open .tree {
+            /* Force re-render/layout calc if needed */
+            width: max-content;
         }
         .fullscreen-overlay:focus {
             outline: none;
@@ -690,7 +699,7 @@
 
             <!-- Executor Content Container -->
             <!-- ADDED: overflow-auto here allows panning around the tree -->
-            <div class="w-full overflow-y-auto overflow-x-hidden pb-12">
+            <div class="w-full overflow-y-auto overflow-x-auto pb-12">
                  <!-- ADDED: min-w-max forces the container to be as wide as the tree requires -->
                  <div id="executor-tree-container" class="tree">
                     <!-- Tree injected via JS -->
@@ -913,13 +922,13 @@
         // Helper to generate structure cards HTML
         function createCard(img, name, role) {
             return `
-             <div class="glass-panel text-center p-4 rounded-xl border border-red-500/30 inline-block w-48 hover:bg-red-900/40 transition-colors z-10 relative mx-2 mb-4">
-                <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
+             <div class="glass-panel text-center p-2 md:p-4 rounded-xl border border-red-500/30 inline-block w-28 md:w-48 hover:bg-red-900/40 transition-colors z-10 relative mx-1 mb-2 md:mx-2 md:mb-4">
+                <div class="w-12 h-12 md:w-16 md:h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
                     <img src="${img}" alt="${role}" class="w-full h-full object-cover"
                          onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random';">
                 </div>
-                <h3 class="font-bold text-white text-sm break-words">${name}</h3>
-                <p class="text-[10px] text-gray-400 uppercase tracking-wider">${role}</p>
+                <h3 class="font-bold text-white text-[10px] md:text-sm break-words">${name}</h3>
+                <p class="text-[8px] md:text-[10px] text-gray-400 uppercase tracking-wider">${role}</p>
             </div>`;
         }
         
@@ -1045,110 +1054,75 @@
             const data = getStructData(sem);
             let html = '';
 
-            // Layout for Semester I (Existing)
+            // Layout for Semester I (Tree Only)
             if (sem === "I") {
-                // Mobile View (Linear)
-                const mobileHtml = `
-                    <div class="md:hidden flex flex-col items-center gap-6 pb-8">
-                        ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
-                        <div class="text-red-600 text-2xl"><i class="fas fa-arrow-down"></i></div>
-                        ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
-                        <div class="w-full max-w-xs border-t border-red-800 my-2"></div>
-                        <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
-                            ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
-                            ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
-                            ${createCard(data.ben1.img, data.ben1.name, "Bendahara 1")}
-                            ${createCard(data.ben2.img, data.ben2.name, "Bendahara 2")}
-                        </div>
+                const treeHtml = `
+                    <div class="tree">
+                        <ul>
+                            <li>
+                                ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
+                                <ul>
+                                    <li>
+                                        ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
+                                        <ul>
+                                            <!-- Sekretaris Group -->
+                                            <li>
+                                                <div class="flex flex-col gap-4 items-center pt-4">
+                                                    ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                                                    ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                                                </div>
+                                            </li>
+                                            <!-- Bendahara Group -->
+                                            <li>
+                                                <div class="flex flex-col gap-4 items-center pt-4">
+                                                    ${createCard(data.ben1.img, data.ben1.name, "Bendahara 1")}
+                                                    ${createCard(data.ben2.img, data.ben2.name, "Bendahara 2")}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>`;
-
-                // Desktop View (Tree)
-                const desktopHtml = `
-                    <div class="hidden md:flex justify-center overflow-x-auto pb-8">
-                        <div class="tree min-w-[800px]">
-                            <ul>
-                                <li>
-                                    ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
-                                    <ul>
-                                        <li>
-                                            ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
-                                            <ul class="flex justify-center gap-8">
-                                                <li>
-                                                    <div class="flex flex-col gap-4 items-center pt-4">
-                                                        ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
-                                                        ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="flex flex-col gap-4 items-center pt-4">
-                                                        ${createCard(data.ben1.img, data.ben1.name, "Bendahara 1")}
-                                                        ${createCard(data.ben2.img, data.ben2.name, "Bendahara 2")}
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>`;
-                html = mobileHtml + desktopHtml;
+                html = treeHtml;
 
             } else {
-                // Layout for Semester II+ (With Koordinator & 1 Bendahara)
-                 // Mobile View
-                 const mobileHtml = `
-                    <div class="md:hidden flex flex-col items-center gap-6 pb-8">
-                        ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
-                        <div class="text-red-600 text-2xl"><i class="fas fa-arrow-down"></i></div>
-                        ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
-                        <div class="text-red-600 text-2xl"><i class="fas fa-arrow-down"></i></div>
-                        ${createCard(data.koor.img, data.koor.name, "Koordinator")}
-                        <div class="w-full max-w-xs border-t border-red-800 my-2"></div>
-                        <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
-                            ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
-                            ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
-                            <div class="col-span-2 flex justify-center">
-                                ${createCard(data.ben1.img, data.ben1.name, "Bendahara")}
-                            </div>
-                        </div>
+                // Layout for Semester II+ (Tree Only)
+                const treeHtml = `
+                    <div class="tree">
+                        <ul>
+                            <li>
+                                ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
+                                <ul>
+                                    <li>
+                                        ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
+                                        <ul>
+                                            <li>
+                                                 ${createCard(data.koor.img, data.koor.name, "Koordinator")}
+                                                 <ul>
+                                                    <!-- Sekretaris -->
+                                                    <li>
+                                                        <div class="flex flex-col gap-4 items-center pt-4">
+                                                             ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                                                             ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                                                        </div>
+                                                    </li>
+                                                    <!-- Bendahara -->
+                                                    <li>
+                                                        <div class="flex flex-col gap-4 items-center pt-4">
+                                                             ${createCard(data.ben1.img, data.ben1.name, "Bendahara")}
+                                                        </div>
+                                                    </li>
+                                                 </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>`;
-
-                 // Desktop View
-                const desktopHtml = `
-                    <div class="hidden md:flex justify-center overflow-x-auto pb-8">
-                        <div class="tree min-w-[800px]">
-                            <ul>
-                                <li>
-                                    ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
-                                    <ul>
-                                        <li>
-                                            ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
-                                            <ul>
-                                                <li>
-                                                     ${createCard(data.koor.img, data.koor.name, "Koordinator")}
-                                                     <ul>
-                                                        <li>
-                                                            <div class="flex gap-4 items-start justify-center pt-4">
-                                                                <div class="flex flex-col gap-2">
-                                                                     ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
-                                                                     ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
-                                                                </div>
-                                                                <div class="flex flex-col gap-2">
-                                                                     ${createCard(data.ben1.img, data.ben1.name, "Bendahara")}
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                     </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>`;
-                html = mobileHtml + desktopHtml;
+                html = treeHtml;
             }
 
             container.innerHTML = html;
@@ -1190,8 +1164,7 @@
                 div_sosial: Array(3).fill({name: "Anggota", img: ""})
             };
 
-            // Menggunakan struktur UL/LI agar garis (tree lines) terhubung otomatis dan rapi
-            // FIX: Divisi dibuat horizontal (flex-row) pada layar MD ke atas
+            // FIX: Struktur UL/LI agar garis (tree lines) terhubung ke Divisi juga
             const html = `
             <ul>
                 <li>
@@ -1218,40 +1191,46 @@
                                             </div>
                                         </li>
 
-                                        <!-- Cabang 3: Divisi (Dikelompokkan) -->
+                                        <!-- Cabang 3: DIVISI (Sebagai Node Tree) -->
                                         <li>
-                                            <div class="pt-4 flex justify-center">
-                                                 <div class="flex flex-col gap-4 p-6 border border-red-500/30 rounded-xl bg-black/60 backdrop-blur-sm">
-                                                     <h4 class="text-white font-tech text-xl text-center border-b-2 border-red-600 pb-2 mb-2 tracking-widest">DIVISI</h4>
-                                                     
-                                                     <!-- FIX: md:flex-row agar menyamping di laptop -->
-                                                     <div class="flex flex-col md:flex-row gap-8 items-start justify-center flex-wrap">
-                                                         <!-- Tim Kebersihan -->
-                                                         <div class="flex flex-col items-center gap-4 bg-red-900/10 p-4 rounded-lg border border-red-500/20">
-                                                             <h5 class="text-red-400 font-bold text-lg border-b border-red-500/50 pb-1 w-full text-center">TIM KEBERSIHAN</h5>
-                                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                                 ${data.div_kebersihan.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
-                                                             </div>
-                                                         </div>
+                                            <div class="glass-panel px-4 py-2 mt-4 rounded-full border border-red-500 text-white font-bold text-xs tracking-widest inline-block">DIVISI</div>
+                                            <ul>
+                                                <!-- Tim Kebersihan -->
+                                                <li>
+                                                    <div class="glass-panel p-2 rounded-lg border border-red-500/50 mb-2 inline-block">
+                                                        <h5 class="text-red-400 font-bold text-[10px] md:text-xs whitespace-nowrap">TIM KEBERSIHAN</h5>
+                                                    </div>
+                                                    <div class="flex justify-center">
+                                                        <div class="grid grid-cols-1 gap-2">
+                                                            ${data.div_kebersihan.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
+                                                        </div>
+                                                    </div>
+                                                </li>
 
-                                                         <!-- Tim Kreatif -->
-                                                         <div class="flex flex-col items-center gap-4 bg-orange-900/10 p-4 rounded-lg border border-orange-500/20">
-                                                             <h5 class="text-orange-400 font-bold text-lg border-b border-orange-500/50 pb-1 w-full text-center">TIM KREATIF</h5>
-                                                             <div class="flex flex-col gap-2">
-                                                                 ${data.div_kreatif.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
-                                                             </div>
-                                                         </div>
+                                                <!-- Tim Kreatif -->
+                                                <li>
+                                                    <div class="glass-panel p-2 rounded-lg border border-orange-500/50 mb-2 inline-block">
+                                                        <h5 class="text-orange-400 font-bold text-[10px] md:text-xs whitespace-nowrap">TIM KREATIF</h5>
+                                                    </div>
+                                                    <div class="flex justify-center">
+                                                        <div class="flex flex-col gap-2">
+                                                            ${data.div_kreatif.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
+                                                        </div>
+                                                    </div>
+                                                </li>
 
-                                                         <!-- Tim Sosial -->
-                                                         <div class="flex flex-col items-center gap-4 bg-yellow-900/10 p-4 rounded-lg border border-yellow-500/20">
-                                                             <h5 class="text-yellow-400 font-bold text-lg border-b border-yellow-500/50 pb-1 w-full text-center">TIM SOSIAL</h5>
-                                                             <div class="flex flex-col gap-2">
-                                                                 ${data.div_sosial.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                            </div>
+                                                <!-- Tim Sosial -->
+                                                <li>
+                                                    <div class="glass-panel p-2 rounded-lg border border-yellow-500/50 mb-2 inline-block">
+                                                        <h5 class="text-yellow-400 font-bold text-[10px] md:text-xs whitespace-nowrap">TIM SOSIAL</h5>
+                                                    </div>
+                                                    <div class="flex justify-center">
+                                                        <div class="flex flex-col gap-2">
+                                                            ${data.div_sosial.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
                                         </li>
                                     </ul>
                                 </li>
@@ -1277,7 +1256,7 @@
             { name: "Farihatul Azizah", nim: "2511037", ig: "@fariha_aziizah", img: "https://i.ibb.co.com/WvKp3sFy/Azizah.jpg", bioImg: "https://i.ibb.co.com/mC8myQFY/Azizah-2.jpg", bio: "Introvert, Bermimpilah dan raihlah mimpi itu dengan ilmu yang bermanfaat, serta berusaha menjadi pribadi yang lebih baik dari sebelumnya." },
             { name: "Hanan Tsuroya A.", nim: "2511073", ig: "@hanan_akyasi", img: "https://i.ibb.co.com/ZRRX7M4p/Hanan.jpg", bioImg: "https://i.ibb.co.com/JwBMTXd3/Hanan-2.jpg", bio: "Saya sangat menyukai alam. Rumah saya di Kebumen dan saya sangat suka kuliah di IAINU Kebumen. Saya sangat menyukai kucing dan menikmati alam." },
             { name: "Hanni Hasanati", nim: "2511068", ig: "@hannihsnt_", img: "https://i.ibb.co.com/WpRW8nk3/Hanni.jpg", bioImg: "https://i.ibb.co.com/ZpfVnYDx/Hanni-2.jpg", bio: "Saya anak kedua dari tiga bersaudara, dan semua saudara saya laki-laki. Saat ini saya kuliah di IAINU Kebumen, jurusan Pendidikan Agama Islam." },
-            { name: "Jembar Juli Y.", nim: "2511049", ig: "@jembarjulyy_", img: "https://i.ibb.co.com/cccBPB93/Juli.jpg", bioImg: "https://i.ibb.co.com/N2tbfsKz/Juli-2.jpg", bio: "Saya orang yang ceria dan periang. Saya suka tersenyum dan membuat orang lain merasa nyaman di sekitar saya. Dengan pandangan saya yang cerah dan optimis, saya selalu melihat sisi baik dari setiap situasi dan berusaha menyebarkan kebahagiaan kepada orang-orang di sekitar saya." },
+            { name: "Jembar Juli Y.", nim: "2511049", ig: "@jembarjulyy_", img: "https://i.ibb.co.com/cccBPB93/Juli.jpg", bioImg: "https://i.ibb.co.com/N2tbfsKz/Juli-2.jpg", bio: "Saya orang yang ceria dan periang. Saya suka tersenyum dan membuat orang lain merasa nyaman di sekitar saya. Dengan pandangan saya yang cerah dan optimis, saya selalu melihat sisi baik dari setiap situasi dan berusaha menyebarkan kebahagiaan kepada orangorang di sekitar saya." },
             { name: "Lusi Rahmah O.", nim: "2511080", ig: "@lusioktaviara", img: "https://i.ibb.co.com/LDqfr0GJ/Lusi.jpg", bioImg: "https://i.ibb.co.com/twy2986P/Lusi-2.jpg", bio: "Saya punya banyak impian untuk masa depan, terutama menjadi orang sukses, kaya, dan dermawan, dan masih banyak lagi impian." },
             { name: "M. Hanif Fakhry", nim: "2511079", ig: "@hann_id1028", img: "https://i.ibb.co.com/3ytbB3bs/Fakhry.jpg", bioImg: "https://i.ibb.co.com/JRhVJy8b/Fakhry-2.jpg", bio: "Alhamdulillah saya mampu menguasai perangkat lunak desain seperti Canva, Solidwork, Panzoid, dll. Dan Alhamdulillah Saya juga memahami kebutuhan dan menerjemahkannya ke dalam desain pemodelan yang estetis dan fungsional. Saya berorientasi pada detail, imajinatif, dan selalu merencanakan ke depan." },
             { name: "Pniel Munandar", nim: "2511053", ig: "@pniel76", img: "https://i.ibb.co.com/35y5ZszF/Pniel.jpg", bioImg: "https://i.ibb.co.com/9kkr0JjT/Pniel-2.jpg", bio: "Saya sangat suka bermain musik, terutama drum. Saya juga bekerja sebagai karyawan untuk mendapatkan penghasilan sendiri, tujuannya adalah untuk meringankan beban orang tua saya." },
