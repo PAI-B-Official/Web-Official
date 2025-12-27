@@ -166,6 +166,18 @@
             pointer-events: auto;
         }
 
+        /* --- MOBILE MENU ANIMATION --- */
+        #mobile-menu {
+            transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.active {
+            max-height: 400px; /* Adjust based on content */
+            opacity: 1;
+        }
+
         .hidden-section {
             display: none;
             opacity: 0;
@@ -504,6 +516,7 @@
                     </div>
                 </div>
             </div>
+            <!-- UPDATED MOBILE MENU CONTAINER -->
             <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-red-900/30">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <button onclick="switchTab('home')" class="text-gray-300 hover:text-red-400 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Home</button>
@@ -1059,10 +1072,13 @@
                 const btn = document.getElementById('mobile-menu-btn');
                 
                 // If menu is open (not hidden)
-                if (menu && !menu.classList.contains('hidden')) {
+                // Fix: Check max-height instead of class 'hidden' due to animation change
+                if (menu && menu.classList.contains('active')) {
                     // If click target is NOT inside the menu AND NOT the button itself
                     if (!menu.contains(e.target) && !btn.contains(e.target)) {
-                        menu.classList.add('hidden');
+                        menu.classList.remove('active');
+                        menu.classList.add('hidden'); // Also re-add hidden after delay for safety? No, just rely on active class logic
+                        setTimeout(() => menu.classList.add('hidden'), 300); // Wait for transition
                     }
                 }
             });
@@ -1117,7 +1133,7 @@
             // 1. Show Loader
             const loader = document.getElementById('page-loader');
             loader.classList.remove('opacity-0', 'pointer-events-none');
-            loader.classList.add('active'); // Ensure active class handles pointer events if defined in CSS
+            loader.classList.add('active'); 
 
             // 2. Wait for visual effect
             setTimeout(() => {
@@ -1127,16 +1143,16 @@
                 // 4. Scroll to top
                 window.scrollTo(0, 0);
                 
-                // 5. Update History
-                history.pushState({ page: tabId }, '', '#' + tabId);
+                // 5. Update History - USING REPLACE STATE TO PREVENT BACK BUTTON HISTORY STACKING
+                history.replaceState({ page: tabId }, '', '#' + tabId);
                 
-                // 6. Hide Loader after a slight delay to allow DOM to paint
+                // 6. Hide Loader after a slight delay
                 setTimeout(() => {
                     loader.classList.remove('active');
                     loader.classList.add('opacity-0', 'pointer-events-none');
                 }, 300);
                 
-            }, 500); // 500ms delay for the "loading" feel
+            }, 500); 
         }
 
         function _switchTabUI(tabId) {
@@ -1144,30 +1160,45 @@
             sections.forEach(section => {
                 section.classList.remove('active-section');
                 section.classList.add('hidden-section');
-                // We hide immediately inside the timeout context now
                 section.style.display = 'none'; 
             });
 
             const target = document.getElementById(tabId);
             if (target) {
-                // Determine display type
                 if (tabId === 'finance') {
                     target.style.display = 'flex';
                 } else {
                     target.style.display = 'block';
                 }
                 
-                // Small delay to allow display change to register before adding opacity class
                 requestAnimationFrame(() => {
                     target.classList.remove('hidden-section');
                     target.classList.add('active-section');
                 });
             }
-            document.getElementById('mobile-menu').classList.add('hidden');
+            // Close mobile menu with animation
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(mobileMenu.classList.contains('active')){
+                mobileMenu.classList.remove('active');
+                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+            }
         }
 
         function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                // Small delay to allow display:block to apply before animating max-height
+                requestAnimationFrame(() => {
+                    menu.classList.add('active');
+                });
+            } else {
+                menu.classList.remove('active');
+                // Wait for animation to finish before hiding
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                }, 400);
+            }
         }
 
         /* --- FINANCE LOGIC --- */
@@ -1806,11 +1837,6 @@
                 // Manually trigger the tab switch logic without adding to history again
                 // But we need to use switchTab logic to show loader
                 _switchTabUI(state.page); // Direct switch to avoid double history or loader loop if needed. 
-                // Actually, let's use switchTab but without pushState if it's a popstate event?
-                // The current switchTab adds to history. 
-                // For popstate, we usually just update UI.
-                // Let's add loader here too? Maybe overkill for back button.
-                // Let's keep it simple for back button.
             }
         });
 
@@ -1978,8 +2004,8 @@
                 // 4. Scroll to top
                 window.scrollTo(0, 0);
                 
-                // 5. Update History
-                history.pushState({ page: tabId }, '', '#' + tabId);
+                // 5. Update History - USING REPLACE STATE TO PREVENT BACK BUTTON HISTORY STACKING
+                history.replaceState({ page: tabId }, '', '#' + tabId);
                 
                 // 6. Hide Loader after a slight delay
                 setTimeout(() => {
@@ -2011,7 +2037,29 @@
                     target.classList.add('active-section');
                 });
             }
-            document.getElementById('mobile-menu').classList.add('hidden');
+            // Close mobile menu with animation
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(mobileMenu.classList.contains('active')){
+                mobileMenu.classList.remove('active');
+                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                // Small delay to allow display:block to apply before animating max-height
+                requestAnimationFrame(() => {
+                    menu.classList.add('active');
+                });
+            } else {
+                menu.classList.remove('active');
+                // Wait for animation to finish before hiding
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                }, 400);
+            }
         }
     </script>
 </body>
