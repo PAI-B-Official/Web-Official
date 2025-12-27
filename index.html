@@ -146,6 +146,26 @@
             will-change: transform, opacity;
         }
 
+        /* --- PAGE TRANSITION LOADER --- */
+        #page-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9990; /* High z-index but below auth modal */
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+        #page-loader.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         .hidden-section {
             display: none;
             opacity: 0;
@@ -381,8 +401,8 @@
         #structure-loading-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(10, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.9); /* Darker background */
+            backdrop-filter: blur(8px);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -427,12 +447,18 @@
         }
     </style>
 </head>
-<body class="font-body selection:bg-red-500 selection:text-white" oncontextmenu="return false;">
+<body class="font-body selection:bg-red-500 selection:text-white" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
 
     <audio id="bg-music" loop>
         <source src="Qolbi Fil Madinah.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+
+    <!-- NEW PAGE TRANSITION LOADER -->
+    <div id="page-loader">
+        <div class="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+        <p class="mt-4 text-red-500 font-tech tracking-widest text-sm animate-pulse">MEMUAT...</p>
+    </div>
 
     <div id="intro-screen">
         <!-- Intro content unchanged -->
@@ -471,7 +497,7 @@
                             <i class="fas fa-music"></i>
                         </button>
                         <div class="md:hidden">
-                            <button onclick="toggleMobileMenu()" class="text-gray-300 hover:text-white p-2">
+                            <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-gray-300 hover:text-white p-2">
                                 <i class="fas fa-bars text-xl"></i>
                             </button>
                         </div>
@@ -597,7 +623,7 @@
                 </div>
 
                 <!-- Content Container with Relative Positioning for Loader -->
-                <div class="relative">
+                <div class="relative min-h-[60vh]">
                     <!-- Loading Overlay -->
                     <div id="structure-loading-overlay">
                         <div class="flex flex-col items-center">
@@ -702,13 +728,13 @@
                 </div>
 
                 <!-- DASHBOARD CONTAINER (Hidden by default) -->
-                <div id="finance-dashboard" class="hidden w-full max-w-4xl px-4">
-                    <div class="text-center mb-10">
+                <div id="finance-dashboard" class="hidden w-full max-w-4xl px-4 flex flex-col items-center">
+                    <div class="text-center mb-10 w-full">
                         <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">KEUANGAN KELAS</h2>
                         <div class="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 w-full">
                         <!-- Total Saldo Card -->
                         <div class="glass-panel p-8 rounded-2xl border border-red-500/30 relative overflow-hidden group">
                             <div class="absolute -right-6 -top-6 w-32 h-32 bg-red-600 rounded-full opacity-10 blur-xl group-hover:opacity-20 transition-all"></div>
@@ -737,8 +763,58 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- RIWAYAT PENGELUARAN SECTION -->
+                    <div class="w-full mb-8">
+                        <button onclick="toggleExpenseHistory()" class="flex items-center justify-between w-full bg-gray-900/80 p-4 rounded-xl border border-gray-700 hover:border-red-500 transition-all group shadow-lg z-20 relative">
+                            <span class="font-bold text-white flex items-center gap-2">
+                                <i class="fas fa-history text-red-500"></i> Riwayat Pengeluaran
+                            </span>
+                            <i id="history-arrow" class="fas fa-chevron-down text-gray-400 group-hover:text-white transition-transform duration-300"></i>
+                        </button>
+                        
+                        <div id="expense-history-list" class="max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-in-out">
+                            <div class="pt-4 space-y-3">
+                                <!-- Contoh Item 1 -->
+                                <div class="glass-panel p-4 rounded-lg border border-red-500/20 flex flex-row justify-between items-center gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <div class="bg-red-900/30 px-3 py-2 rounded-lg text-red-400 text-xs font-mono text-center min-w-[60px] border border-red-500/30">
+                                            <div class="font-bold text-lg leading-none">27</div>
+                                            <div class="text-[10px]">DES</div>
+                                            <div class="text-[10px]">2025</div>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm md:text-base">Spidol & Penghapus</h4>
+                                            <p class="text-gray-500 text-xs flex items-center gap-1"><i class="far fa-calendar-alt text-[10px]"></i> Sabtu</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-red-400 font-mono font-bold text-sm md:text-lg whitespace-nowrap">
+                                        - Rp 45.000
+                                    </div>
+                                </div>
+
+                                <!-- Contoh Item 2 (Placeholder) -->
+                                <div class="glass-panel p-4 rounded-lg border border-red-500/20 flex flex-row justify-between items-center gap-4 opacity-50">
+                                    <div class="flex items-center gap-4">
+                                        <div class="bg-gray-800 px-3 py-2 rounded-lg text-gray-500 text-xs font-mono text-center min-w-[60px] border border-gray-700">
+                                            <div class="font-bold text-lg leading-none">--</div>
+                                            <div class="text-[10px]">BLN</div>
+                                            <div class="text-[10px]">THN</div>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-gray-400 font-bold text-sm md:text-base">Belum ada data</h4>
+                                            <p class="text-gray-600 text-xs">--</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-gray-500 font-mono font-bold text-sm md:text-lg whitespace-nowrap">
+                                        - Rp 0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
-                    <button onclick="logoutFinance()" class="mx-auto block text-red-400 hover:text-white text-sm transition-colors mt-8">
+                    <button onclick="logoutFinance()" class="mx-auto block text-red-400 hover:text-white text-sm transition-colors">
                         <i class="fas fa-sign-out-alt mr-2"></i> Keluar dari sesi keuangan
                     </button>
                 </div>
@@ -958,16 +1034,37 @@
                 history.replaceState({ page: 'home' }, '', '#home');
             }
             
-            document.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
+            // SECURITY: Disable keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Prevent F12
+                if (e.key === 'F12') { e.preventDefault(); return false; }
+                // Prevent Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return false; }
+                // Prevent Ctrl+U (View Source)
+                if (e.ctrlKey && e.key === 'u') { e.preventDefault(); return false; }
+                // Prevent Ctrl+S (Save Page)
+                if (e.ctrlKey && e.key === 's') { e.preventDefault(); return false; }
             });
-            // Keydown listeners unchanged...
-             document.addEventListener('keydown', function(e) {
-                if (e.key === 'F12') { e.preventDefault(); }
-                if (e.ctrlKey && e.shiftKey && e.key === 'I') { e.preventDefault(); }
-                if (e.ctrlKey && e.shiftKey && e.key === 'J') { e.preventDefault(); }
-                if (e.ctrlKey && e.key === 'u') { e.preventDefault(); }
-                if (e.ctrlKey && e.key === 's') { e.preventDefault(); }
+
+            // SECURITY: Simple debugger trap
+            setInterval(() => {
+                const start = new Date().getTime();
+                debugger;
+                const end = new Date().getTime();
+            }, 1000);
+            
+            // Close mobile menu on outside click
+            document.addEventListener('click', (e) => {
+                const menu = document.getElementById('mobile-menu');
+                const btn = document.getElementById('mobile-menu-btn');
+                
+                // If menu is open (not hidden)
+                if (menu && !menu.classList.contains('hidden')) {
+                    // If click target is NOT inside the menu AND NOT the button itself
+                    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                        menu.classList.add('hidden');
+                    }
+                }
             });
         };
 
@@ -1016,34 +1113,57 @@
             }
         });
 
+        function switchTab(tabId) {
+            // 1. Show Loader
+            const loader = document.getElementById('page-loader');
+            loader.classList.remove('opacity-0', 'pointer-events-none');
+            loader.classList.add('active'); // Ensure active class handles pointer events if defined in CSS
+
+            // 2. Wait for visual effect
+            setTimeout(() => {
+                // 3. Switch UI (The existing logic)
+                _switchTabUI(tabId);
+                
+                // 4. Scroll to top
+                window.scrollTo(0, 0);
+                
+                // 5. Update History
+                history.pushState({ page: tabId }, '', '#' + tabId);
+                
+                // 6. Hide Loader after a slight delay to allow DOM to paint
+                setTimeout(() => {
+                    loader.classList.remove('active');
+                    loader.classList.add('opacity-0', 'pointer-events-none');
+                }, 300);
+                
+            }, 500); // 500ms delay for the "loading" feel
+        }
+
         function _switchTabUI(tabId) {
             const sections = document.querySelectorAll('main section');
             sections.forEach(section => {
                 section.classList.remove('active-section');
                 section.classList.add('hidden-section');
-                setTimeout(() => {
-                    if(!section.classList.contains('active-section')){
-                        section.style.display = 'none';
-                    }
-                }, 0); 
+                // We hide immediately inside the timeout context now
+                section.style.display = 'none'; 
             });
+
             const target = document.getElementById(tabId);
             if (target) {
-                target.style.display = 'block'; 
-                void target.offsetWidth; 
-                target.classList.remove('hidden-section');
-                target.classList.add('active-section');
-                // Ensure flex for finance section to center items
-                if(tabId === 'finance') {
+                // Determine display type
+                if (tabId === 'finance') {
                     target.style.display = 'flex';
+                } else {
+                    target.style.display = 'block';
                 }
+                
+                // Small delay to allow display change to register before adding opacity class
+                requestAnimationFrame(() => {
+                    target.classList.remove('hidden-section');
+                    target.classList.add('active-section');
+                });
             }
             document.getElementById('mobile-menu').classList.add('hidden');
-        }
-
-        function switchTab(tabId) {
-            _switchTabUI(tabId);
-            history.pushState({ page: tabId }, '', '#' + tabId);
         }
 
         function toggleMobileMenu() {
@@ -1085,6 +1205,25 @@
             document.getElementById('finance-dashboard').classList.add('hidden');
             document.getElementById('finance-login').classList.remove('hidden');
             document.getElementById('pass-error-msg').classList.add('hidden');
+        }
+
+        /* --- EXPENSE HISTORY TOGGLE --- */
+        function toggleExpenseHistory() {
+            const list = document.getElementById('expense-history-list');
+            const arrow = document.getElementById('history-arrow');
+            
+            // Check if open by checking max-height class
+            if (list.classList.contains('max-h-0')) {
+                // Open
+                list.classList.remove('max-h-0', 'opacity-0');
+                list.classList.add('max-h-[1000px]', 'opacity-100'); // Arbitrary large height
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                // Close
+                list.classList.remove('max-h-[1000px]', 'opacity-100');
+                list.classList.add('max-h-0', 'opacity-0');
+                arrow.style.transform = 'rotate(0deg)';
+            }
         }
 
         /* --- SEMESTER & STRUCTURE LOGIC --- */
@@ -1213,7 +1352,7 @@
 
             loaderText.innerText = `Beralih Semester ${sem}...`;
             loader.classList.add('active');
-            container.style.opacity = '0.3';
+            container.style.opacity = '0'; // Completely hide content
 
             setTimeout(() => {
                 updateStructureUI(sem);
@@ -1664,7 +1803,14 @@
             }
 
             if (['home', 'structure', 'documentation'].includes(state.page)) {
-                _switchTabUI(state.page);
+                // Manually trigger the tab switch logic without adding to history again
+                // But we need to use switchTab logic to show loader
+                _switchTabUI(state.page); // Direct switch to avoid double history or loader loop if needed. 
+                // Actually, let's use switchTab but without pushState if it's a popstate event?
+                // The current switchTab adds to history. 
+                // For popstate, we usually just update UI.
+                // Let's add loader here too? Maybe overkill for back button.
+                // Let's keep it simple for back button.
             }
         });
 
@@ -1816,6 +1962,56 @@
         function stopPreview(video) {
             video.pause();
             video.currentTime = 0; 
+        }
+
+        function switchTab(tabId) {
+            // 1. Show Loader
+            const loader = document.getElementById('page-loader');
+            loader.classList.remove('opacity-0', 'pointer-events-none');
+            loader.classList.add('active'); 
+
+            // 2. Wait for visual effect
+            setTimeout(() => {
+                // 3. Switch UI (The existing logic)
+                _switchTabUI(tabId);
+                
+                // 4. Scroll to top
+                window.scrollTo(0, 0);
+                
+                // 5. Update History
+                history.pushState({ page: tabId }, '', '#' + tabId);
+                
+                // 6. Hide Loader after a slight delay
+                setTimeout(() => {
+                    loader.classList.remove('active');
+                    loader.classList.add('opacity-0', 'pointer-events-none');
+                }, 300);
+                
+            }, 500); 
+        }
+
+        function _switchTabUI(tabId) {
+            const sections = document.querySelectorAll('main section');
+            sections.forEach(section => {
+                section.classList.remove('active-section');
+                section.classList.add('hidden-section');
+                section.style.display = 'none'; 
+            });
+
+            const target = document.getElementById(tabId);
+            if (target) {
+                if (tabId === 'finance') {
+                    target.style.display = 'flex';
+                } else {
+                    target.style.display = 'block';
+                }
+                
+                requestAnimationFrame(() => {
+                    target.classList.remove('hidden-section');
+                    target.classList.add('active-section');
+                });
+            }
+            document.getElementById('mobile-menu').classList.add('hidden');
         }
     </script>
 </body>
