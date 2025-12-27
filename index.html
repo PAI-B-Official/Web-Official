@@ -166,18 +166,6 @@
             pointer-events: auto;
         }
 
-        /* --- MOBILE MENU ANIMATION --- */
-        #mobile-menu {
-            transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-        }
-        #mobile-menu.active {
-            max-height: 400px; /* Adjust based on content */
-            opacity: 1;
-        }
-
         .hidden-section {
             display: none;
             opacity: 0;
@@ -516,8 +504,8 @@
                     </div>
                 </div>
             </div>
-            <!-- UPDATED MOBILE MENU CONTAINER -->
-            <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-red-900/30">
+            <!-- FIXED MOBILE MENU ANIMATION -->
+            <div id="mobile-menu" class="md:hidden absolute top-16 left-0 w-full bg-black/95 backdrop-blur-md border-b border-red-900/30 overflow-hidden transition-all duration-300 ease-in-out max-h-0 opacity-0">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <button onclick="switchTab('home')" class="text-gray-300 hover:text-red-400 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Home</button>
                     <button onclick="switchTab('structure')" class="text-gray-300 hover:text-red-400 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Structure</button>
@@ -1071,14 +1059,11 @@
                 const menu = document.getElementById('mobile-menu');
                 const btn = document.getElementById('mobile-menu-btn');
                 
-                // If menu is open (not hidden)
-                // Fix: Check max-height instead of class 'hidden' due to animation change
-                if (menu && menu.classList.contains('active')) {
+                // If menu is open (check for max-h-screen class)
+                if (menu && menu.classList.contains('max-h-screen')) {
                     // If click target is NOT inside the menu AND NOT the button itself
                     if (!menu.contains(e.target) && !btn.contains(e.target)) {
-                        menu.classList.remove('active');
-                        menu.classList.add('hidden'); // Also re-add hidden after delay for safety? No, just rely on active class logic
-                        setTimeout(() => menu.classList.add('hidden'), 300); // Wait for transition
+                        toggleMobileMenu(); // Use function to animate close
                     }
                 }
             });
@@ -1143,8 +1128,8 @@
                 // 4. Scroll to top
                 window.scrollTo(0, 0);
                 
-                // 5. Update History - USING REPLACE STATE TO PREVENT BACK BUTTON HISTORY STACKING
-                history.replaceState({ page: tabId }, '', '#' + tabId);
+                // 5. Update History
+                history.pushState({ page: tabId }, '', '#' + tabId);
                 
                 // 6. Hide Loader after a slight delay
                 setTimeout(() => {
@@ -1176,28 +1161,24 @@
                     target.classList.add('active-section');
                 });
             }
-            // Close mobile menu with animation
-            const mobileMenu = document.getElementById('mobile-menu');
-            if(mobileMenu.classList.contains('active')){
-                mobileMenu.classList.remove('active');
-                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+            
+            // Close mobile menu if open
+            const menu = document.getElementById('mobile-menu');
+             if (menu.classList.contains('max-h-screen')) {
+                toggleMobileMenu();
             }
         }
 
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                // Small delay to allow display:block to apply before animating max-height
-                requestAnimationFrame(() => {
-                    menu.classList.add('active');
-                });
+            if (menu.classList.contains('max-h-0')) {
+                // Open
+                menu.classList.remove('max-h-0', 'opacity-0');
+                menu.classList.add('max-h-screen', 'opacity-100');
             } else {
-                menu.classList.remove('active');
-                // Wait for animation to finish before hiding
-                setTimeout(() => {
-                    menu.classList.add('hidden');
-                }, 400);
+                // Close
+                menu.classList.remove('max-h-screen', 'opacity-100');
+                menu.classList.add('max-h-0', 'opacity-0');
             }
         }
 
@@ -1776,6 +1757,7 @@
         window.addEventListener('popstate', function(event) {
             const state = event.state || { page: 'home' };
             
+            // CLEAN UP ALL MODALS FIRST
             const bioModal = document.getElementById('bio-modal');
             const mediaModal = document.getElementById('media-modal');
             const familyGallery = document.getElementById('family-gallery');
@@ -1783,60 +1765,32 @@
             const mediaContainer = document.getElementById('media-container');
             const teamExecutorModal = document.getElementById('team-executor-modal');
 
-            // Close Media Modal if active (Back pressed)
-            if (mediaModal.classList.contains('active')) {
-                if (mediaContainer.dataset.mediaType === 'video') {
-                    const bgMusic = document.getElementById('bg-music');
-                    const musicBtn = document.getElementById('music-btn'); 
-                    if (bgMusic && bgMusic.dataset.wasPlaying === "true") {
-                        bgMusic.play().catch(e => console.log(e));
-                        if(musicBtn) {
-                             musicBtn.innerHTML = '<i class="fas fa-music"></i>';
-                             musicBtn.classList.add('music-pulse');
-                             isPlaying = true;
-                        }
-                    }
-                }
-                mediaContainer.innerHTML = '';
-                mediaModal.classList.remove('active');
-            }
-
-            // Close other modals if active (Back pressed)
+            // Force close everything visual
             bioModal.classList.remove('active');
-            
-            if (state.page === 'family-gallery' || state.page === 'bio-details') {
-                familyGallery.classList.add('open');
-                allFilesModal.classList.remove('open');
-                teamExecutorModal.classList.remove('open');
-                document.body.style.overflow = 'hidden';
-                if(state.page === 'family-gallery') familyGallery.focus();
-            } 
-            else if (state.page === 'all-files') {
-                allFilesModal.classList.add('open');
-                familyGallery.classList.remove('open');
-                teamExecutorModal.classList.remove('open');
-                document.body.style.overflow = 'hidden';
-                allFilesModal.focus();
-            }
-            else if (state.page === 'team-executor') {
-                teamExecutorModal.classList.add('open');
-                familyGallery.classList.remove('open');
-                allFilesModal.classList.remove('open');
-                document.body.style.overflow = 'hidden';
-                teamExecutorModal.focus();
-            }
-            else {
-                // If popping back to a main tab state
-                familyGallery.classList.remove('open');
-                allFilesModal.classList.remove('open');
-                teamExecutorModal.classList.remove('open');
-                document.body.style.overflow = 'auto';
-            }
+            mediaModal.classList.remove('active');
+            familyGallery.classList.remove('open');
+            allFilesModal.classList.remove('open');
+            teamExecutorModal.classList.remove('open');
+            mediaContainer.innerHTML = '';
+            document.body.style.overflow = 'auto'; // Re-enable scroll
 
-            if (['home', 'structure', 'documentation'].includes(state.page)) {
-                // Manually trigger the tab switch logic without adding to history again
-                // But we need to use switchTab logic to show loader
-                _switchTabUI(state.page); // Direct switch to avoid double history or loader loop if needed. 
+            // Now handle specific state logic if strictly needed, or just let the main tab switch happen
+            if (['home', 'structure', 'documentation', 'finance'].includes(state.page)) {
+                _switchTabUI(state.page);
+            } else if (state.page === 'family-gallery') {
+                 familyGallery.classList.add('open');
+                 document.body.style.overflow = 'hidden';
+            } else if (state.page === 'all-files') {
+                 allFilesModal.classList.add('open');
+                 document.body.style.overflow = 'hidden';
+            } else if (state.page === 'team-executor') {
+                 teamExecutorModal.classList.add('open');
+                 document.body.style.overflow = 'hidden';
+            } else if (state.page === 'bio-details') {
+                // If popping back to bio details, we might need data. 
+                // For simplicity on back button, let's fall back to family gallery or home if data missing
+                 familyGallery.classList.add('open');
+                 document.body.style.overflow = 'hidden';
             }
         });
 
@@ -1850,7 +1804,7 @@
                 gallery.classList.remove('open');
                 document.body.style.overflow = 'auto';
                 const activeSection = document.querySelector('.active-section');
-                history.replaceState({ page: activeSection ? activeSection.id : 'home' }, '', '#' + (activeSection ? activeSection.id : 'home'));
+                // history.replaceState({ page: activeSection ? activeSection.id : 'home' }, '', '#' + (activeSection ? activeSection.id : 'home'));
             } else {
                 gallery.classList.add('open');
                 document.body.style.overflow = 'hidden';
@@ -2004,8 +1958,8 @@
                 // 4. Scroll to top
                 window.scrollTo(0, 0);
                 
-                // 5. Update History - USING REPLACE STATE TO PREVENT BACK BUTTON HISTORY STACKING
-                history.replaceState({ page: tabId }, '', '#' + tabId);
+                // 5. Update History
+                history.pushState({ page: tabId }, '', '#' + tabId);
                 
                 // 6. Hide Loader after a slight delay
                 setTimeout(() => {
@@ -2037,28 +1991,24 @@
                     target.classList.add('active-section');
                 });
             }
-            // Close mobile menu with animation
-            const mobileMenu = document.getElementById('mobile-menu');
-            if(mobileMenu.classList.contains('active')){
-                mobileMenu.classList.remove('active');
-                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+            
+            // Close mobile menu if open
+            const menu = document.getElementById('mobile-menu');
+             if (menu.classList.contains('max-h-screen')) {
+                toggleMobileMenu();
             }
         }
 
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                // Small delay to allow display:block to apply before animating max-height
-                requestAnimationFrame(() => {
-                    menu.classList.add('active');
-                });
+            if (menu.classList.contains('max-h-0')) {
+                // Open
+                menu.classList.remove('max-h-0', 'opacity-0');
+                menu.classList.add('max-h-screen', 'opacity-100');
             } else {
-                menu.classList.remove('active');
-                // Wait for animation to finish before hiding
-                setTimeout(() => {
-                    menu.classList.add('hidden');
-                }, 400);
+                // Close
+                menu.classList.remove('max-h-screen', 'opacity-100');
+                menu.classList.add('max-h-0', 'opacity-0');
             }
         }
     </script>
