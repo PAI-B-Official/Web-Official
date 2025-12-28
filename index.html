@@ -749,13 +749,13 @@
                             </div>
                         </div>
 
-                        <!-- Info Card -->
+                        <!-- Info Card (UPDATED: Removed blue bg/border) -->
                         <div class="glass-panel p-8 rounded-2xl border border-gray-700/50 relative overflow-hidden">
                             <div class="flex items-start gap-4">
-                                <div class="w-12 h-12 rounded-lg bg-blue-900/30 flex items-center justify-center text-blue-400 border border-blue-500/30">
-                                    <i class="fas fa-info-circle text-xl"></i>
+                                <div class="w-12 h-12 flex items-center justify-center text-blue-400">
+                                    <i class="fas fa-info-circle text-2xl"></i>
                                 </div>
-                                <div>
+                                <div class="pt-2">
                                     <h4 class="text-white font-bold text-lg mb-2">Penting</h4>
                                     <p class="text-gray-400 text-sm leading-relaxed">
                                         Pembayaran kas bulan ini harap segera dilunasi sebelum berganti bulan berikutnya. Supaya tidak menumpuk dikemudian hari terimakasih atas pengertiannya.
@@ -998,11 +998,10 @@
         </div>
     </div>
 
+    <!-- UPDATED: Media Modal without X button -->
     <div id="media-modal" class="custom-modal" onclick="closeMediaModal(event)">
         <div class="relative max-w-5xl w-full mx-4 flex justify-center">
-            <button onclick="closeMediaModal(null, true)" class="absolute -top-12 right-0 md:-right-12 text-white hover:text-red-500 text-3xl transition z-50">
-                <i class="fas fa-times"></i>
-            </button>
+            <!-- X Button Removed Here -->
             <div id="media-container" class="max-h-[85vh] rounded-lg shadow-2xl border border-red-500/30">
             </div>
         </div>
@@ -1054,8 +1053,8 @@
                 const end = new Date().getTime();
             }, 1000);
             
-            // Close mobile menu on outside click
-            document.addEventListener('click', (e) => {
+            // Close mobile menu on outside click/touch
+            const closeMenuHandler = (e) => {
                 const menu = document.getElementById('mobile-menu');
                 const btn = document.getElementById('mobile-menu-btn');
                 
@@ -1066,7 +1065,10 @@
                         toggleMobileMenu(); // Use function to animate close
                     }
                 }
-            });
+            };
+
+            document.addEventListener('click', closeMenuHandler);
+            document.addEventListener('touchstart', closeMenuHandler);
         };
 
         // Standard Functions (enterSite, toggleMusic, switchTab, toggleMobileMenu) unchanged
@@ -1119,6 +1121,11 @@
         // -----------------------------------------------------------
         
         function switchTab(tabId) {
+            // UPDATED: Auto Logout Finance when switching away
+            if (tabId !== 'finance') {
+                logoutFinance();
+            }
+
             // 1. Show Loader
             const loader = document.getElementById('page-loader');
             loader.classList.remove('opacity-0', 'pointer-events-none');
@@ -1764,8 +1771,18 @@
         }
 
         function handleSearch(event) {
+            const query = document.getElementById('doc-search').value;
+            
+            // UPDATED: Push state when user starts searching so Back button works
+            if (query.length > 0) {
+                 if (!history.state || history.state.page !== 'doc-search') {
+                     history.pushState({ page: 'doc-search' }, '', '#search');
+                 }
+            } else {
+                 // If cleared manually, maybe reset state? Optional.
+            }
+            
             if (event.key === 'Enter' || event.type === 'click' || event.type === 'keyup') {
-                const query = document.getElementById('doc-search').value;
                 renderMainDocGrid(query);
             }
         }
@@ -1809,6 +1826,15 @@
             teamExecutorModal.classList.remove('open');
             mediaContainer.innerHTML = '';
             document.body.style.overflow = 'auto'; // Re-enable scroll
+
+            // UPDATED: Handle Back Button Logic for Search
+            if (state.page === 'documentation' || state.page === 'home') {
+                 const searchInput = document.getElementById('doc-search');
+                 if(searchInput.value !== '') {
+                     searchInput.value = '';
+                     renderMainDocGrid(''); // Reset grid
+                 }
+            }
 
             // Now handle specific state logic if strictly needed, or just let the main tab switch happen
             if (['home', 'structure', 'documentation', 'finance'].includes(state.page)) {
