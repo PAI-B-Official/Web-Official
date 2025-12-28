@@ -1114,6 +1114,10 @@
             }
         });
 
+        // -----------------------------------------------------------
+        // REVISED NAVIGATION LOGIC START
+        // -----------------------------------------------------------
+        
         function switchTab(tabId) {
             // 1. Show Loader
             const loader = document.getElementById('page-loader');
@@ -1122,14 +1126,34 @@
 
             // 2. Wait for visual effect
             setTimeout(() => {
-                // 3. Switch UI (The existing logic)
+                const currentState = history.state ? history.state.page : 'home';
+                const isGoingHome = tabId === 'home';
+                const isCurrentlyHome = currentState === 'home';
+
                 _switchTabUI(tabId);
                 
-                // 4. Scroll to top
+                // Only scroll to top if we are actually switching tabs, not just closing a modal
                 window.scrollTo(0, 0);
-                
-                // 5. Update History
-                history.pushState({ page: tabId }, '', '#' + tabId);
+
+                if (isGoingHome) {
+                    // If moving TO Home FROM another tab:
+                    // Use replaceState to clear the "Tab" entry so Back button exits.
+                    // This assumes the user wants "Back" from Home to exit the site.
+                    // Note: If we use history.back() here, it might be safer if we know we pushed, 
+                    // but replaceState ensures we are at Home state.
+                    if (!isCurrentlyHome) {
+                         history.replaceState({ page: 'home' }, '', '#home');
+                    }
+                } else {
+                    // If moving TO a Tab (Structure, Doc, etc)
+                    if (isCurrentlyHome) {
+                        // From Home -> Tab: Push State (So Back button goes to Home)
+                        history.pushState({ page: tabId }, '', '#' + tabId);
+                    } else {
+                        // From Tab -> Tab: Replace State (So Back button still goes to Home, not previous Tab)
+                        history.replaceState({ page: tabId }, '', '#' + tabId);
+                    }
+                }
                 
                 // 6. Hide Loader after a slight delay
                 setTimeout(() => {
@@ -1142,13 +1166,22 @@
 
         function _switchTabUI(tabId) {
             const sections = document.querySelectorAll('main section');
+            
+            // Check if target is already active to prevent unnecessary re-render/scroll
+            const target = document.getElementById(tabId);
+            if (target && target.classList.contains('active-section')) {
+                // If it's already active, just ensure others are hidden (safety)
+                // Do NOT reset display property if it's already block, to preserve scroll context if possible.
+                // However, since we have separate sections, scroll is usually window based.
+                return; 
+            }
+
             sections.forEach(section => {
                 section.classList.remove('active-section');
                 section.classList.add('hidden-section');
                 section.style.display = 'none'; 
             });
 
-            const target = document.getElementById(tabId);
             if (target) {
                 if (tabId === 'finance') {
                     target.style.display = 'flex';
@@ -1168,6 +1201,10 @@
                 toggleMobileMenu();
             }
         }
+        
+        // -----------------------------------------------------------
+        // REVISED NAVIGATION LOGIC END
+        // -----------------------------------------------------------
 
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
@@ -1942,83 +1979,6 @@
             video.pause();
             video.currentTime = 0; 
         }
-
-        function switchTab(tabId) {
-            // 1. Show Loader
-            const loader = document.getElementById('page-loader');
-            loader.classList.remove('opacity-0', 'pointer-events-none');
-            loader.classList.add('active'); 
-
-            // 2. Wait for visual effect
-            setTimeout(() => {
-                // 3. Switch UI (The existing logic)
-                _switchTabUI(tabId);
-                
-                // 4. Scroll to top
-                window.scrollTo(0, 0);
-                
-                // 5. Update History
-                history.pushState({ page: tabId }, '', '#' + tabId);
-                
-                // 6. Hide Loader after a slight delay
-                setTimeout(() => {
-                    loader.classList.remove('active');
-                    loader.classList.add('opacity-0', 'pointer-events-none');
-                }, 300);
-                
-            }, 500); 
-        }
-
-        function _switchTabUI(tabId) {
-            const sections = document.querySelectorAll('main section');
-            sections.forEach(section => {
-                section.classList.remove('active-section');
-                section.classList.add('hidden-section');
-                section.style.display = 'none'; 
-            });
-
-            const target = document.getElementById(tabId);
-            if (target) {
-                if (tabId === 'finance') {
-                    target.style.display = 'flex';
-                } else {
-                    target.style.display = 'block';
-                }
-                
-                requestAnimationFrame(() => {
-                    target.classList.remove('hidden-section');
-                    target.classList.add('active-section');
-                });
-            }
-            
-            // Close mobile menu if open
-            const menu = document.getElementById('mobile-menu');
-             if (menu.classList.contains('max-h-screen')) {
-                toggleMobileMenu();
-            }
-        }
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            if (menu.classList.contains('max-h-0')) {
-                // Open
-                menu.classList.remove('max-h-0', 'opacity-0');
-                menu.classList.add('max-h-screen', 'opacity-100');
-            } else {
-                // Close
-                menu.classList.remove('max-h-screen', 'opacity-100');
-                menu.classList.add('max-h-0', 'opacity-0');
-            }
-        }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
