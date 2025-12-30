@@ -57,11 +57,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- Import Font External (Opsional) -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&display=swap');
-    </style>
-
     <script>
         tailwind.config = {
             theme: {
@@ -75,7 +70,6 @@
                     fontFamily: {
                         'tech': ['Orbitron', 'sans-serif'],
                         'body': ['Poppins', 'sans-serif'],
-                        'saldo': ['"Fira Code"', 'Courier New', 'monospace'], 
                     },
                     animation: {
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -135,13 +129,6 @@
                 -webkit-backdrop-filter: blur(12px);
             }
         }
-        
-        /* --- CLASS KHUSUS UNTUK FONT SALDO --- */
-        /* Ubah 'Fira Code' dengan nama font yang Anda inginkan di VS Code */
-        .font-saldo-custom {
-            font-family: 'Fira Code', 'Courier New', monospace; 
-            letter-spacing: -1px;
-        }
 
         #intro-screen {
             position: fixed;
@@ -159,10 +146,11 @@
             will-change: transform, opacity;
         }
 
+        /* --- PAGE TRANSITION LOADER --- */
         #page-loader {
             position: fixed;
             inset: 0;
-            z-index: 9990; 
+            z-index: 9990; /* High z-index but below auth modal */
             background-color: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
             display: flex;
@@ -208,11 +196,11 @@
             text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #8a0000;
         }
 
-        /* --- TREE CSS --- */
+        /* --- TREE CSS (TREE LAYOUT FOR ALL SCREENS) --- */
         .tree {
-            display: table;
+            display: table; /* Ensures tree structure holds together */
             margin: 0 auto;
-            width: max-content; 
+            width: max-content; /* Forces width to fit content (enables horizontal scroll if needed) */
             min-width: 100%;
             padding-bottom: 50px;
         }
@@ -229,16 +217,18 @@
             text-align: center;
             list-style-type: none;
             position: relative;
-            padding: 20px 2px 0 2px;
+            padding: 20px 2px 0 2px; /* Very small padding on mobile to save space */
             transition: all 0.5s;
         }
         
+        /* Desktop padding adjustment */
         @media (min-width: 768px) {
             .tree li {
                 padding: 20px 10px 0 10px;
             }
         }
         
+        /* Tree Lines (Global) */
         .tree li::before, .tree li::after {
             content: '';
             position: absolute; top: 0; right: 50%;
@@ -270,13 +260,15 @@
             width: 0; height: 20px;
         }
 
+        /* Container Scroll */
         #structure-content-container {
             width: 100%;
-            overflow-x: auto;
+            overflow-x: auto; /* Enable horizontal scroll */
             padding-bottom: 2rem;
-            display: block;
+            display: block; /* Change flex to block to allow scrolling child */
         }
         
+        /* Modal & Overlay Fixes */
         .fullscreen-overlay {
             position: fixed;
             top: 0;
@@ -285,7 +277,7 @@
             height: 100%;
             background: rgba(10, 0, 0, 0.95);
             z-index: 100;
-            overflow: auto;
+            overflow: auto; /* Scroll both directions if needed */
             transform: scale(0.9);
             opacity: 0;
             pointer-events: none;
@@ -299,6 +291,7 @@
             pointer-events: auto;
         }
         .fullscreen-overlay.open .tree {
+            /* Force re-render/layout calc if needed */
             width: max-content;
         }
         .fullscreen-overlay:focus {
@@ -404,10 +397,11 @@
             opacity: 1 !important;
         }
 
+        /* Struktur Loading Overlay */
         #structure-loading-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.9); 
+            background: rgba(0, 0, 0, 0.9); /* Darker background */
             backdrop-filter: blur(8px);
             display: flex;
             flex-direction: column;
@@ -428,6 +422,7 @@
             transition: all 0.3s ease;
         }
 
+        /* Animation for Error Cross */
         @keyframes drawCross {
             0% { stroke-dasharray: 0 100; opacity: 0; }
             50% { opacity: 1; }
@@ -459,17 +454,20 @@
         Your browser does not support the audio element.
     </audio>
 
+    <!-- NEW PAGE TRANSITION LOADER -->
     <div id="page-loader">
         <div class="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
         <p class="mt-4 text-red-500 font-tech tracking-widest text-sm animate-pulse">MEMUAT...</p>
     </div>
 
     <div id="intro-screen">
+        <!-- Intro content unchanged -->
         <div class="text-center">
             <h1 class="font-tech text-4xl md:text-7xl font-bold text-white mb-4 tracking-widest neon-text">
                 PRODI <span id="typing-text" class="text-red-500 typing-cursor"></span>
             </h1>
             <p class="text-gray-400 text-sm md:text-lg mb-8 font-light tracking-[0.3em]">2025 | GENERATION OF SUCCESS</p>
+            
             <button onclick="enterSite()" class="group relative px-8 py-3 bg-transparent overflow-hidden rounded-full border border-red-600 transition-all hover:shadow-[0_0_20px_rgba(255,0,0,0.5)]">
                 <span class="relative z-10 text-white font-tech tracking-wider group-hover:text-black transition-colors duration-300">VISIT CLASS</span>
                 <div class="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 group-hover:scale-100 group-hover:bg-red-600"></div>
@@ -478,6 +476,7 @@
     </div>
 
     <div id="main-app" class="hidden opacity-0 transition-opacity duration-1000 min-h-screen flex flex-col">
+        <!-- Nav unchanged -->
         <nav class="fixed top-0 w-full z-50 glass-panel border-b border-red-900/30">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
@@ -492,6 +491,7 @@
                             <button onclick="switchTab('finance')" class="nav-btn text-gray-300 hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Keuangan</button>
                         </div>
                     </div>
+                    
                     <div class="flex items-center gap-4">
                         <button onclick="toggleMusic()" id="music-btn" class="w-8 h-8 rounded-full bg-red-900/50 flex items-center justify-center text-red-400 border border-red-500/30 hover:bg-red-600 hover:text-white transition-all music-pulse">
                             <i class="fas fa-music"></i>
@@ -504,6 +504,7 @@
                     </div>
                 </div>
             </div>
+            <!-- FIXED MOBILE MENU ANIMATION -->
             <div id="mobile-menu" class="md:hidden absolute top-16 left-0 w-full bg-black/95 backdrop-blur-md border-b border-red-900/30 overflow-hidden transition-all duration-300 ease-in-out max-h-0 opacity-0">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <button onclick="switchTab('home')" class="text-gray-300 hover:text-red-400 block px-3 py-2 rounded-md text-base font-medium w-full text-left">Home</button>
@@ -516,18 +517,23 @@
 
         <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
             <div class="absolute inset-0 bg-gradient-to-b from-black via-[#1a0000] to-black opacity-80"></div>
-            <div class="hidden md:block absolute top-[-10%] left-[-10%] w-96 h-96 bg-red-900 rounded-full mix-blend-multiply filter blur-[100px] opacity-30 animate-pulse-slow"></div>
-            <div class="hidden md:block absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-red-800 rounded-full mix-blend-multiply filter blur-[100px] opacity-30 animate-pulse-slow"></div>
+            
+            <div class="hidden md:block absolute top-[-10%] left-[-10%] w-96 h-96 bg-red-900 rounded-full mix-blend-multiply filter blur-[100px] opacity-30 animate-pulse-slow" style="will-change: transform, opacity;"></div>
+            <div class="hidden md:block absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-red-800 rounded-full mix-blend-multiply filter blur-[100px] opacity-30 animate-pulse-slow" style="will-change: transform, opacity;"></div>
         </div>
 
         <main class="flex-grow pt-20 px-4 md:px-8 max-w-7xl mx-auto w-full">
 
             <section id="home" class="active-section py-10">
+                <!-- Home section unchanged -->
                 <div class="grid md:grid-cols-2 gap-10 items-center">
                     <div class="space-y-6 text-center md:text-left">
                         <div class="md:hidden mb-4 flex justify-center">
-                            <img src="IAINU.jpg" alt="Class Logo Mobile" class="w-30 h-30 object-contain filter drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]" onerror="this.style.display='none'">
+                            <img src="IAINU.jpg" alt="Class Logo Mobile" 
+                                 class="w-30 h-30 object-contain filter drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]"
+                                 onerror="this.style.display='none'">
                         </div>
+
                         <h2 class="text-5xl md:text-6xl font-bold font-tech leading-tight">
                             WELCOME TO <br>
                             <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-600">FACULTY TARBIYAH</span>
@@ -536,58 +542,115 @@
                             "Kami tidak hanya diajarkan cara mentransfer ilmu, tapi juga cara menanamkan adab. Karena ilmu tanpa adab seperti api tanpa kayu bakar, tak akan memberi kehangatan yang lama."
                         </p>
                         <div class="flex gap-4 pt-4 justify-center md:justify-start">
-                            <button onclick="switchTab('documentation')" class="px-6 py-3 bg-red-700 hover:bg-red-600 rounded-lg text-white font-semibold transition-all shadow-[0_0_15px_rgba(220,38,38,0.5)]">Let's Go !!!</button>
-                            <button onclick="switchTab('structure')" class="px-6 py-3 border border-gray-600 hover:border-red-500 hover:text-red-400 rounded-lg text-gray-300 font-semibold transition-all">Mahasiswa</button>
+                            <button onclick="switchTab('documentation')" class="px-6 py-3 bg-red-700 hover:bg-red-600 rounded-lg text-white font-semibold transition-all shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                                Let's Go !!!
+                            </button>
+                            <button onclick="switchTab('structure')" class="px-6 py-3 border border-gray-600 hover:border-red-500 hover:text-red-400 rounded-lg text-gray-300 font-semibold transition-all">
+                                Mahasiswa
+                            </button>
                         </div>
+                        
                         <div class="grid grid-cols-3 gap-4 pt-8 border-t border-gray-800">
-                            <div><h3 class="text-2xl font-bold text-white">24</h3><p class="text-xs text-gray-500 uppercase tracking-wider">Siswa</p></div>
-                            <div><h3 class="text-2xl font-bold text-white">6</h3><p class="text-xs text-gray-500 uppercase tracking-wider">Laki-laki</p></div>
-                            <div><h3 class="text-2xl font-bold text-white">18</h3><p class="text-xs text-gray-500 uppercase tracking-wider">Perempuan</p></div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">24</h3>
+                                <p class="text-xs text-gray-500 uppercase tracking-wider">Siswa</p>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">6</h3>
+                                <p class="text-xs text-gray-500 uppercase tracking-wider">Laki-laki</p>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">18</h3>
+                                <p class="text-xs text-gray-500 uppercase tracking-wider">Perempuan</p>
+                            </div>
                         </div>
                     </div>
+
                     <div class="relative animate-float hidden md:block">
                         <div class="flex justify-center mb-6">
-                            <img src="IAINU.jpg" alt="Class Logo" class="w-32 h-32 object-contain filter drop-shadow-[0_0_15px_rgba(220,38,38,0.5)] hover:scale-110 transition-transform duration-300" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2997/2997322.png';">
+                            <img src="IAINU.jpg" alt="Class Logo" 
+                                 class="w-32 h-32 object-contain filter drop-shadow-[0_0_15px_rgba(220,38,38,0.5)] hover:scale-110 transition-transform duration-300"
+                                 onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2997/2997322.png';">
                         </div>
+
                         <div class="glass-panel p-8 rounded-2xl transform rotate-3 hover:rotate-0 transition-all duration-500 border border-red-500/20">
                             <div class="flex items-center gap-4 mb-6">
-                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-black flex items-center justify-center"><i class="fas fa-quote-left text-white"></i></div>
-                                <div><h4 class="font-bold text-lg">Motto Kelas</h4><p class="text-xs text-red-400">Since 2025</p></div>
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-black flex items-center justify-center">
+                                    <i class="fas fa-quote-left text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Motto Kelas</h4>
+                                    <p class="text-xs text-red-400">Since 2025</p>
+                                </div>
                             </div>
-                            <blockquote class="text-xl font-light italic text-gray-300 mb-6">"Microteaching itu memang mendebarkan, tapi lebih mendebarkan lagi kalau melihat generasi muda rusak karena kurangnya pendidikan karakter."</blockquote>
-                            <div class="flex justify-between items-center text-sm text-gray-500"><span>PAI B Family</span><i class="fas fa-fingerprint text-red-500 text-2xl"></i></div>
+                            <blockquote class="text-xl font-light italic text-gray-300 mb-6">
+                                "Microteaching itu memang mendebarkan, tapi lebih mendebarkan lagi kalau melihat generasi muda rusak karena kurangnya pendidikan karakter."
+                            </blockquote>
+                            <div class="flex justify-between items-center text-sm text-gray-500">
+                                <span>PAI B Family</span>
+                                <i class="fas fa-fingerprint text-red-500 text-2xl"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section id="structure" class="hidden-section py-10 relative min-h-[600px]">
+                <!-- Semester Navigation -->
                 <div class="mb-12">
                     <div class="text-center mb-6">
                         <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">STRUKTUR KELAS</h2>
                         <div class="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
                     </div>
+                    
                     <div class="max-w-4xl mx-auto px-4 flex justify-center">
+                        <!-- Updated Semester Nav with Fixed Arrow Positioning and z-index -->
                         <div class="relative w-full max-w-sm flex items-center justify-center bg-black/40 h-16 rounded-full border border-red-900/30 backdrop-blur-sm">
-                            <button onclick="prevSemester()" id="btn-prev-sem" class="absolute left-4 z-20 text-2xl md:text-3xl text-red-600 hover:text-white transition-all transform active:scale-90 focus:outline-none"><i class="fas fa-chevron-left"></i></button>
-                            <div class="text-center w-full relative z-10"><h3 id="current-semester-display" class="font-tech text-2xl md:text-3xl text-white font-bold tracking-widest drop-shadow-[0_0_10px_rgba(220,38,38,0.8)] transition-all">SEMESTER I</h3></div>
-                            <button onclick="nextSemester()" id="btn-next-sem" class="absolute right-4 z-20 text-2xl md:text-3xl text-red-600 hover:text-white transition-all transform active:scale-90 focus:outline-none"><i class="fas fa-chevron-right"></i></button>
+                            <button onclick="prevSemester()" id="btn-prev-sem" class="absolute left-4 z-20 text-2xl md:text-3xl text-red-600 hover:text-white transition-all transform active:scale-90 focus:outline-none">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            
+                            <div class="text-center w-full relative z-10">
+                                <h3 id="current-semester-display" class="font-tech text-2xl md:text-3xl text-white font-bold tracking-widest drop-shadow-[0_0_10px_rgba(220,38,38,0.8)] transition-all">
+                                    SEMESTER I
+                                </h3>
+                            </div>
+
+                            <button onclick="nextSemester()" id="btn-next-sem" class="absolute right-4 z-20 text-2xl md:text-3xl text-red-600 hover:text-white transition-all transform active:scale-90 focus:outline-none">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <!-- Content Container with Relative Positioning for Loader -->
                 <div class="relative min-h-[60vh]">
+                    <!-- Loading Overlay -->
                     <div id="structure-loading-overlay">
                         <div class="flex flex-col items-center">
                             <div class="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin-slow mb-4 shadow-[0_0_15px_rgba(220,38,38,0.5)]"></div>
                             <div class="text-red-500 font-tech text-lg tracking-widest animate-pulse" id="structure-loader-text">Beralih...</div>
                         </div>
                     </div>
-                    <div id="structure-content-container"></div>
+
+                    <!-- Structure Content Container (Dynamic Injection) -->
+                    <div id="structure-content-container">
+                        <!-- Initial Content (Semester I) will be injected via JS on load -->
+                    </div>
                 </div>
+
                 <div class="text-center pb-12 mt-8 flex flex-col gap-4 items-center">
-                     <button id="btn-team-executor" onclick="toggleTeamExecutor()" class="px-6 py-2 bg-gray-900 border border-gray-600 hover:border-red-500 rounded-full text-xs font-bold tracking-wider text-gray-300 hover:text-white transition-all shadow-md hidden"><i class="fas fa-sitemap mr-2"></i> TEAM EXECUTOR</button>
+                     <!-- Team Executor Button -->
+                     <button id="btn-team-executor" onclick="toggleTeamExecutor()" class="px-6 py-2 bg-gray-900 border border-gray-600 hover:border-red-500 rounded-full text-xs font-bold tracking-wider text-gray-300 hover:text-white transition-all shadow-md hidden">
+                        <i class="fas fa-sitemap mr-2"></i> TEAM EXECUTOR
+                    </button>
+
+                    <!-- Family Button -->
                     <button onclick="toggleFamilyGallery()" class="group relative px-10 py-4 bg-gradient-to-r from-red-900 to-black overflow-hidden rounded-xl border border-red-600/50 shadow-[0_0_30px_rgba(220,38,38,0.2)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] transition-all duration-300">
-                        <div class="flex items-center gap-3 relative z-10"><i class="fas fa-users text-2xl text-red-400 group-hover:text-white transition-colors"></i><span class="font-tech text-xl font-bold text-white tracking-widest">FAMILY PAI B</span></div>
+                        <div class="flex items-center gap-3 relative z-10">
+                            <i class="fas fa-users text-2xl text-red-400 group-hover:text-white transition-colors"></i>
+                            <span class="font-tech text-xl font-bold text-white tracking-widest">FAMILY PAI B</span>
+                        </div>
                         <div class="absolute inset-0 bg-red-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                     </button>
                     <p class="text-gray-500 text-sm">Klik untuk melihat seluruh anggota keluarga kelas</p>
@@ -595,22 +658,32 @@
             </section>
 
             <section id="documentation" class="hidden-section py-10">
+                <!-- Doc section unchanged -->
                 <div class="text-center mb-10">
                     <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">ARCHIVES</h2>
                     <div class="h-1 w-20 bg-red-600 mx-auto rounded-full mb-4"></div>
                     <p class="text-gray-400 mb-6">Class Memories & Moments</p>
+                    
                     <div class="flex flex-col md:flex-row justify-center items-center gap-3 max-w-xl mx-auto">
                         <div class="relative w-full">
-                            <input type="text" id="doc-search" placeholder="Search by title..." onkeyup="handleSearch(event)" class="w-full bg-black/40 border border-red-500/30 rounded-lg px-4 py-2 text-white text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 placeholder-gray-500 transition-all text-center md:text-left">
-                            <button onclick="handleSearch({key: 'Enter'})" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"><i class="fas fa-search"></i></button>
+                            <input type="text" id="doc-search" placeholder="Search by title..." 
+                                   onkeyup="handleSearch(event)"
+                                   class="w-full bg-black/40 border border-red-500/30 rounded-lg px-4 py-2 text-white text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 placeholder-gray-500 transition-all text-center md:text-left">
+                            <button onclick="handleSearch({key: 'Enter'})" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
-                        <button onclick="openAllFiles()" class="w-full md:w-auto bg-red-900/30 hover:bg-red-800 border border-red-500/50 text-white px-6 py-2 rounded-lg text-sm transition-all whitespace-nowrap flex items-center justify-center gap-2"><i class="fas fa-th-large"></i> All Files</button>
+                        <button onclick="openAllFiles()" class="w-full md:w-auto bg-red-900/30 hover:bg-red-800 border border-red-500/50 text-white px-6 py-2 rounded-lg text-sm transition-all whitespace-nowrap flex items-center justify-center gap-2">
+                            <i class="fas fa-th-large"></i> All Files
+                        </button>
                     </div>
                 </div>
-                <div id="documentation-grid" class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6"></div>
+
+                <div id="documentation-grid" class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                </div>
             </section>
 
-            <!-- FINANCE SECTION UPDATED: NO HISTORY MENU -->
+            <!-- FINANCE SECTION -->
             <section id="finance" class="hidden-section py-10 min-h-[600px] flex justify-center items-center">
                 
                 <!-- LOGIN CONTAINER -->
@@ -655,7 +728,7 @@
                     </div>
                 </div>
 
-                <!-- DASHBOARD CONTAINER -->
+                <!-- DASHBOARD CONTAINER (Hidden by default) -->
                 <div id="finance-dashboard" class="hidden w-full max-w-4xl px-4 flex flex-col items-center">
                     <div class="text-center mb-10 w-full">
                         <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">KEUANGAN KELAS</h2>
@@ -663,21 +736,20 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 w-full">
-                        <!-- Total Saldo Card (Updated with Custom Font Class and ID) -->
+                        <!-- Total Saldo Card -->
                         <div class="glass-panel p-8 rounded-2xl border border-red-500/30 relative overflow-hidden group">
                             <div class="absolute -right-6 -top-6 w-32 h-32 bg-red-600 rounded-full opacity-10 blur-xl group-hover:opacity-20 transition-all"></div>
                             <div class="relative z-10">
                                 <p class="text-gray-400 text-sm uppercase tracking-widest mb-2">Total Saldo Kas</p>
-                                <!-- Disini font-saldo-custom diterapkan -->
-                                <h3 id="total-saldo-display" class="text-4xl md:text-5xl font-bold text-white mb-4 font-saldo-custom">Rp ...</h3>
+                                <h3 id="total-saldo-display" class="text-4xl md:text-5xl font-bold text-white mb-4 font-mono">Rp 661.000</h3>
                                 <div class="flex items-center text-green-400 text-sm">
                                     <i class="fas fa-sync-alt mr-1 animate-spin-slow" id="saldo-loading-icon"></i>
-                                    <span id="saldo-status-text">Sinkronisasi Data...</span>
+                                    <span id="saldo-status-text">Rp 100.000</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Info Card -->
+                        <!-- Info Card (UPDATED: Removed blue bg/border) -->
                         <div class="glass-panel p-8 rounded-2xl border border-gray-700/50 relative overflow-hidden">
                             <div class="flex items-start gap-4">
                                 <div class="w-12 h-12 flex items-center justify-center text-blue-400">
@@ -693,29 +765,42 @@
                         </div>
                     </div>
 
-                    <!-- RIWAYAT PENGELUARAN SECTION REMOVED -->
+                    <!-- RIWAYAT PENGELUARAN REMOVED -->
                     
                     <button onclick="logoutFinance()" class="mx-auto block text-red-400 hover:text-white text-sm transition-colors">
                         <i class="fas fa-sign-out-alt mr-2"></i> Keluar dari sesi keuangan
                     </button>
                 </div>
+
             </section>
+
         </main>
-        
-        <!-- Footer & Modals ... (Unchanged) -->
+
         <footer class="border-t border-red-900/30 bg-black/90 mt-12 pt-12 pb-8">
+            <!-- Footer unchanged -->
             <div class="max-w-7xl mx-auto px-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8 border-b border-red-900/30 pb-8">
                     <div class="text-left">
                          <h3 class="font-tech text-xl text-white font-bold mb-4 border-b-2 border-red-600 inline-block pb-1">FAKULTAS TARBIYAH</h3>
-                         <p class="text-gray-400 text-sm leading-relaxed mt-2">Mencetak pendidik yang berakhlak mulia, berwawasan luas, dan kompeten dalam menjawab tantangan zaman.</p>
+                         <p class="text-gray-400 text-sm leading-relaxed mt-2">
+                             Mencetak pendidik yang berakhlak mulia, berwawasan luas, dan kompeten dalam menjawab tantangan zaman.
+                         </p>
                     </div>
                     <div class="text-left">
                         <h3 class="font-tech text-xl text-white font-bold mb-4 border-b-2 border-red-600 inline-block pb-1">KONTAK KAMI</h3>
                         <div class="mt-2 flex flex-col gap-2">
-                            <a href="https://maps.app.goo.gl/tfdwTJTneTn89ey36" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group"><i class="fas fa-map-marker-alt text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> Jl. Tentara Pelajar No. 55B</a>
-                            <a href="https://wa.me/6281216024273" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group"><i class="fas fa-phone text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 0812-1602-4273</a>
-                            <a href="https://twitter.com/iainu_kebumen" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group"><i class="fab fa-twitter text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> @iainu_kebumen</a>
+                            <a href="https://maps.app.goo.gl/tfdwTJTneTn89ey36" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
+                                <i class="fas fa-map-marker-alt text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
+                                Jl. Tentara Pelajar No. 55B
+                            </a>
+                            <a href="https://wa.me/6281216024273" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
+                                <i class="fas fa-phone text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
+                                0812-1602-4273
+                            </a>
+                            <a href="https://twitter.com/iainu_kebumen" target="_blank" class="text-gray-400 text-sm flex items-center hover:text-white transition-colors group">
+                                <i class="fab fa-twitter text-red-500 w-6 text-center mr-2 group-hover:scale-110 transition-transform"></i> 
+                                @iainu_kebumen
+                            </a>
                         </div>
                     </div>
                     <div class="text-left">
@@ -730,78 +815,735 @@
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <p class="font-tech text-gray-500 text-sm text-center md:text-left">© 2025 PAI B - IAINU KEBUMEN. All Rights Reserved.</p>
                     <div class="flex gap-4">
-                        <a href="https://www.instagram.com/iainukebumen/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white transition-all duration-300"><i class="fab fa-instagram"></i></a>
-                        <a href="https://iainu-kebumen.ac.id/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-500 hover:text-white transition-all duration-300"><i class="fas fa-globe"></i></a>
+                        <a href="https://www.instagram.com/iainukebumen/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white transition-all duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://iainu-kebumen.ac.id/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnQrL_efXSleeESFYk2QKkN6BzFcbkVuHqkuvpD0AKrYYmzGs-kkm7mzH8qUk_aem_h2VNO5wVlciA0OHIwGrFxg" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-500 hover:text-white transition-all duration-300">
+                            <i class="fas fa-globe"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </footer>
     </div>
+
+    <!-- Modals (Family Gallery, All Files, Bio, Media, Team Executor) -->
     
+    <!-- AUTH FAILED MODAL -->
     <div id="auth-error-modal" class="custom-modal" style="z-index: 9999;">
         <div class="bg-black/90 border border-red-600 rounded-xl p-8 max-w-sm w-full mx-4 text-center transform scale-100 shadow-[0_0_50px_rgba(220,38,38,0.5)]">
-            <div class="mb-4 flex justify-center"><svg class="w-20 h-20 text-red-600 animate-cross" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></div>
+            <div class="mb-4 flex justify-center">
+                <!-- X Icon Animation -->
+                <svg class="w-20 h-20 text-red-600 animate-cross" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
             <h3 class="text-2xl font-bold text-white mb-2 font-tech">AUTHORIZATION FAILED</h3>
             <p class="text-gray-400 text-sm mb-6">Silahkan masukan data yang valid untuk melanjutkan.</p>
-            <button onclick="closeAuthError()" class="bg-red-700 hover:bg-red-600 text-white px-6 py-2 rounded-lg text-sm font-bold transition-colors w-full">COBA LAGI</button>
+            <button onclick="closeAuthError()" class="bg-red-700 hover:bg-red-600 text-white px-6 py-2 rounded-lg text-sm font-bold transition-colors w-full">
+                COBA LAGI
+            </button>
         </div>
     </div>
+
+    <!-- TEAM EXECUTOR MODAL -->
     <div id="team-executor-modal" class="fullscreen-overlay" tabindex="0">
         <div class="w-full min-h-screen pt-20 pb-10 px-4 relative">
-             <button onclick="toggleTeamExecutor()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black"><i class="fas fa-times"></i></button>
-            <div class="text-center mb-8 sticky left-0 right-0"><h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">TEAM EXECUTOR</h2><p class="text-red-400 text-sm tracking-widest">DIVISI & PELAKSANA</p></div>
-            <div class="w-full overflow-y-auto overflow-x-auto pb-12"><div id="executor-tree-container" class="tree"></div></div>
+             <button onclick="toggleTeamExecutor()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-8 sticky left-0 right-0">
+                <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">TEAM EXECUTOR</h2>
+                <p class="text-red-400 text-sm tracking-widest">DIVISI & PELAKSANA</p>
+            </div>
+
+            <!-- Executor Content Container -->
+            <!-- ADDED: overflow-auto here allows panning around the tree -->
+            <div class="w-full overflow-y-auto overflow-x-auto pb-12">
+                 <!-- ADDED: min-w-max forces the container to be as wide as the tree requires -->
+                 <div id="executor-tree-container" class="tree">
+                    <!-- Tree injected via JS -->
+                 </div>
+            </div>
         </div>
     </div>
+
     <div id="family-gallery" class="fullscreen-overlay" tabindex="0">
+        <!-- Family Gallery Content unchanged -->
         <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
-            <button onclick="toggleFamilyGallery()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black"><i class="fas fa-times"></i></button>
-            <div class="text-center mb-12"><h2 class="text-4xl md:text-6xl font-tech font-bold text-white mb-2">KELUARGA PAI B</h2><p class="text-red-400 text-lg">Selalu di Hati</p></div>
+            <button onclick="toggleFamilyGallery()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-6xl font-tech font-bold text-white mb-2">KELUARGA PAI B</h2>
+                <p class="text-red-400 text-lg">Selalu di Hati</p>
+            </div>
             <div id="student-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
         </div>
     </div>
+
     <div id="all-files-overlay" class="fullscreen-overlay" tabindex="0">
+         <!-- All Files Content unchanged -->
         <div class="max-w-7xl mx-auto px-4 pt-24 pb-10 relative">
-            <button onclick="closeAllFiles()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black"><i class="fas fa-times"></i></button>
-            <div class="text-center mb-12"><h2 class="text-4xl md:text-5xl font-tech font-bold text-white mb-2">ALL UPLOADED FILES</h2><p class="text-gray-400 text-sm">Memories Activities PAI B 2025</p></div>
-            <div id="all-files-grid" class="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4"></div>
+            <button onclick="closeAllFiles()" class="fixed top-6 right-6 z-50 bg-red-600 text-white w-12 h-12 rounded-full hover:bg-red-500 transition flex items-center justify-center text-xl shadow-lg border-2 border-black">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-tech font-bold text-white mb-2">ALL UPLOADED FILES</h2>
+                <p class="text-gray-400 text-sm">Memories Activities PAI B 2025</p>
+            </div>
+
+            <div id="all-files-grid" class="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+            </div>
         </div>
     </div>
+
+    <!-- Bio Modal & Media Modal unchanged -->
     <div id="bio-modal" class="custom-modal" onclick="closeBioModal(event)">
         <div id="bio-content" class="glass-panel w-[90%] md:w-full max-w-6xl max-h-[90vh] md:max-h-[85vh] overflow-y-auto transform scale-95 transition-all duration-300 rounded-2xl flex flex-col md:flex-row bg-black/90 border border-red-500/30 shadow-2xl relative overflow-hidden" tabindex="0">
             <div class="w-full md:w-5/12 aspect-[9/16] relative bg-gray-900 group shrink-0">
-                <div id="modal-img-loader" class="img-loading-skeleton"><i class="fas fa-spinner fa-spin text-red-900 text-4xl"></i></div>
+                <div id="modal-img-loader" class="img-loading-skeleton">
+                    <i class="fas fa-spinner fa-spin text-red-900 text-4xl"></i>
+                </div>
                 <img id="modal-img" src="" alt="Profile Photo" class="relative z-10 w-full h-full object-cover transition-opacity duration-500 opacity-0" onerror="this.src='https://placehold.co/400x500?text=No+Image';">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/90 z-20 pointer-events-none"></div>
-                <button onclick="closeBioModal(null, true)" class="md:hidden absolute top-4 right-4 z-50 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20"><i class="fas fa-times"></i></button>
+                <button onclick="closeBioModal(null, true)" class="md:hidden absolute top-4 right-4 z-50 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="w-full md:w-7/12 p-6 md:p-10 flex flex-col justify-center text-left relative bg-black/50 md:bg-transparent">
-                <div class="absolute top-0 right-0 p-6 opacity-10 hidden md:block"><i class="fas fa-fingerprint text-9xl text-red-600"></i></div>
+                <div class="absolute top-0 right-0 p-6 opacity-10 hidden md:block">
+                    <i class="fas fa-fingerprint text-9xl text-red-600"></i>
+                </div>
                 <div class="mb-6 md:mb-10 relative z-10">
                     <h2 id="modal-name" class="text-2xl md:text-6xl font-bold text-white font-tech mb-2 tracking-wide leading-tight drop-shadow-lg">Name Here</h2>
-                    <div class="flex items-center gap-3"><span class="px-4 py-1 bg-red-900/40 border border-red-500/30 rounded text-red-400 font-mono text-xs md:text-base tracking-wider" id="modal-nim">NIM: 00000000</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="px-4 py-1 bg-red-900/40 border border-red-500/30 rounded text-red-400 font-mono text-xs md:text-base tracking-wider" id="modal-nim">NIM: 00000000</span>
+                    </div>
                 </div>
                 <div class="space-y-6 relative z-10">
-                    <div class="bio-info-row group"><div class="bio-icon-box w-10 h-10 md:w-14 md:h-14 text-lg md:text-2xl"><i class="fab fa-instagram"></i></div><div class="flex-grow pt-1 md:pt-2"><span class="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">Instagram</span><div id="modal-ig" class="text-sm md:text-xl"></div></div></div>
-                    <div class="bio-info-row group"><div class="bio-icon-box w-10 h-10 md:w-14 md:h-14 text-lg md:text-2xl"><i class="fas fa-quote-left"></i></div><div class="flex-grow pt-1 md:pt-2"><span class="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">About Me</span><p id="modal-bio" class="text-gray-300 font-light leading-relaxed text-sm md:text-xl italic pr-2 md:pr-8 text-justify">"..."</p></div></div>
+                    <div class="bio-info-row group">
+                        <div class="bio-icon-box w-10 h-10 md:w-14 md:h-14 text-lg md:text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="flex-grow pt-1 md:pt-2">
+                            <span class="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">Instagram</span>
+                            <div id="modal-ig" class="text-sm md:text-xl"></div>
+                        </div>
+                    </div>
+                    <div class="bio-info-row group">
+                        <div class="bio-icon-box w-10 h-10 md:w-14 md:h-14 text-lg md:text-2xl">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <div class="flex-grow pt-1 md:pt-2">
+                            <span class="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">About Me</span>
+                            <p id="modal-bio" class="text-gray-300 font-light leading-relaxed text-sm md:text-xl italic pr-2 md:pr-8 text-justify">"..."</p>
+                        </div>
+                    </div>
                 </div>
-                 <button onclick="closeBioModal(null, true)" class="hidden md:flex absolute top-6 right-6 z-50 bg-transparent text-white/50 hover:text-white transition w-10 h-10 items-center justify-center text-2xl"><i class="fas fa-times"></i></button>
+                 <button onclick="closeBioModal(null, true)" class="hidden md:flex absolute top-6 right-6 z-50 bg-transparent text-white/50 hover:text-white transition w-10 h-10 items-center justify-center text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
     </div>
+
+    <!-- UPDATED: Media Modal without X button -->
     <div id="media-modal" class="custom-modal" onclick="closeMediaModal(event)">
-        <div class="relative max-w-5xl w-full mx-4 flex justify-center"><div id="media-container" class="max-h-[85vh] rounded-lg shadow-2xl border border-red-500/30"></div></div>
+        <div class="relative max-w-5xl w-full mx-4 flex justify-center">
+            <!-- X Button Removed Here -->
+            <div id="media-container" class="max-h-[85vh] rounded-lg shadow-2xl border border-red-500/30">
+            </div>
+        </div>
     </div>
 
     <script>
+        // Existing Scripts
         const textToType = "PAI B";
         const typingElement = document.getElementById('typing-text');
         let i = 0;
-        function typeWriter() { if (i < textToType.length) { typingElement.innerHTML += textToType.charAt(i); i++; setTimeout(typeWriter, 150); } }
 
-        // PASTE YOUR GOOGLE SCRIPT WEB APP URL HERE
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyCaqdg3su0ZHiqxdMoNU1899sOalNIQDG3V5C_U33aeO0aTtSmqJzlHuhpLhW_4NNz/exec'; 
+        function typeWriter() {
+            if (i < textToType.length) {
+                typingElement.innerHTML += textToType.charAt(i);
+                i++;
+                setTimeout(typeWriter, 150);
+            }
+        }
 
+        window.onload = function() {
+            typeWriter();
+            generateStudents(); 
+            initDocumentation(); 
+            
+            // --- FIX: Initialize Buttons & Semester ---
+            // Ensure first semester is shown and button states are correct on load
+            updateSemesterDisplay(); // This will handle visibility of arrows and content
+            
+            if (!history.state) {
+                history.replaceState({ page: 'home' }, '', '#home');
+            }
+            
+            // SECURITY: Disable keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Prevent F12
+                if (e.key === 'F12') { e.preventDefault(); return false; }
+                // Prevent Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return false; }
+                // Prevent Ctrl+U (View Source)
+                if (e.ctrlKey && e.key === 'u') { e.preventDefault(); return false; }
+                // Prevent Ctrl+S (Save Page)
+                if (e.ctrlKey && e.key === 's') { e.preventDefault(); return false; }
+            });
+
+            // SECURITY: Simple debugger trap
+            setInterval(() => {
+                const start = new Date().getTime();
+                debugger;
+                const end = new Date().getTime();
+            }, 1000);
+            
+            // Close mobile menu on outside click/touch
+            const closeMenuHandler = (e) => {
+                const menu = document.getElementById('mobile-menu');
+                const btn = document.getElementById('mobile-menu-btn');
+                
+                // If menu is open (check for max-h-screen class)
+                if (menu && menu.classList.contains('max-h-screen')) {
+                    // If click target is NOT inside the menu AND NOT the button itself
+                    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                        toggleMobileMenu(); // Use function to animate close
+                    }
+                }
+            };
+
+            document.addEventListener('click', closeMenuHandler);
+            document.addEventListener('touchstart', closeMenuHandler);
+        };
+
+        // Standard Functions (enterSite, toggleMusic, switchTab, toggleMobileMenu) unchanged
+        function enterSite() {
+            const intro = document.getElementById('intro-screen');
+            const mainApp = document.getElementById('main-app');
+            const audio = document.getElementById('bg-music');
+            if (audio) {
+                audio.play().catch(error => { console.log("Audio autoplay blocked:", error); });
+            }
+            intro.style.transform = 'translateY(-100%)';
+            intro.style.opacity = '0';
+            mainApp.classList.remove('hidden');
+            setTimeout(() => {
+                mainApp.style.opacity = '1';
+                setTimeout(() => { intro.style.display = 'none'; }, 800);
+            }, 100);
+        }
+
+        let isPlaying = true;
+        function toggleMusic() {
+            const audio = document.getElementById('bg-music');
+            const btn = document.getElementById('music-btn');
+            if (isPlaying) {
+                audio.pause();
+                btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                btn.classList.remove('music-pulse');
+                isPlaying = false;
+            } else {
+                audio.play();
+                btn.innerHTML = '<i class="fas fa-music"></i>';
+                btn.classList.add('music-pulse');
+                isPlaying = true;
+            }
+        }
+
+        document.addEventListener('visibilitychange', function() {
+            const audio = document.getElementById('bg-music');
+            if (document.hidden) {
+                audio.pause();
+            } else {
+                if(isPlaying) {
+                    audio.play().catch(e => console.log("Resume prevented", e));
+                }
+            }
+        });
+
+        // -----------------------------------------------------------
+        // REVISED NAVIGATION LOGIC START
+        // -----------------------------------------------------------
+        
+        function switchTab(tabId) {
+            // UPDATED: Auto Logout Finance when switching away
+            if (tabId !== 'finance') {
+                logoutFinance();
+            }
+
+            // 1. Show Loader
+            const loader = document.getElementById('page-loader');
+            loader.classList.remove('opacity-0', 'pointer-events-none');
+            loader.classList.add('active'); 
+
+            // 2. Wait for visual effect
+            setTimeout(() => {
+                const currentState = history.state ? history.state.page : 'home';
+                const isGoingHome = tabId === 'home';
+                const isCurrentlyHome = currentState === 'home';
+
+                _switchTabUI(tabId);
+                
+                // Only scroll to top if we are actually switching tabs, not just closing a modal
+                window.scrollTo(0, 0);
+
+                if (isGoingHome) {
+                    // If moving TO Home FROM another tab:
+                    // Use replaceState to clear the "Tab" entry so Back button exits.
+                    // This assumes the user wants "Back" from Home to exit the site.
+                    // Note: If we use history.back() here, it might be safer if we know we pushed, 
+                    // but replaceState ensures we are at Home state.
+                    if (!isCurrentlyHome) {
+                         history.replaceState({ page: 'home' }, '', '#home');
+                    }
+                } else {
+                    // If moving TO a Tab (Structure, Doc, etc)
+                    if (isCurrentlyHome) {
+                        // From Home -> Tab: Push State (So Back button goes to Home)
+                        history.pushState({ page: tabId }, '', '#' + tabId);
+                    } else {
+                        // From Tab -> Tab: Replace State (So Back button still goes to Home, not previous Tab)
+                        history.replaceState({ page: tabId }, '', '#' + tabId);
+                    }
+                }
+                
+                // 6. Hide Loader after a slight delay
+                setTimeout(() => {
+                    loader.classList.remove('active');
+                    loader.classList.add('opacity-0', 'pointer-events-none');
+                }, 300);
+                
+            }, 500); 
+        }
+
+        function _switchTabUI(tabId) {
+            const sections = document.querySelectorAll('main section');
+            
+            // Check if target is already active to prevent unnecessary re-render/scroll
+            const target = document.getElementById(tabId);
+            if (target && target.classList.contains('active-section')) {
+                // If it's already active, just ensure others are hidden (safety)
+                // Do NOT reset display property if it's already block, to preserve scroll context if possible.
+                // However, since we have separate sections, scroll is usually window based.
+                return; 
+            }
+
+            sections.forEach(section => {
+                section.classList.remove('active-section');
+                section.classList.add('hidden-section');
+                section.style.display = 'none'; 
+            });
+
+            if (target) {
+                if (tabId === 'finance') {
+                    target.style.display = 'flex';
+                } else {
+                    target.style.display = 'block';
+                }
+                
+                requestAnimationFrame(() => {
+                    target.classList.remove('hidden-section');
+                    target.classList.add('active-section');
+                });
+            }
+            
+            // Close mobile menu if open
+            const menu = document.getElementById('mobile-menu');
+             if (menu.classList.contains('max-h-screen')) {
+                toggleMobileMenu();
+            }
+        }
+        
+        // -----------------------------------------------------------
+        // REVISED NAVIGATION LOGIC END
+        // -----------------------------------------------------------
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('max-h-0')) {
+                // Open
+                menu.classList.remove('max-h-0', 'opacity-0');
+                menu.classList.add('max-h-screen', 'opacity-100');
+            } else {
+                // Close
+                menu.classList.remove('max-h-screen', 'opacity-100');
+                menu.classList.add('max-h-0', 'opacity-0');
+            }
+        }
+
+        /* --- FINANCE LOGIC --- */
+        function handleFinanceLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('finance-user').value;
+            const pass = document.getElementById('finance-pass');
+            const passVal = pass.value;
+            const errorMsg = document.getElementById('pass-error-msg');
+
+            // Hardcoded Credentials
+            if (user === 'Tarbiyah' && passVal === 'paib.2025') {
+                // Success
+                document.getElementById('finance-login').classList.add('hidden');
+                document.getElementById('finance-dashboard').classList.remove('hidden');
+                errorMsg.classList.add('hidden');
+            } else {
+                // Fail
+                pass.value = ''; // Clear password
+                errorMsg.classList.remove('hidden'); // Show inline error
+                
+                // Show Popup
+                const modal = document.getElementById('auth-error-modal');
+                modal.classList.add('active');
+            }
+        }
+
+        function closeAuthError() {
+            document.getElementById('auth-error-modal').classList.remove('active');
+        }
+
+        function logoutFinance() {
+            document.getElementById('finance-user').value = '';
+            document.getElementById('finance-pass').value = '';
+            document.getElementById('finance-dashboard').classList.add('hidden');
+            document.getElementById('finance-login').classList.remove('hidden');
+            document.getElementById('pass-error-msg').classList.add('hidden');
+        }
+        
+        // Expense History Toggle Function Removed
+
+        const semesterList = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
+        let currentSemesterIndex = 0; // Starts at I
+
+        // Helper to generate structure cards HTML
+        function createCard(img, name, role) {
+            return `
+             <div class="glass-panel text-center p-2 md:p-4 rounded-xl border border-red-500/30 inline-block w-28 md:w-48 hover:bg-red-900/40 transition-colors z-10 relative mx-1 mb-2 md:mx-2 md:mb-4">
+                <div class="w-12 h-12 md:w-16 md:h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500">
+                    <img src="${img}" alt="${role}" class="w-full h-full object-cover"
+                         onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random';">
+                </div>
+                <h3 class="font-bold text-white text-[10px] md:text-sm break-words">${name}</h3>
+                <p class="text-[8px] md:text-[10px] text-gray-400 uppercase tracking-wider">${role}</p>
+            </div>`;
+        }
+        
+        // --- DATA STRUKTUR PER SEMESTER ---
+        const structureData = {
+            "I": {
+                ketua: { name: "Ubaidillah M.", img: "Ubaidillah.jpg" },
+                wakil: { name: "Pniel Munandar", img: "Pniel.jpg" },
+                sek1: { name: "Riska Ayu K.", img: "Ayu.jpg" },
+                sek2: { name: "Yoana Dian R.A.", img: "Yoana.jpg" },
+                ben1: { name: "Putri Dwi Astuti", img: "Putri.jpg" },
+                ben2: { name: "Anggun Lolyka H.", img: "Anggun.jpg" }
+            },
+            "II": {
+                // Isi data semester II di sini nanti
+                ketua: { name: "Belum Ditentukan", img: "" },
+                wakil: { name: "Belum Ditentukan", img: "" },
+                koor: { name: "Belum Ditentukan", img: "" },
+                sek1: { name: "Belum Ditentukan", img: "" },
+                sek2: { name: "Belum Ditentukan", img: "" },
+                ben1: { name: "Belum Ditentukan", img: "" }
+            },
+            // Tambahkan objek untuk "III", "IV"
+        };
+
+        function getStructData(sem) {
+            // Jika data spesifik semester ada di structureData, pakai itu.
+            // Jika tidak, pakai placeholder default.
+            if (structureData[sem]) {
+                // Merge dengan default agar tidak error jika ada field yang kurang
+                return { 
+                    ketua: { name: "Belum Ditentukan", img: "" },
+                    wakil: { name: "Belum Ditentukan", img: "" },
+                    koor: { name: "Belum Ditentukan", img: "" },
+                    sek1: { name: "Belum Ditentukan", img: "" },
+                    sek2: { name: "Belum Ditentukan", img: "" },
+                    ben1: { name: "Belum Ditentukan", img: "" },
+                    ...structureData[sem] 
+                };
+            }
+            
+            return {
+                ketua: { name: "Belum Ditentukan", img: "" },
+                wakil: { name: "Belum Ditentukan", img: "" },
+                koor: { name: "Belum Ditentukan", img: "" },
+                sek1: { name: "Belum Ditentukan", img: "" },
+                sek2: { name: "Belum Ditentukan", img: "" },
+                ben1: { name: "Belum Ditentukan", img: "" },
+                ben2: { name: "Belum Ditentukan", img: "" }
+            };
+        }
+
+        function updateSemesterDisplay() {
+            const sem = semesterList[currentSemesterIndex];
+            const displayEl = document.getElementById('current-semester-display');
+            const prevBtn = document.getElementById('btn-prev-sem');
+            const nextBtn = document.getElementById('btn-next-sem');
+
+            // Logic Visibility Anak Panah
+            if (currentSemesterIndex === 0) {
+                prevBtn.style.visibility = 'hidden';
+            } else {
+                prevBtn.style.visibility = 'visible';
+            }
+
+            if (currentSemesterIndex === semesterList.length - 1) {
+                nextBtn.style.visibility = 'hidden';
+            } else {
+                nextBtn.style.visibility = 'visible';
+            }
+            
+            // Logic Team Executor Button
+            const teamExecutorBtn = document.getElementById('btn-team-executor');
+            if (currentSemesterIndex === 0) { // Semester I
+                if(teamExecutorBtn) teamExecutorBtn.style.display = 'none';
+            } else {
+                if(teamExecutorBtn) teamExecutorBtn.style.display = 'block'; // Or inline-flex if needed, but the parent aligns it.
+            }
+            
+            // Animation effect for text change
+            displayEl.style.opacity = '0';
+            setTimeout(() => {
+                displayEl.innerText = `SEMESTER ${sem}`;
+                displayEl.style.opacity = '1';
+            }, 200);
+            
+            changeSemester(sem);
+        }
+
+        function nextSemester() {
+            if (currentSemesterIndex < semesterList.length - 1) {
+                currentSemesterIndex++;
+                updateSemesterDisplay();
+            }
+        }
+
+        function prevSemester() {
+            if (currentSemesterIndex > 0) {
+                currentSemesterIndex--;
+                updateSemesterDisplay();
+            }
+        }
+
+        function changeSemester(sem) {
+            const loader = document.getElementById('structure-loading-overlay');
+            const loaderText = document.getElementById('structure-loader-text');
+            const container = document.getElementById('structure-content-container');
+
+            loaderText.innerText = `Beralih Semester ${sem}...`;
+            loader.classList.add('active');
+            container.style.opacity = '0'; // Completely hide content
+
+            setTimeout(() => {
+                updateStructureUI(sem);
+                loader.classList.remove('active');
+                container.style.opacity = '1';
+            }, 800);
+        }
+
+        function updateStructureUI(sem) {
+            const container = document.getElementById('structure-content-container');
+            const data = getStructData(sem);
+            let html = '';
+
+            // Layout for Semester I (Tree Only)
+            if (sem === "I") {
+                const treeHtml = `
+                    <div class="tree">
+                        <ul>
+                            <li>
+                                ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
+                                <ul>
+                                    <li>
+                                        ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
+                                        <ul>
+                                            <!-- Sekretaris Group -->
+                                            <li>
+                                                <div class="flex flex-col gap-4 items-center pt-4">
+                                                    ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                                                    ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                                                </div>
+                                            </li>
+                                            <!-- Bendahara Group -->
+                                            <li>
+                                                <div class="flex flex-col gap-4 items-center pt-4">
+                                                    ${createCard(data.ben1.img, data.ben1.name, "Bendahara 1")}
+                                                    ${createCard(data.ben2.img, data.ben2.name, "Bendahara 2")}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>`;
+                html = treeHtml;
+
+            } else {
+                // Layout for Semester II+ (Tree Only)
+                const treeHtml = `
+                    <div class="tree">
+                        <ul>
+                            <li>
+                                ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")}
+                                <ul>
+                                    <li>
+                                        ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
+                                        <ul>
+                                            <li>
+                                                 ${createCard(data.koor.img, data.koor.name, "Koordinator")}
+                                                 <ul>
+                                                    <!-- Sekretaris -->
+                                                    <li>
+                                                        <div class="flex flex-col gap-4 items-center pt-4">
+                                                             ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                                                             ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                                                        </div>
+                                                    </li>
+                                                    <!-- Bendahara -->
+                                                    <li>
+                                                        <div class="flex flex-col gap-4 items-center pt-4">
+                                                             ${createCard(data.ben1.img, data.ben1.name, "Bendahara")}
+                                                        </div>
+                                                    </li>
+                                                 </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>`;
+                html = treeHtml;
+            }
+
+            container.innerHTML = html;
+        }
+
+        /* --- TEAM EXECUTOR LOGIC --- */
+        
+        function toggleTeamExecutor() {
+            const modal = document.getElementById('team-executor-modal');
+            const container = document.getElementById('executor-tree-container');
+            
+            if (modal.classList.contains('open')) {
+                if (history.state && history.state.page === 'team-executor') {
+                    history.back();
+                    return;
+                }
+                modal.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            } else {
+                renderTeamExecutorTree(container);
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                history.pushState({ page: 'team-executor' }, '', '#team-executor');
+                modal.focus();
+            }
+        }
+
+        function renderTeamExecutorTree(container) {
+            // Placeholder Data for Executor
+            const data = {
+                ketua: { name: "Nama Ketua", img: "" },
+                wakil: { name: "Nama Wakil", img: "" },
+                koor: { name: "Nama Koordinator", img: "" },
+                sek1: { name: "Nama Sekretaris 1", img: "" }, 
+                sek2: { name: "Nama Sekretaris 2", img: "" }, 
+                ben: { name: "Nama Bendahara", img: "" },
+                div_kebersihan: Array(6).fill({name: "Anggota", img: ""}),
+                div_kreatif: Array(3).fill({name: "Anggota", img: ""}),
+                div_sosial: Array(3).fill({name: "Anggota", img: ""})
+            };
+
+            // FIX: Struktur UL/LI agar garis (tree lines) terhubung ke Divisi juga
+            const html = `
+            <ul>
+                <li>
+                    ${createCard(data.ketua.img, data.ketua.name, "Ketua Pelaksana")}
+                    <ul>
+                        <li>
+                            ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")}
+                            <ul>
+                                <li>
+                                    ${createCard(data.koor.img, data.koor.name, "Koordinator")}
+                                    <ul>
+                                        <!-- Cabang 1: Sekretaris (Stacked) -->
+                                        <li>
+                                            <div class="flex flex-col gap-4 items-center pt-4">
+                                                ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")}
+                                                ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")}
+                                            </div>
+                                        </li>
+                                        
+                                        <!-- Cabang 2: Bendahara (Sendiri, jadi ukurannya normal) -->
+                                        <li>
+                                            <div class="flex flex-col gap-4 items-center pt-4">
+                                                ${createCard(data.ben.img, data.ben.name, "Bendahara")}
+                                            </div>
+                                        </li>
+
+                                        <!-- Cabang 3: DIVISI (Sebagai Node Tree) -->
+                                        <li>
+                                            <div class="glass-panel px-4 py-2 mt-4 rounded-full border border-red-500 text-white font-bold text-xs tracking-widest inline-block">DIVISI</div>
+                                            <ul>
+                                                <!-- Tim Kebersihan -->
+                                                <li>
+                                                    <div class="glass-panel p-2 rounded-lg border border-red-500/50 mb-2 inline-block">
+                                                        <h5 class="text-red-400 font-bold text-[10px] md:text-xs whitespace-nowrap">TIM KEBERSIHAN</h5>
+                                                    </div>
+                                                    <div class="flex justify-center">
+                                                        <div class="grid grid-cols-1 gap-2">
+                                                            ${data.div_kebersihan.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                                <!-- Tim Kreatif -->
+                                                <li>
+                                                    <div class="glass-panel p-2 rounded-lg border border-orange-500/50 mb-2 inline-block">
+                                                        <h5 class="text-orange-400 font-bold text-[10px] md:text-xs whitespace-nowrap">TIM KREATIF</h5>
+                                                    </div>
+                                                    <div class="flex justify-center">
+                                                        <div class="flex flex-col gap-2">
+                                                            ${data.div_kreatif.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                                <!-- Tim Sosial -->
+                                                <li>
+                                                    <div class="glass-panel p-2 rounded-lg border border-yellow-500/50 mb-2 inline-block">
+                                                        <h5 class="text-yellow-400 font-bold text-[10px] md:text-xs whitespace-nowrap">TIM SOSIAL</h5>
+                                                    </div>
+                                                    <div class="flex justify-center">
+                                                        <div class="flex flex-col gap-2">
+                                                            ${data.div_sosial.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            `;
+            container.innerHTML = html;
+        }
+
+        /* --- STUDENT DATA (Unchanged) --- */
         const studentsData = [
             { name: "Ady Surya", nim: "2511038", ig: "@suryaadharm_", img: "Ady.jpg", bioImg: "Ady 2.jpg", bio: "Saya orang yang menyukai berpetualang dan menikmati keindahan alam untuk menghilangkan kebosanan dan mengagumi ciptaan Tuhan, sungguh indah." },
             { name: "A. Lubadul Fikri", nim: "2511046", ig: "@bangkriii_", img: "Fikri.jpg", bioImg: "Fikri 2.jpg", bio: "Seseorang yang berkepribadian introvert abizzz. Saya ingin melihat dan memahami dunia di luar sana.Saya tak ingin lenyap di dalam bagian beberapa penghalang yang ada ini tanpa mengetahui apa yang ada di luar sana." },
@@ -828,6 +1570,30 @@
             { name: "Yuyun Lutfiyatul K.", nim: "2511051", ig: "@yuyunltfykh_", img: "Yuyun.jpg", bioImg: "Yuyun 2.jpg", bio: "Saya menyukai aktivitas memasak dan berkebun. Pengalaman paling menyenangkan saya adalah saat mendaki gunung." },
             { name: "Zain Nur Fadilah", nim: "2511076", ig: "@Artyzeen08", img: "Zain.jpg", bioImg: "Zain 2.jpg", bio: "Takdir menempatkan saya sebagai yang tertua di PAI B 2025, tapi itu hanyalah angka di atas kertas. Menjadi tua itu pasti, tapi menjadi dewasa dan berilmu adalah pilihan yang harus diperjuangkan dan saya masih berjuang untuk itu Maka, anggaplah saya teman diskusi yang setara. Mari kita buktikan bahwa PAI B 2025 bukan sekadar kelas kuliah, tapi inkubator persaudaraan dunia akhirat. Sukses kita bukan saat satu orang lari duluan ke garis finis, tapi saat kita semua saling gandeng tangan sampai tujuan." }
         ];
+
+        function generateStudents() {
+            const grid = document.getElementById('student-grid');
+            let html = '';
+            studentsData.forEach((student, index) => {
+                const bio = student.bio || "Mahasiswa PAI B 2025."; 
+                html += `
+                    <div onclick="openBioModal('${index}')" class="group cursor-pointer">
+                        <div class="relative overflow-hidden rounded-xl aspect-square border-2 border-transparent group-hover:border-red-500 transition-all duration-300 bg-gray-900">
+                            <div class="img-loading-skeleton z-0"><i class="fas fa-spinner fa-spin text-red-900 text-2xl"></i></div>
+                            <img src="${student.img}" alt="${student.name}" 
+                                 class="relative z-10 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:scale-110"
+                                 onload="this.classList.replace('opacity-0', 'opacity-100')"
+                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=random&size=200'; this.classList.replace('opacity-0', 'opacity-100');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-20 pointer-events-none"></div>
+                            <div class="absolute bottom-2 left-2 right-2 z-20 pointer-events-none">
+                                <p class="text-white font-bold text-sm truncate group-hover:text-red-400 transition-colors">${student.name}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
 
         const existingMedia = [
             { type: 'video', src: 'JJ 1.mp4', title: 'JJ', ratio: 'aspect-[9/16]' },
@@ -861,178 +1627,317 @@
             { type: 'image', src: 'https://placehold.co/600x600/1a0505/FFF?text=FOTO+25', title: '-', ratio: 'aspect-square' }
         ];
 
-        window.onload = function() {
-            typeWriter();
-            generateStudents(); 
-            initDocumentation(); 
-            updateSemesterDisplay(); 
-            if (!history.state) { history.replaceState({ page: 'home' }, '', '#home'); }
+
+        function renderMainDocGrid(filter = "") {
+            const container = document.getElementById('documentation-grid');
+            let html = '';
             
-            // SECURITY
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'F12') { e.preventDefault(); return false; }
-                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return false; }
-                if (e.ctrlKey && e.key === 'u') { e.preventDefault(); return false; }
-                if (e.ctrlKey && e.key === 's') { e.preventDefault(); return false; }
+            let itemsToShow = filter ? allFilesData : existingMedia;
+
+            itemsToShow.forEach(item => {
+                if (filter && !item.title.toLowerCase().includes(filter.toLowerCase())) return;
+
+                html += createMediaCard(item);
             });
-            setInterval(() => { const start = new Date().getTime(); debugger; const end = new Date().getTime(); }, 1000);
-            
-            const closeMenuHandler = (e) => {
-                const menu = document.getElementById('mobile-menu');
-                const btn = document.getElementById('mobile-menu-btn');
-                if (menu && menu.classList.contains('max-h-screen')) {
-                    if (!menu.contains(e.target) && !btn.contains(e.target)) { toggleMobileMenu(); }
-                }
-            };
-            document.addEventListener('click', closeMenuHandler);
-            document.addEventListener('touchstart', closeMenuHandler);
-        };
 
-        function enterSite() { const intro = document.getElementById('intro-screen'); const mainApp = document.getElementById('main-app'); const audio = document.getElementById('bg-music'); if (audio) { audio.play().catch(error => { console.log("Audio autoplay blocked:", error); }); } intro.style.transform = 'translateY(-100%)'; intro.style.opacity = '0'; mainApp.classList.remove('hidden'); setTimeout(() => { mainApp.style.opacity = '1'; setTimeout(() => { intro.style.display = 'none'; }, 800); }, 100); }
-
-        let isPlaying = true;
-        function toggleMusic() { const audio = document.getElementById('bg-music'); const btn = document.getElementById('music-btn'); if (isPlaying) { audio.pause(); btn.innerHTML = '<i class="fas fa-volume-mute"></i>'; btn.classList.remove('music-pulse'); isPlaying = false; } else { audio.play(); btn.innerHTML = '<i class="fas fa-music"></i>'; btn.classList.add('music-pulse'); isPlaying = true; } }
-        document.addEventListener('visibilitychange', function() { const audio = document.getElementById('bg-music'); if (document.hidden) { audio.pause(); } else { if(isPlaying) { audio.play().catch(e => console.log("Resume prevented", e)); } } });
-
-        function switchTab(tabId) {
-            if (tabId !== 'finance') { logoutFinance(); }
-            const loader = document.getElementById('page-loader'); loader.classList.remove('opacity-0', 'pointer-events-none'); loader.classList.add('active'); 
-            setTimeout(() => {
-                const currentState = history.state ? history.state.page : 'home'; const isGoingHome = tabId === 'home'; const isCurrentlyHome = currentState === 'home';
-                _switchTabUI(tabId); window.scrollTo(0, 0);
-                if (isGoingHome) { if (!isCurrentlyHome) { history.replaceState({ page: 'home' }, '', '#home'); } } else { if (isCurrentlyHome) { history.pushState({ page: tabId }, '', '#' + tabId); } else { history.replaceState({ page: tabId }, '', '#' + tabId); } }
-                setTimeout(() => { loader.classList.remove('active'); loader.classList.add('opacity-0', 'pointer-events-none'); }, 300);
-            }, 500); 
+            if(html === '') {
+                html = `<div class="col-span-3 text-center text-gray-500 py-10">No media found matching "${filter}"</div>`;
+            }
+            container.innerHTML = html;
         }
-        function _switchTabUI(tabId) { const sections = document.querySelectorAll('main section'); const target = document.getElementById(tabId); if (target && target.classList.contains('active-section')) { return; } sections.forEach(section => { section.classList.remove('active-section'); section.classList.add('hidden-section'); section.style.display = 'none'; }); if (target) { if (tabId === 'finance') { target.style.display = 'flex'; } else { target.style.display = 'block'; } requestAnimationFrame(() => { target.classList.remove('hidden-section'); target.classList.add('active-section'); }); } const menu = document.getElementById('mobile-menu'); if (menu.classList.contains('max-h-screen')) { toggleMobileMenu(); } }
-        function toggleMobileMenu() { const menu = document.getElementById('mobile-menu'); if (menu.classList.contains('max-h-0')) { menu.classList.remove('max-h-0', 'opacity-0'); menu.classList.add('max-h-screen', 'opacity-100'); } else { menu.classList.remove('max-h-screen', 'opacity-100'); menu.classList.add('max-h-0', 'opacity-0'); } }
 
-        function handleFinanceLogin(e) {
-            e.preventDefault();
-            const user = document.getElementById('finance-user').value;
-            const pass = document.getElementById('finance-pass');
-            const passVal = pass.value;
-            const errorMsg = document.getElementById('pass-error-msg');
+        function renderAllFilesGrid() {
+            const container = document.getElementById('all-files-grid');
+            let html = '';
+            
+            allFilesData.forEach(item => {
+                html += createMediaCard(item, true); 
+            });
+            container.innerHTML = html;
+        }
 
-            if (user === 'Tarbiyah' && passVal === 'paib.2025') {
-                document.getElementById('finance-login').classList.add('hidden');
-                document.getElementById('finance-dashboard').classList.remove('hidden');
-                errorMsg.classList.add('hidden');
-                // FETCH DATA SAAT LOGIN BERHASIL
-                fetchFinanceData();
+        function createMediaCard(item, isSmall = false) {
+            const margin = isSmall ? 'mb-4' : 'mb-6'; 
+            
+            const isLogo = item.ratio === 'aspect-square' && item.title.toLowerCase().includes('logo');
+            
+            const shapeClass = isLogo 
+                ? `rounded-full aspect-square border-4 border-red-600/30 shadow-[0_0_25px_rgba(220,38,38,0.4)]` 
+                : `rounded-xl ${item.ratio}`;
+
+            const textPosition = isLogo 
+                ? 'inset-0 flex items-end justify-center pb-6' 
+                : 'bottom-4 left-4';
+
+            if (item.type === 'video') {
+                return `
+                <div class="break-inside-avoid relative group ${shapeClass} overflow-hidden glass-panel cursor-pointer ${margin}" onclick="openMediaModal('video', '${item.src}')">
+                    <div class="w-full h-full bg-black/50 flex items-center justify-center">
+                        ${item.src ? 
+                            `<video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)">
+                                <source src="${item.src}" type="video/mp4">
+                             </video>` 
+                            : `<i class="fas fa-video text-gray-600 text-4xl"></i>` 
+                        }
+                    </div>
+                    <div class="play-overlay"><i class="fas fa-play"></i></div>
+                    <div class="absolute z-10 ${textPosition}">
+                        <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded shadow-lg">${item.title}</span>
+                    </div>
+                </div>`;
             } else {
-                pass.value = ''; errorMsg.classList.remove('hidden'); document.getElementById('auth-error-modal').classList.add('active');
+                return `
+                <div class="break-inside-avoid relative group ${shapeClass} overflow-hidden glass-panel cursor-pointer ${margin}" onclick="openMediaModal('image', '${item.src}')">
+                    <img src="${item.src}" alt="${item.title}" 
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            onerror="this.src='https://placehold.co/600x800/1a0505/FFF?text=No+Image';">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute ${textPosition}">
+                        <h3 class="text-lg font-bold text-white drop-shadow-md">${item.title}</h3>
+                    </div>
+                </div>`;
             }
         }
 
-        async function fetchFinanceData() {
-            if(GOOGLE_SCRIPT_URL === 'PASTE_YOUR_GOOGLE_SCRIPT_DEPLOYMENT_URL_HERE' || GOOGLE_SCRIPT_URL === '') {
-                console.warn("Script URL belum di set");
+        function initDocumentation() {
+            renderMainDocGrid();
+        }
+
+        function handleSearch(event) {
+            const query = document.getElementById('doc-search').value;
+            
+            // UPDATED: Push state when user starts searching so Back button works
+            if (query.length > 0) {
+                 if (!history.state || history.state.page !== 'doc-search') {
+                     history.pushState({ page: 'doc-search' }, '', '#search');
+                 }
+            } else {
+                 // If cleared manually, maybe reset state? Optional.
+            }
+            
+            if (event.key === 'Enter' || event.type === 'click' || event.type === 'keyup') {
+                renderMainDocGrid(query);
+            }
+        }
+
+        function openAllFiles() {
+            renderAllFilesGrid();
+            const modal = document.getElementById('all-files-overlay');
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            history.pushState({ page: 'all-files' }, '', '#all-files');
+            modal.focus();
+        }
+
+        function closeAllFiles() {
+             if (history.state && history.state.page === 'all-files') {
+                history.back();
                 return;
             }
-
-            const saldoDisplay = document.getElementById('total-saldo-display');
-            const statusText = document.getElementById('saldo-status-text');
-            const icon = document.getElementById('saldo-loading-icon');
-
-            try {
-                icon.classList.remove('hidden');
-                statusText.innerText = "Sinkronisasi...";
-
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    // PENTING: Mencegah error CORS "Failed to fetch" dengan tidak mengirim cookies/kredensial
-                    credentials: 'omit' 
-                });
-                
-                if (!response.ok) throw new Error('Network response was not ok');
-                
-                const data = await response.json();
-
-                // UPDATE SALDO
-                // Format angka ke Rupiah
-                const formattedSaldo = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(data.saldo);
-                saldoDisplay.innerText = formattedSaldo;
-                
-                statusText.innerText = "Data Terbaru";
-                statusText.classList.add('text-green-400');
-                icon.classList.add('hidden');
-
-            } catch (error) {
-                console.error("Gagal mengambil data:", error);
-                statusText.innerText = "Gagal Sinkronisasi";
-                statusText.classList.remove('text-green-400');
-                statusText.classList.add('text-red-500');
-            }
+            const modal = document.getElementById('all-files-overlay');
+            modal.classList.remove('open');
+            document.body.style.overflow = 'auto';
+            history.replaceState({ page: 'documentation' }, '', '#documentation');
         }
 
-        function closeAuthError() { document.getElementById('auth-error-modal').classList.remove('active'); }
-        function logoutFinance() {
-            document.getElementById('finance-user').value = '';
-            document.getElementById('finance-pass').value = '';
-            document.getElementById('finance-dashboard').classList.add('hidden');
-            document.getElementById('finance-login').classList.remove('hidden');
-            document.getElementById('pass-error-msg').classList.add('hidden');
-        }
-        
-        // Remove toggleExpenseHistory function since button is removed
-
-        const semesterList = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
-        let currentSemesterIndex = 0;
-        function createCard(img, name, role) { return ` <div class="glass-panel text-center p-2 md:p-4 rounded-xl border border-red-500/30 inline-block w-28 md:w-48 hover:bg-red-900/40 transition-colors z-10 relative mx-1 mb-2 md:mx-2 md:mb-4"> <div class="w-12 h-12 md:w-16 md:h-16 mx-auto bg-gray-700 rounded-full mb-2 overflow-hidden border-2 border-red-500"> <img src="${img}" alt="${role}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random';"> </div> <h3 class="font-bold text-white text-[10px] md:text-sm break-words">${name}</h3> <p class="text-[8px] md:text-[10px] text-gray-400 uppercase tracking-wider">${role}</p> </div>`; }
-        const structureData = { "I": { ketua: { name: "Ubaidillah M.", img: "Ubaidillah.jpg" }, wakil: { name: "Pniel Munandar", img: "Pniel.jpg" }, sek1: { name: "Riska Ayu K.", img: "Ayu.jpg" }, sek2: { name: "Yoana Dian R.A.", img: "Yoana.jpg" }, ben1: { name: "Putri Dwi Astuti", img: "Putri.jpg" }, ben2: { name: "Anggun Lolyka H.", img: "Anggun.jpg" } } };
-        function getStructData(sem) { if (structureData[sem]) { return { ketua: { name: "Belum Ditentukan", img: "" }, wakil: { name: "Belum Ditentukan", img: "" }, koor: { name: "Belum Ditentukan", img: "" }, sek1: { name: "Belum Ditentukan", img: "" }, sek2: { name: "Belum Ditentukan", img: "" }, ben1: { name: "Belum Ditentukan", img: "" }, ...structureData[sem] }; } return { ketua: { name: "Belum Ditentukan", img: "" }, wakil: { name: "Belum Ditentukan", img: "" }, koor: { name: "Belum Ditentukan", img: "" }, sek1: { name: "Belum Ditentukan", img: "" }, sek2: { name: "Belum Ditentukan", img: "" }, ben1: { name: "Belum Ditentukan", img: "" }, ben2: { name: "Belum Ditentukan", img: "" } }; }
-        function updateSemesterDisplay() { const sem = semesterList[currentSemesterIndex]; const displayEl = document.getElementById('current-semester-display'); const prevBtn = document.getElementById('btn-prev-sem'); const nextBtn = document.getElementById('btn-next-sem'); if (currentSemesterIndex === 0) { prevBtn.style.visibility = 'hidden'; } else { prevBtn.style.visibility = 'visible'; } if (currentSemesterIndex === semesterList.length - 1) { nextBtn.style.visibility = 'hidden'; } else { nextBtn.style.visibility = 'visible'; } const teamExecutorBtn = document.getElementById('btn-team-executor'); if (currentSemesterIndex === 0) { if(teamExecutorBtn) teamExecutorBtn.style.display = 'none'; } else { if(teamExecutorBtn) teamExecutorBtn.style.display = 'block'; } displayEl.style.opacity = '0'; setTimeout(() => { displayEl.innerText = `SEMESTER ${sem}`; displayEl.style.opacity = '1'; }, 200); changeSemester(sem); }
-        function nextSemester() { if (currentSemesterIndex < semesterList.length - 1) { currentSemesterIndex++; updateSemesterDisplay(); } }
-        function prevSemester() { if (currentSemesterIndex > 0) { currentSemesterIndex--; updateSemesterDisplay(); } }
-        function changeSemester(sem) { const loader = document.getElementById('structure-loading-overlay'); const loaderText = document.getElementById('structure-loader-text'); const container = document.getElementById('structure-content-container'); loaderText.innerText = `Beralih Semester ${sem}...`; loader.classList.add('active'); container.style.opacity = '0'; setTimeout(() => { updateStructureUI(sem); loader.classList.remove('active'); container.style.opacity = '1'; }, 800); }
-        function updateStructureUI(sem) { const container = document.getElementById('structure-content-container'); const data = getStructData(sem); let html = ''; if (sem === "I") { html = ` <div class="tree"> <ul> <li> ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")} <ul> <li> ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")} <ul> <li> <div class="flex flex-col gap-4 items-center pt-4"> ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")} ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")} </div> </li> <li> <div class="flex flex-col gap-4 items-center pt-4"> ${createCard(data.ben1.img, data.ben1.name, "Bendahara 1")} ${createCard(data.ben2.img, data.ben2.name, "Bendahara 2")} </div> </li> </ul> </li> </ul> </li> </ul> </div>`; } else { html = ` <div class="tree"> <ul> <li> ${createCard(data.ketua.img, data.ketua.name, "Ketua Kelas")} <ul> <li> ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")} <ul> <li> ${createCard(data.koor.img, data.koor.name, "Koordinator")} <ul> <li> <div class="flex flex-col gap-4 items-center pt-4"> ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")} ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")} </div> </li> <li> <div class="flex flex-col gap-4 items-center pt-4"> ${createCard(data.ben1.img, data.ben1.name, "Bendahara")} </div> </li> </ul> </li> </ul> </li> </ul> </li> </ul> </div>`; } container.innerHTML = html; }
-        function toggleTeamExecutor() { const modal = document.getElementById('team-executor-modal'); const container = document.getElementById('executor-tree-container'); if (modal.classList.contains('open')) { if (history.state && history.state.page === 'team-executor') { history.back(); return; } modal.classList.remove('open'); document.body.style.overflow = 'auto'; } else { renderTeamExecutorTree(container); modal.classList.add('open'); document.body.style.overflow = 'hidden'; history.pushState({ page: 'team-executor' }, '', '#team-executor'); modal.focus(); } }
-        function renderTeamExecutorTree(container) { const data = { ketua: { name: "Nama Ketua", img: "" }, wakil: { name: "Nama Wakil", img: "" }, koor: { name: "Nama Koordinator", img: "" }, sek1: { name: "Nama Sekretaris 1", img: "" }, sek2: { name: "Nama Sekretaris 2", img: "" }, ben: { name: "Nama Bendahara", img: "" }, div_kebersihan: Array(6).fill({name: "Anggota", img: ""}), div_kreatif: Array(3).fill({name: "Anggota", img: ""}), div_sosial: Array(3).fill({name: "Anggota", img: ""}) }; const html = ` <ul> <li> ${createCard(data.ketua.img, data.ketua.name, "Ketua Pelaksana")} <ul> <li> ${createCard(data.wakil.img, data.wakil.name, "Wakil Ketua")} <ul> <li> ${createCard(data.koor.img, data.koor.name, "Koordinator")} <ul> <li> <div class="flex flex-col gap-4 items-center pt-4"> ${createCard(data.sek1.img, data.sek1.name, "Sekretaris 1")} ${createCard(data.sek2.img, data.sek2.name, "Sekretaris 2")} </div> </li> <li> <div class="flex flex-col gap-4 items-center pt-4"> ${createCard(data.ben.img, data.ben.name, "Bendahara")} </div> </li> <li> <div class="glass-panel px-4 py-2 mt-4 rounded-full border border-red-500 text-white font-bold text-xs tracking-widest inline-block">DIVISI</div> <ul> <li> <div class="glass-panel p-2 rounded-lg border border-red-500/50 mb-2 inline-block"> <h5 class="text-red-400 font-bold text-[10px] md:text-xs whitespace-nowrap">TIM KEBERSIHAN</h5> </div> <div class="flex justify-center"> <div class="grid grid-cols-1 gap-2"> ${data.div_kebersihan.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')} </div> </div> </li> <li> <div class="glass-panel p-2 rounded-lg border border-orange-500/50 mb-2 inline-block"> <h5 class="text-orange-400 font-bold text-[10px] md:text-xs whitespace-nowrap">TIM KREATIF</h5> </div> <div class="flex justify-center"> <div class="flex flex-col gap-2"> ${data.div_kreatif.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')} </div> </div> </li> <li> <div class="glass-panel p-2 rounded-lg border border-yellow-500/50 mb-2 inline-block"> <h5 class="text-yellow-400 font-bold text-[10px] md:text-xs whitespace-nowrap">TIM SOSIAL</h5> </div> <div class="flex justify-center"> <div class="flex flex-col gap-2"> ${data.div_sosial.map((m, i) => createCard(m.img, m.name, `Anggota ${i+1}`)).join('')} </div> </div> </li> </ul> </li> </ul> </li> </ul> </li> </ul> </li> </ul> </li> </ul> `; container.innerHTML = html; }
-        
-        function generateStudents() { const grid = document.getElementById('student-grid'); let html = ''; studentsData.forEach((student, index) => { const bio = student.bio || "Mahasiswa PAI B 2025."; html += ` <div onclick="openBioModal('${index}')" class="group cursor-pointer"> <div class="relative overflow-hidden rounded-xl aspect-square border-2 border-transparent group-hover:border-red-500 transition-all duration-300 bg-gray-900"> <div class="img-loading-skeleton z-0"><i class="fas fa-spinner fa-spin text-red-900 text-2xl"></i></div> <img src="${student.img}" alt="${student.name}" class="relative z-10 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:scale-110" onload="this.classList.replace('opacity-0', 'opacity-100')" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=random&size=200'; this.classList.replace('opacity-0', 'opacity-100');"> <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-20 pointer-events-none"></div> <div class="absolute bottom-2 left-2 right-2 z-20 pointer-events-none"> <p class="text-white font-bold text-sm truncate group-hover:text-red-400 transition-colors">${student.name}</p> </div> </div> </div> `; }); grid.innerHTML = html; }
-        
-        function initDocumentation() { renderMainDocGrid(); }
-        function handleSearch(event) { const query = document.getElementById('doc-search').value; if (query.length > 0) { if (!history.state || history.state.page !== 'doc-search') { history.pushState({ page: 'doc-search' }, '', '#search'); } } if (event.key === 'Enter' || event.type === 'click' || event.type === 'keyup') { renderMainDocGrid(query); } }
-        function openAllFiles() { renderAllFilesGrid(); const modal = document.getElementById('all-files-overlay'); modal.classList.add('open'); document.body.style.overflow = 'hidden'; history.pushState({ page: 'all-files' }, '', '#all-files'); modal.focus(); }
-        function closeAllFiles() { if (history.state && history.state.page === 'all-files') { history.back(); return; } const modal = document.getElementById('all-files-overlay'); modal.classList.remove('open'); document.body.style.overflow = 'auto'; history.replaceState({ page: 'documentation' }, '', '#documentation'); }
-        function toggleFamilyGallery() { const gallery = document.getElementById('family-gallery'); if (gallery.classList.contains('open')) { if (history.state && history.state.page === 'family-gallery') { history.back(); return; } gallery.classList.remove('open'); document.body.style.overflow = 'auto'; } else { gallery.classList.add('open'); document.body.style.overflow = 'hidden'; history.pushState({ page: 'family-gallery' }, '', '#family'); gallery.focus(); } }
-        function openBioModal(index) { const student = studentsData[index]; const modal = document.getElementById('bio-modal'); const content = document.getElementById('bio-content'); document.getElementById('modal-name').innerText = student.name; document.getElementById('modal-nim').innerText = "NIM: " + student.nim; const igContainer = document.getElementById('modal-ig'); if(student.ig === '-' || student.ig === '') { igContainer.innerHTML = `<span class="text-gray-500">-</span>`; } else { const username = student.ig.replace('@', '').trim(); igContainer.innerHTML = `<a href="https://www.instagram.com/${username}" target="_blank" rel="noopener noreferrer" class="text-lg text-white font-medium hover:text-red-400 transition cursor-pointer flex items-center gap-1">${student.ig} <i class="fas fa-external-link-alt text-xs ml-1 opacity-50"></i></a>`; } document.getElementById('modal-bio').innerText = `"${student.bio}"`; const imgElement = document.getElementById('modal-img'); const loaderElement = document.getElementById('modal-img-loader'); imgElement.classList.remove('img-loaded'); imgElement.style.opacity = '0'; loaderElement.style.display = 'flex'; imgElement.onload = function() { imgElement.style.opacity = '1'; loaderElement.style.display = 'none'; }; imgElement.onerror = function() { this.onerror = null; this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=random&size=400`; imgElement.style.opacity = '1'; loaderElement.style.display = 'none'; }; imgElement.src = student.bioImg; modal.classList.add('active'); content.classList.remove('scale-95'); content.classList.add('scale-100'); history.pushState({ page: 'bio-details' }, '', '#student-bio'); setTimeout(() => { content.focus(); }, 100); }
-        function closeBioModal(e, force = false) { if (e && !force) { const content = document.getElementById('bio-content'); if (content.contains(e.target)) return; } if (history.state && history.state.page === 'bio-details') { history.back(); return; } document.getElementById('bio-modal').classList.remove('active'); }
-        function openMediaModal(type, src) { if(!src) return; if (type === 'video') { const bgMusic = document.getElementById('bg-music'); if (bgMusic && !bgMusic.paused) { bgMusic.pause(); bgMusic.dataset.wasPlaying = "true"; } } const modal = document.getElementById('media-modal'); const container = document.getElementById('media-container'); if (type === 'video') { container.innerHTML = ` <div class="bg-black w-full h-full flex items-center justify-center"> <video controls autoplay class="w-full h-auto max-h-[85vh]"> <source src="${src}" type="video/mp4"> Your browser does not support the video tag. </video> </div>`; container.dataset.mediaType = 'video'; } else { container.innerHTML = ` <img src="${src}" class="w-full h-auto max-h-[85vh] object-contain bg-black" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';"> `; container.dataset.mediaType = 'image'; } modal.classList.add('active'); history.pushState({ page: 'media-preview' }, '', '#preview'); }
-        function closeMediaModal(e, force = false) { if (e && !force) { const container = document.getElementById('media-container'); if (container.contains(e.target)) return; } if (history.state && history.state.page === 'media-preview') { history.back(); return; } const container = document.getElementById('media-container'); if (container.dataset.mediaType === 'video') { const bgMusic = document.getElementById('bg-music'); const musicBtn = document.getElementById('music-btn'); if (bgMusic && bgMusic.dataset.wasPlaying === "true") { bgMusic.play().catch(e => console.log(e)); if(musicBtn) { musicBtn.innerHTML = '<i class="fas fa-music"></i>'; musicBtn.classList.add('music-pulse'); isPlaying = true; } } } container.innerHTML = ''; document.getElementById('media-modal').classList.remove('active'); }
-        function previewVideo(video) { video.muted = true; var playPromise = video.play(); if (playPromise !== undefined) { playPromise.then(_ => {}).catch(error => { if (error.name !== 'AbortError') console.log("Prev prevented"); }); } }
-        function stopPreview(video) { video.pause(); video.currentTime = 0; }
-        function renderMainDocGrid(filter = "") { const container = document.getElementById('documentation-grid'); let html = ''; let itemsToShow = filter ? allFilesData : existingMedia; itemsToShow.forEach(item => { if (filter && !item.title.toLowerCase().includes(filter.toLowerCase())) return; html += createMediaCard(item); }); if(html === '') { html = `<div class="col-span-3 text-center text-gray-500 py-10">No media found matching "${filter}"</div>`; } container.innerHTML = html; }
-        function renderAllFilesGrid() { const container = document.getElementById('all-files-grid'); let html = ''; allFilesData.forEach(item => { html += createMediaCard(item, true); }); container.innerHTML = html; }
-        function createMediaCard(item, isSmall = false) { const margin = isSmall ? 'mb-4' : 'mb-6'; const isLogo = item.ratio === 'aspect-square' && item.title.toLowerCase().includes('logo'); const shapeClass = isLogo ? `rounded-full aspect-square border-4 border-red-600/30 shadow-[0_0_25px_rgba(220,38,38,0.4)]` : `rounded-xl ${item.ratio}`; const textPosition = isLogo ? 'inset-0 flex items-end justify-center pb-6' : 'bottom-4 left-4'; if (item.type === 'video') { return ` <div class="break-inside-avoid relative group ${shapeClass} overflow-hidden glass-panel cursor-pointer ${margin}" onclick="openMediaModal('video', '${item.src}')"> <div class="w-full h-full bg-black/50 flex items-center justify-center"> ${item.src ? `<video class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500" loop muted onmouseenter="previewVideo(this)" onmouseleave="stopPreview(this)"> <source src="${item.src}" type="video/mp4"> </video>` : `<i class="fas fa-video text-gray-600 text-4xl"></i>` } </div> <div class="play-overlay"><i class="fas fa-play"></i></div> <div class="absolute z-10 ${textPosition}"> <span class="text-xs font-bold text-white bg-red-600 px-2 py-1 rounded shadow-lg">${item.title}</span> </div> </div>`; } else { return ` <div class="break-inside-avoid relative group ${shapeClass} overflow-hidden glass-panel cursor-pointer ${margin}" onclick="openMediaModal('image', '${item.src}')"> <img src="${item.src}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://placehold.co/600x800/1a0505/FFF?text=No+Image';"> <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div> <div class="absolute ${textPosition}"> <h3 class="text-lg font-bold text-white drop-shadow-md">${item.title}</h3> </div> </div>`; } }
-        
         window.addEventListener('popstate', function(event) {
             const state = event.state || { page: 'home' };
+            
+            // CLEAN UP ALL MODALS FIRST
             const bioModal = document.getElementById('bio-modal');
             const mediaModal = document.getElementById('media-modal');
             const familyGallery = document.getElementById('family-gallery');
             const allFilesModal = document.getElementById('all-files-overlay');
             const mediaContainer = document.getElementById('media-container');
             const teamExecutorModal = document.getElementById('team-executor-modal');
-            
+
+            // Force close everything visual
             bioModal.classList.remove('active');
             mediaModal.classList.remove('active');
             familyGallery.classList.remove('open');
             allFilesModal.classList.remove('open');
             teamExecutorModal.classList.remove('open');
             mediaContainer.innerHTML = '';
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = 'auto'; // Re-enable scroll
 
+            // UPDATED: Handle Back Button Logic for Search
             if (state.page === 'documentation' || state.page === 'home') {
                  const searchInput = document.getElementById('doc-search');
-                 if(searchInput.value !== '') { searchInput.value = ''; renderMainDocGrid(''); }
+                 if(searchInput.value !== '') {
+                     searchInput.value = '';
+                     renderMainDocGrid(''); // Reset grid
+                 }
             }
-            if (['home', 'structure', 'documentation', 'finance'].includes(state.page)) { _switchTabUI(state.page); } 
-            else if (state.page === 'family-gallery') { familyGallery.classList.add('open'); document.body.style.overflow = 'hidden'; } 
-            else if (state.page === 'all-files') { allFilesModal.classList.add('open'); document.body.style.overflow = 'hidden'; } 
-            else if (state.page === 'team-executor') { teamExecutorModal.classList.add('open'); document.body.style.overflow = 'hidden'; } 
-            else if (state.page === 'bio-details') { familyGallery.classList.add('open'); document.body.style.overflow = 'hidden'; }
+
+            // Now handle specific state logic if strictly needed, or just let the main tab switch happen
+            if (['home', 'structure', 'documentation', 'finance'].includes(state.page)) {
+                _switchTabUI(state.page);
+            } else if (state.page === 'family-gallery') {
+                 familyGallery.classList.add('open');
+                 document.body.style.overflow = 'hidden';
+            } else if (state.page === 'all-files') {
+                 allFilesModal.classList.add('open');
+                 document.body.style.overflow = 'hidden';
+            } else if (state.page === 'team-executor') {
+                 teamExecutorModal.classList.add('open');
+                 document.body.style.overflow = 'hidden';
+            } else if (state.page === 'bio-details') {
+                // If popping back to bio details, we might need data. 
+                // For simplicity on back button, let's fall back to family gallery or home if data missing
+                 familyGallery.classList.add('open');
+                 document.body.style.overflow = 'hidden';
+            }
         });
+
+        function toggleFamilyGallery() {
+            const gallery = document.getElementById('family-gallery');
+            if (gallery.classList.contains('open')) {
+                if (history.state && history.state.page === 'family-gallery') {
+                    history.back();
+                    return;
+                }
+                gallery.classList.remove('open');
+                document.body.style.overflow = 'auto';
+                const activeSection = document.querySelector('.active-section');
+                // history.replaceState({ page: activeSection ? activeSection.id : 'home' }, '', '#' + (activeSection ? activeSection.id : 'home'));
+            } else {
+                gallery.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                history.pushState({ page: 'family-gallery' }, '', '#family');
+                gallery.focus();
+            }
+        }
+
+        function openBioModal(index) {
+            const student = studentsData[index];
+            const modal = document.getElementById('bio-modal');
+            const content = document.getElementById('bio-content');
+            
+            document.getElementById('modal-name').innerText = student.name;
+            document.getElementById('modal-nim').innerText = "NIM: " + student.nim;
+            
+            const igContainer = document.getElementById('modal-ig');
+            if(student.ig === '-' || student.ig === '') {
+                igContainer.innerHTML = `<span class="text-gray-500">-</span>`;
+            } else {
+                const username = student.ig.replace('@', '').trim();
+                igContainer.innerHTML = `<a href="https://www.instagram.com/${username}" target="_blank" rel="noopener noreferrer" class="text-lg text-white font-medium hover:text-red-400 transition cursor-pointer flex items-center gap-1">${student.ig} <i class="fas fa-external-link-alt text-xs ml-1 opacity-50"></i></a>`;
+            }
+            document.getElementById('modal-bio').innerText = `"${student.bio}"`;
+            const imgElement = document.getElementById('modal-img');
+            const loaderElement = document.getElementById('modal-img-loader');
+            imgElement.classList.remove('img-loaded');
+            imgElement.style.opacity = '0';
+            loaderElement.style.display = 'flex'; 
+            imgElement.onload = function() {
+                imgElement.style.opacity = '1';
+                loaderElement.style.display = 'none'; 
+            };
+            imgElement.onerror = function() {
+                this.onerror = null;
+                this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=random&size=400`;
+                imgElement.style.opacity = '1';
+                loaderElement.style.display = 'none';
+            };
+            imgElement.src = student.bioImg;
+
+            modal.classList.add('active');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+            history.pushState({ page: 'bio-details' }, '', '#student-bio');
+            
+            setTimeout(() => {
+                content.focus();
+            }, 100);
+        }
+
+        function closeBioModal(e, force = false) {
+            if (e && !force) {
+                const content = document.getElementById('bio-content');
+                if (content.contains(e.target)) return;
+            }
+
+            if (history.state && history.state.page === 'bio-details') {
+                history.back();
+                return;
+            }
+            document.getElementById('bio-modal').classList.remove('active');
+        }
+
+        function openMediaModal(type, src) {
+            if(!src) return;
+
+            if (type === 'video') {
+                const bgMusic = document.getElementById('bg-music');
+                if (bgMusic && !bgMusic.paused) {
+                    bgMusic.pause();
+                    bgMusic.dataset.wasPlaying = "true";
+                }
+            }
+            const modal = document.getElementById('media-modal');
+            const container = document.getElementById('media-container');
+            
+            if (type === 'video') {
+                container.innerHTML = `
+                    <div class="bg-black w-full h-full flex items-center justify-center">
+                        <video controls autoplay class="w-full h-auto max-h-[85vh]">
+                            <source src="${src}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>`;
+                container.dataset.mediaType = 'video';
+            } else {
+                container.innerHTML = `
+                    <img src="${src}" class="w-full h-auto max-h-[85vh] object-contain bg-black" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';">
+                `;
+                container.dataset.mediaType = 'image';
+            }
+            modal.classList.add('active');
+            history.pushState({ page: 'media-preview' }, '', '#preview');
+        }
+
+        function closeMediaModal(e, force = false) {
+            if (e && !force) {
+                 const container = document.getElementById('media-container');
+                 if (container.contains(e.target)) return;
+            }
+
+            // CRITICAL FIX: If user is in preview state, go back instead of replacing state
+            if (history.state && history.state.page === 'media-preview') {
+                history.back();
+                return;
+            }
+
+            // Fallback cleanup if state is mismatched
+            const container = document.getElementById('media-container');
+            if (container.dataset.mediaType === 'video') {
+                 const bgMusic = document.getElementById('bg-music');
+                 const musicBtn = document.getElementById('music-btn'); 
+                 if (bgMusic && bgMusic.dataset.wasPlaying === "true") {
+                     bgMusic.play().catch(e => console.log(e));
+                     if(musicBtn) {
+                         musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+                         musicBtn.classList.add('music-pulse');
+                         isPlaying = true;
+                     }
+                 }
+            }
+            container.innerHTML = ''; 
+            document.getElementById('media-modal').classList.remove('active');
+        }
+        
+        function previewVideo(video) {
+            video.muted = true;
+            var playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {}).catch(error => { if (error.name !== 'AbortError') console.log("Prev prevented"); });
+            }
+        }
+
+        function stopPreview(video) {
+            video.pause();
+            video.currentTime = 0; 
+        }
     </script>
 </body>
 </html>
