@@ -89,6 +89,15 @@
     </script>
 
     <style>
+        /* DEFINISI FONT DIGITAL (Kalkulator) */
+        @font-face {
+            font-family: 'DS-Digital';
+            /* Pastikan file DS-DIGII.TTF berada satu folder dengan index.html saat di-hosting */
+            src: url('DS-DIGII.TTF') format('truetype'); 
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
             background-color: #0a0000;
             color: #e5e5e5;
@@ -128,6 +137,12 @@
                 backdrop-filter: blur(12px);
                 -webkit-backdrop-filter: blur(12px);
             }
+        }
+
+        /* KHUSUS ANGKA SALDO: MENGGUNAKAN FONT DIGITAL */
+        .font-saldo-custom {
+            font-family: 'DS-Digital', 'Courier New', monospace; /* Prioritas ke DS-Digital */
+            letter-spacing: 2px; /* Memberi jarak agar lebih mirip kalkulator */
         }
 
         #intro-screen {
@@ -741,7 +756,7 @@
                             <div class="absolute -right-6 -top-6 w-32 h-32 bg-red-600 rounded-full opacity-10 blur-xl group-hover:opacity-20 transition-all"></div>
                             <div class="relative z-10">
                                 <p class="text-gray-400 text-sm uppercase tracking-widest mb-2">Total Saldo Kas</p>
-                                <h3 id="total-saldo-display" class="text-4xl md:text-5xl font-bold text-white mb-4 font-mono">Rp 661.000</h3>
+                                <h3 id="total-saldo-display" class="text-4xl md:text-5xl font-bold text-white mb-4 font-saldo-custom">Rp 661.000</h3>
                                 <div class="flex items-center text-green-400 text-sm">
                                     <i class="fas fa-sync-alt mr-1 animate-spin-slow" id="saldo-loading-icon"></i>
                                     <span id="saldo-status-text">Rp 100.000</span>
