@@ -11,7 +11,6 @@
     <meta name="keywords" content="PAI B, IAINU Kebumen, Kelas PAI B 2025, Fakultas Tarbiyah, Mahasiswa Kebumen">
     <meta name="theme-color" content="#000000">
     
-    <!-- Meta Tags -->
     <meta property="og:site_name" content="PAI B Official IAINU Kebumen">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://paib-official.com/"> 
@@ -76,6 +75,7 @@
                     fontFamily: {
                         'tech': ['Orbitron', 'sans-serif'],
                         'body': ['Poppins', 'sans-serif'],
+                        'saldo': ['"Fira Code"', 'Courier New', 'monospace'], 
                     },
                     animation: {
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -136,9 +136,10 @@
             }
         }
         
-        /* --- UBAH JENIS FONT SALDO DI SINI (VS CODE) --- */
+        /* --- CLASS KHUSUS UNTUK FONT SALDO --- */
+        /* Ubah 'Fira Code' dengan nama font yang Anda inginkan di VS Code */
         .font-saldo-custom {
-            font-family: 'DS-DIGII.TTF', 'Courier New', monospace; 
+            font-family: 'Fira Code', 'Courier New', monospace; 
             letter-spacing: -1px;
         }
 
@@ -609,7 +610,7 @@
                 <div id="documentation-grid" class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6"></div>
             </section>
 
-            <!-- FINANCE SECTION UPDATED -->
+            <!-- FINANCE SECTION UPDATED: NO HISTORY MENU -->
             <section id="finance" class="hidden-section py-10 min-h-[600px] flex justify-center items-center">
                 
                 <!-- LOGIN CONTAINER -->
@@ -654,7 +655,7 @@
                     </div>
                 </div>
 
-                <!-- DASHBOARD CONTAINER (Menu Riwayat Telah Dihapus) -->
+                <!-- DASHBOARD CONTAINER -->
                 <div id="finance-dashboard" class="hidden w-full max-w-4xl px-4 flex flex-col items-center">
                     <div class="text-center mb-10 w-full">
                         <h2 class="text-3xl md:text-5xl font-tech font-bold text-white mb-2">KEUANGAN KELAS</h2>
@@ -662,7 +663,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 w-full">
-                        <!-- Total Saldo Card (Updated with Custom Font Class) -->
+                        <!-- Total Saldo Card (Updated with Custom Font Class and ID) -->
                         <div class="glass-panel p-8 rounded-2xl border border-red-500/30 relative overflow-hidden group">
                             <div class="absolute -right-6 -top-6 w-32 h-32 bg-red-600 rounded-full opacity-10 blur-xl group-hover:opacity-20 transition-all"></div>
                             <div class="relative z-10">
@@ -691,6 +692,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- RIWAYAT PENGELUARAN SECTION REMOVED -->
                     
                     <button onclick="logoutFinance()" class="mx-auto block text-red-400 hover:text-white text-sm transition-colors">
                         <i class="fas fa-sign-out-alt mr-2"></i> Keluar dari sesi keuangan
@@ -797,7 +800,7 @@
         function typeWriter() { if (i < textToType.length) { typingElement.innerHTML += textToType.charAt(i); i++; setTimeout(typeWriter, 150); } }
 
         // PASTE YOUR GOOGLE SCRIPT WEB APP URL HERE
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtj3awE4AuW1tCDowwhdqFNJKMc4AmloWl6GOtB4o8C1mfmJrp1WyiddkmIGQgteyp/exec'; 
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyCaqdg3su0ZHiqxdMoNU1899sOalNIQDG3V5C_U33aeO0aTtSmqJzlHuhpLhW_4NNz/exec'; 
 
         const studentsData = [
             { name: "Ady Surya", nim: "2511038", ig: "@suryaadharm_", img: "Ady.jpg", bioImg: "Ady 2.jpg", bio: "Saya orang yang menyukai berpetualang dan menikmati keindahan alam untuk menghilangkan kebosanan dan mengagumi ciptaan Tuhan, sungguh indah." },
@@ -923,8 +926,7 @@
         }
 
         async function fetchFinanceData() {
-            // FIX: Allow specific user URL
-            if(GOOGLE_SCRIPT_URL === '' || GOOGLE_SCRIPT_URL.includes('PASTE_YOUR')) {
+            if(GOOGLE_SCRIPT_URL === 'PASTE_YOUR_GOOGLE_SCRIPT_DEPLOYMENT_URL_HERE' || GOOGLE_SCRIPT_URL === '') {
                 console.warn("Script URL belum di set");
                 return;
             }
