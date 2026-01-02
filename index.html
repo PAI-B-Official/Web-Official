@@ -244,7 +244,7 @@
 
                 <!-- Countdown Timer -->
                 <div class="glass-panel p-6 rounded-2xl">
-                    <p class="text-xs uppercase tracking-widest text-text-secondary mb-4 font-semibold">Estimasi Selesai (3 Maret)</p>
+                    <p class="text-xs uppercase tracking-widest text-text-secondary mb-4 font-semibold">Estimasi Selesai</p>
                     <div class="grid grid-cols-4 gap-4 text-center font-mono">
                         <div>
                             <span id="days" class="text-3xl font-bold text-white block">00</span>
@@ -268,11 +268,11 @@
                 <!-- Progress Section -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-xs font-mono text-text-secondary">
-                        <span>Migrating Database...</span>
-                        <span id="progress-text">78%</span>
+                        <span>System Updates...</span> <!-- UPDATE: Text Changed -->
+                        <span id="progress-text">0%</span>
                     </div>
                     <div class="h-1.5 w-full bg-gray-800 rounded-full overflow-hidden">
-                        <div id="progress-bar" class="h-full bg-accent-red rounded-full w-[78%] relative overflow-hidden">
+                        <div id="progress-bar" class="h-full bg-accent-red rounded-full w-[0%] relative overflow-hidden transition-all duration-1000 ease-linear">
                             <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
                         </div>
                     </div>
@@ -287,7 +287,7 @@
                         <div class="terminal-dot bg-red-500"></div>
                         <div class="terminal-dot bg-yellow-500"></div>
                         <div class="terminal-dot bg-green-500"></div>
-                        <div class="flex-1 text-center text-xs text-gray-500 font-sans tracking-wide">admin@paib-server:~</div>
+                        <div class="flex-1 text-center text-xs text-gray-500 font-sans tracking-wide">pai-b-official-2025-server:~</div>
                     </div>
 
                     <!-- Output Area -->
@@ -431,20 +431,25 @@
 
 
         /**
-         * 2. COUNTDOWN TIMER
+         * 2. COUNTDOWN TIMER & PROGRESS LOGIC
+         * UPDATE: Progress bar now calculates based on time remaining to target.
          */
-        // UPDATE: TARGET DATE = 3 MARET 2026
-        const targetDate = new Date("March 3, 2026 00:00:00");
+        const targetDate = new Date("March 3, 2026 00:00:00").getTime();
+        // Set a fixed start date to calculate percentage progress (e.g., Dec 1, 2025)
+        const startDate = new Date("December 1, 2025 00:00:00").getTime();
 
-        function updateCountdown() {
+        function updateCountdownAndProgress() {
             const now = new Date().getTime();
             const distance = targetDate - now;
 
+            // 1. UPDATE TIMER
             if (distance < 0) {
                 document.getElementById("days").innerText = "00";
                 document.getElementById("hours").innerText = "00";
                 document.getElementById("minutes").innerText = "00";
                 document.getElementById("seconds").innerText = "00";
+                document.getElementById('progress-bar').style.width = '100%';
+                document.getElementById('progress-text').innerText = '100%';
                 return;
             }
 
@@ -457,26 +462,22 @@
             document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
             document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
             document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
+
+            // 2. UPDATE PROGRESS BAR (Time Elapsed / Total Duration)
+            const totalDuration = targetDate - startDate;
+            const elapsed = now - startDate;
+            let percent = (elapsed / totalDuration) * 100;
+            
+            // Clamp value between 0 and 100
+            percent = Math.max(0, Math.min(100, percent));
+
+            document.getElementById('progress-bar').style.width = percent.toFixed(2) + '%';
+            document.getElementById('progress-text').innerText = percent.toFixed(1) + '%';
         }
-        setInterval(updateCountdown, 1000);
+        setInterval(updateCountdownAndProgress, 1000);
         
         // Login Time Update
         document.getElementById('login-time').innerText = new Date().toLocaleString();
-
-
-        /**
-         * 3. PROGRESS BAR SIMULATION
-         */
-        let progress = 78;
-        function simulateProgress() {
-            if (Math.random() > 0.7 && progress < 99) {
-                progress += Math.random() * 0.5;
-                const p = Math.min(progress, 99.9).toFixed(1);
-                document.getElementById('progress-bar').style.width = p + '%';
-                document.getElementById('progress-text').innerText = p + '%';
-            }
-        }
-        setInterval(simulateProgress, 1000);
 
 
         /**
