@@ -139,11 +139,18 @@
 
         .terminal-body {
             padding: 16px;
-            height: 320px;
+            /* Height adjusted for mobile to prevent overflow/cutting off */
+            height: 400px;
             overflow-y: auto;
             font-size: 14px;
             line-height: 1.6;
             color: #d4d4d4;
+        }
+        
+        @media (min-width: 768px) {
+            .terminal-body {
+                height: 500px;
+            }
         }
 
         .command-line {
@@ -206,13 +213,15 @@
             100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
-        /* Snake Game Canvas */
-        #snake-canvas {
+        /* Game Canvas */
+        #game-canvas {
             background-color: #111;
             border: 1px solid #333;
             display: block;
             margin-top: 10px;
             max-width: 100%;
+            border-radius: 4px;
+            touch-action: none; /* Prevent scroll on touch */
         }
     </style>
 </head>
@@ -226,41 +235,41 @@
         <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             <!-- LEFT CONTENT (INFO) -->
-            <div class="lg:col-span-5 space-y-8 animate-slide-up">
+            <div class="lg:col-span-5 space-y-8 animate-slide-up order-2 lg:order-1">
                 <!-- Branding -->
                 <div>
                     <div class="status-badge mb-6">
                         <span class="status-dot"></span>
                         SYSTEM MAINTENANCE
                     </div>
-                    <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight leading-none text-glow">
+                    <h1 class="text-4xl md:text-7xl font-bold text-white mb-4 tracking-tight leading-none text-glow">
                         We'll be <br>
                         <span class="text-accent-red">back soon.</span>
                     </h1>
-                    <p class="text-text-secondary text-lg leading-relaxed border-l-2 border-accent-red pl-4">
+                    <p class="text-text-secondary text-sm md:text-lg leading-relaxed border-l-2 border-accent-red pl-4">
                         Sistem Informasi Kelas PAI B sedang menjalani pemeliharaan terjadwal untuk meningkatkan keamanan dan performa database.
                     </p>
                 </div>
 
                 <!-- Countdown Timer -->
                 <div class="glass-panel p-6 rounded-2xl">
-                    <p class="text-xs uppercase tracking-widest text-text-secondary mb-4 font-semibold">Estimasi Selesai</p>
+                    <p class="text-xs uppercase tracking-widest text-text-secondary mb-4 font-semibold">Estimasi Selesai (3 Maret)</p>
                     <div class="grid grid-cols-4 gap-4 text-center font-mono">
                         <div>
-                            <span id="days" class="text-3xl font-bold text-white block">00</span>
-                            <span class="text-xs text-gray-500">HARI</span>
+                            <span id="days" class="text-2xl md:text-3xl font-bold text-white block">00</span>
+                            <span class="text-[10px] md:text-xs text-gray-500">HARI</span>
                         </div>
                         <div>
-                            <span id="hours" class="text-3xl font-bold text-white block">00</span>
-                            <span class="text-xs text-gray-500">JAM</span>
+                            <span id="hours" class="text-2xl md:text-3xl font-bold text-white block">00</span>
+                            <span class="text-[10px] md:text-xs text-gray-500">JAM</span>
                         </div>
                         <div>
-                            <span id="minutes" class="text-3xl font-bold text-white block">00</span>
-                            <span class="text-xs text-gray-500">MENIT</span>
+                            <span id="minutes" class="text-2xl md:text-3xl font-bold text-white block">00</span>
+                            <span class="text-[10px] md:text-xs text-gray-500">MENIT</span>
                         </div>
                         <div>
-                            <span id="seconds" class="text-3xl font-bold text-accent-red block">00</span>
-                            <span class="text-xs text-gray-500">DETIK</span>
+                            <span id="seconds" class="text-2xl md:text-3xl font-bold text-accent-red block">00</span>
+                            <span class="text-[10px] md:text-xs text-gray-500">DETIK</span>
                         </div>
                     </div>
                 </div>
@@ -268,7 +277,7 @@
                 <!-- Progress Section -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-xs font-mono text-text-secondary">
-                        <span>System Updates...</span> <!-- UPDATE: Text Changed -->
+                        <span>System Updates...</span>
                         <span id="progress-text">0%</span>
                     </div>
                     <div class="h-1.5 w-full bg-gray-800 rounded-full overflow-hidden">
@@ -280,14 +289,14 @@
             </div>
 
             <!-- RIGHT CONTENT (INTERACTIVE TERMINAL) -->
-            <div class="lg:col-span-7 w-full animate-fade-in" style="animation-delay: 0.3s;">
-                <div class="terminal-window h-[500px] md:h-[600px]">
+            <div class="lg:col-span-7 w-full animate-fade-in order-1 lg:order-2" style="animation-delay: 0.3s;">
+                <div class="terminal-window">
                     <!-- Window Controls -->
                     <div class="terminal-header">
                         <div class="terminal-dot bg-red-500"></div>
                         <div class="terminal-dot bg-yellow-500"></div>
                         <div class="terminal-dot bg-green-500"></div>
-                        <div class="flex-1 text-center text-xs text-gray-500 font-sans tracking-wide">pai-b-official-2025-server:~</div>
+                        <div class="flex-1 text-center text-xs text-gray-500 font-sans tracking-wide">admin@paib-server:~</div>
                     </div>
 
                     <!-- Output Area -->
@@ -350,7 +359,6 @@
     <script>
         /**
          * 1. CANVAS PARTICLES
-         * Membuat efek background jaringan yang halus dan profesional.
          */
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
@@ -363,7 +371,7 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.directionX = (Math.random() * 0.4) - 0.2; // Gerakan lambat
+                this.directionX = (Math.random() * 0.4) - 0.2;
                 this.directionY = (Math.random() * 0.4) - 0.2;
                 this.size = Math.random() * 2 + 1;
                 this.color = '#333333';
@@ -431,18 +439,15 @@
 
 
         /**
-         * 2. COUNTDOWN TIMER & PROGRESS LOGIC
-         * UPDATE: Progress bar now calculates based on time remaining to target.
+         * 2. COUNTDOWN & PROGRESS
          */
         const targetDate = new Date("March 3, 2026 00:00:00").getTime();
-        // Set a fixed start date to calculate percentage progress (e.g., Dec 1, 2025)
         const startDate = new Date("December 1, 2025 00:00:00").getTime();
 
         function updateCountdownAndProgress() {
             const now = new Date().getTime();
             const distance = targetDate - now;
 
-            // 1. UPDATE TIMER
             if (distance < 0) {
                 document.getElementById("days").innerText = "00";
                 document.getElementById("hours").innerText = "00";
@@ -463,12 +468,9 @@
             document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
             document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
 
-            // 2. UPDATE PROGRESS BAR (Time Elapsed / Total Duration)
             const totalDuration = targetDate - startDate;
             const elapsed = now - startDate;
             let percent = (elapsed / totalDuration) * 100;
-            
-            // Clamp value between 0 and 100
             percent = Math.max(0, Math.min(100, percent));
 
             document.getElementById('progress-bar').style.width = percent.toFixed(2) + '%';
@@ -476,23 +478,20 @@
         }
         setInterval(updateCountdownAndProgress, 1000);
         
-        // Login Time Update
         document.getElementById('login-time').innerText = new Date().toLocaleString();
 
 
         /**
          * 4. TERMINAL SYSTEM
-         * Inti dari interaktivitas halaman ini.
          */
         const outputDiv = document.getElementById('terminal-output');
         const inputField = document.getElementById('terminal-input');
         let commandHistory = [];
         let historyIndex = -1;
 
-        // Auto logs saat load
         const bootLogs = [
             { msg: "Connecting to secure server...", color: "text-gray-400" },
-            { msg: "Verified ID: Hann_ID1028", color: "text-green-500" }, // Updated ID in Logs
+            { msg: "Verified ID: Hann_ID1028", color: "text-green-500" },
             { msg: "Loading modules...", color: "text-gray-400" },
             { msg: "System Ready.", color: "text-white" }
         ];
@@ -534,18 +533,18 @@
                 e.preventDefault();
             }
 
-            // Snake Controls Override if Game Active
+            // Game Controls Override (Desktop)
             if (isGameActive) {
-                if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                if(['ArrowUp', ' '].includes(e.key)) {
                     e.preventDefault();
-                    handleSnakeInput(e.key);
+                    jumpChicken();
                 }
             }
         });
 
-        // Click anywhere to focus terminal
+        // Click to focus (unless game is active)
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('button') && !e.target.closest('a')) {
+            if (!isGameActive && !e.target.closest('button') && !e.target.closest('a')) {
                 inputField.focus();
             }
         });
@@ -553,23 +552,28 @@
         function printLog(text, className = "text-gray-300") {
             const div = document.createElement('div');
             div.className = className;
-            div.innerHTML = text; // Allow HTML
+            div.innerHTML = text;
             outputDiv.appendChild(div);
             outputDiv.scrollTop = outputDiv.scrollHeight;
         }
 
-        // External trigger function
         window.runCommand = function(cmd) {
+            if (cmd === 'game') {
+                // Jangan fokus ke input jika mau main game di mobile
+                // Agar keyboard tidak muncul
+                printLog(`user@paib:~$ ${cmd}`, 'text-gray-300 font-bold mt-2');
+                startRunGame();
+                return;
+            }
             inputField.value = cmd;
             inputField.focus();
-            // Simulate Enter press
             const event = new KeyboardEvent('keydown', { key: 'Enter' });
             inputField.dispatchEvent(event);
         }
 
         function processCommand(cmd) {
             if (isGameActive && cmd !== 'quit') {
-                printLog("Game is running! Type 'quit' to exit or use Arrow Keys.", "text-yellow-500");
+                printLog("Game is running! Click/Tap/Space to Jump. Type 'quit' to exit.", "text-yellow-500");
                 return;
             }
 
@@ -581,7 +585,7 @@
                             <span class="text-accent-red">status</span> &nbsp;- Check server health<br>
                             <span class="text-accent-red">about</span> &nbsp;&nbsp;- About this class<br>
                             <span class="text-accent-red">contact</span> - Get admin contact<br>
-                            <span class="text-accent-red">game</span> &nbsp;&nbsp;&nbsp;- Play 'Snake' minigame<br>
+                            <span class="text-accent-red">game</span> &nbsp;&nbsp;&nbsp;- Play 'Chicken Run' minigame<br>
                             <span class="text-accent-red">clear</span> &nbsp;&nbsp;- Clear terminal<br>
                             <span class="text-accent-red">date</span> &nbsp;&nbsp;&nbsp;- Show server time
                         </div>
@@ -600,7 +604,6 @@
                     printLog("Motto: One Heart, One Goal.", "text-gray-400");
                     break;
                 case 'contact':
-                    // UPDATE WA ADMIN
                     printLog("Admin WhatsApp: <a href='https://wa.me/6285179920064' class='underline hover:text-white'>0851-7992-0064</a>", "text-blue-400");
                     break;
                 case 'date':
@@ -610,10 +613,10 @@
                     outputDiv.innerHTML = '';
                     break;
                 case 'game':
-                    startSnakeGame();
+                    startRunGame();
                     break;
                 case 'quit':
-                    if (isGameActive) stopSnakeGame();
+                    if (isGameActive) stopRunGame();
                     else printLog("Nothing to quit.", "text-gray-500");
                     break;
                 case 'sudo':
@@ -626,118 +629,165 @@
 
 
         /**
-         * 5. SNAKE GAME ENGINE
-         * Game lengkap terintegrasi dalam terminal.
+         * 5. CHICKEN RUN GAME ENGINE
+         * Game lompat rintangan sederhana.
          */
         let isGameActive = false;
-        let gameLoop;
-        let snake = [];
-        let food = {};
-        let direction = 'right';
+        let gameAnimationFrame;
         let score = 0;
-        const gridSize = 15; // Pixel size per block
+        let speed = 5;
+        
+        // Game Objects
+        let chicken = { x: 50, y: 0, width: 30, height: 30, dy: 0, jumpPower: -12, grounded: true };
+        let obstacles = [];
+        let gravity = 0.6;
+        let frameCount = 0;
+        let gameCanvas, ctxGame;
 
-        function startSnakeGame() {
+        const chickenEmoji = "🐔";
+        const obstacleEmojis = ["🔥", "🚧", "🌵", "🪨"];
+
+        function startRunGame() {
             if (isGameActive) return;
             isGameActive = true;
             score = 0;
-            direction = 'right';
-            snake = [{x: 5, y: 5}, {x: 4, y: 5}, {x: 3, y: 5}];
+            speed = 5;
+            obstacles = [];
+            chicken.y = 150; // Initial ground pos estimate
+            chicken.dy = 0;
+            frameCount = 0;
             
-            printLog("Initializing Snake v1.0...", "text-green-500");
-            printLog("Controls: Arrow Keys | Exit: type 'quit'", "text-gray-400");
+            // Blur input to prevent keyboard on mobile
+            inputField.blur();
+
+            printLog("Initializing Chicken Run v1.0...", "text-green-500");
+            printLog("Controls: Tap Screen / Spacebar to Jump!", "text-white font-bold");
             
-            // Create Canvas inside terminal
-            const gameCanvas = document.createElement('canvas');
-            gameCanvas.id = 'snake-canvas';
-            // Lebar canvas menyesuaikan container terminal dikurangi padding
-            gameCanvas.width = outputDiv.clientWidth - 40; 
+            // Create Canvas
+            gameCanvas = document.createElement('canvas');
+            gameCanvas.id = 'game-canvas';
+            // Adjust width logic
+            gameCanvas.width = outputDiv.clientWidth - 30; 
             gameCanvas.height = 200;
             outputDiv.appendChild(gameCanvas);
             outputDiv.scrollTop = outputDiv.scrollHeight;
+            ctxGame = gameCanvas.getContext('2d');
 
-            spawnFood(gameCanvas);
-            gameLoop = setInterval(() => updateGame(gameCanvas), 100);
+            // Add Event Listeners
+            gameCanvas.addEventListener('touchstart', handleTouchStart, {passive: false});
+            gameCanvas.addEventListener('mousedown', handleTouchStart);
+
+            updateGameLoop();
         }
 
-        function stopSnakeGame() {
-            clearInterval(gameLoop);
+        function handleTouchStart(e) {
+            if (e.type === 'touchstart') e.preventDefault(); 
+            jumpChicken();
+        }
+
+        function jumpChicken() {
+            if (chicken.grounded) {
+                chicken.dy = chicken.jumpPower;
+                chicken.grounded = false;
+            }
+        }
+
+        function stopRunGame() {
+            cancelAnimationFrame(gameAnimationFrame);
             isGameActive = false;
-            const cvs = document.getElementById('snake-canvas');
-            if(cvs) {
-                printLog(`Game Over. Final Score: ${score}`, "text-white font-bold mb-4");
-                cvs.remove();
+            if(gameCanvas) {
+                printLog(`Game Over! Final Score: ${score}`, "text-red-500 font-bold mb-4");
+                // Remove listeners
+                gameCanvas.removeEventListener('touchstart', handleTouchStart);
+                gameCanvas.removeEventListener('mousedown', handleTouchStart);
+                gameCanvas.remove();
             }
         }
 
-        function handleSnakeInput(key) {
-            if (key === 'ArrowUp' && direction !== 'down') direction = 'up';
-            else if (key === 'ArrowDown' && direction !== 'up') direction = 'down';
-            else if (key === 'ArrowLeft' && direction !== 'right') direction = 'left';
-            else if (key === 'ArrowRight' && direction !== 'left') direction = 'right';
-        }
+        function updateGameLoop() {
+            if (!isGameActive) return;
 
-        function spawnFood(cvs) {
-            food = {
-                x: Math.floor(Math.random() * (cvs.width / gridSize)),
-                y: Math.floor(Math.random() * (cvs.height / gridSize))
-            };
-        }
-
-        function updateGame(cvs) {
-            const ctxGame = cvs.getContext('2d');
+            ctxGame.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
             
-            // Clear
-            ctxGame.fillStyle = '#111';
-            ctxGame.fillRect(0, 0, cvs.width, cvs.height);
+            // Ground Level
+            const groundY = gameCanvas.height - 40;
 
-            // Move Snake
-            const head = {x: snake[0].x, y: snake[0].y};
-            if (direction === 'right') head.x++;
-            else if (direction === 'left') head.x--;
-            else if (direction === 'up') head.y--;
-            else if (direction === 'down') head.y++;
+            // Physics Chicken
+            chicken.dy += gravity;
+            chicken.y += chicken.dy;
 
-            // Collision Wall
-            if (head.x < 0 || head.x >= cvs.width/gridSize || head.y < 0 || head.y >= cvs.height/gridSize) {
-                stopSnakeGame();
-                return;
+            // Ground Collision
+            if (chicken.y + chicken.height > groundY) {
+                chicken.y = groundY - chicken.height;
+                chicken.dy = 0;
+                chicken.grounded = true;
             }
 
-            // Collision Self
-            for (let i = 0; i < snake.length; i++) {
-                if (head.x === snake[i].x && head.y === snake[i].y) {
-                    stopSnakeGame();
+            // Draw Ground line
+            ctxGame.beginPath();
+            ctxGame.moveTo(0, groundY);
+            ctxGame.lineTo(gameCanvas.width, groundY);
+            ctxGame.strokeStyle = "#555";
+            ctxGame.lineWidth = 2;
+            ctxGame.stroke();
+
+            // Draw Chicken (Flipped horizontally to face right)
+            ctxGame.save();
+            ctxGame.translate(chicken.x + 15, chicken.y + 15);
+            ctxGame.scale(-1, 1);
+            ctxGame.font = "30px Arial";
+            ctxGame.textAlign = "center";
+            ctxGame.textBaseline = "middle";
+            ctxGame.fillText(chickenEmoji, 0, 5); // Slight offset y for visual balance
+            ctxGame.restore();
+
+            // Obstacle Logic
+            frameCount++;
+            if (frameCount % 90 === 0) { // Spawn rate
+                let type = obstacleEmojis[Math.floor(Math.random() * obstacleEmojis.length)];
+                obstacles.push({ x: gameCanvas.width, y: groundY - 30, type: type, passed: false });
+                // Increase speed gradually
+                if(frameCount % 500 === 0) speed += 0.5;
+            }
+
+            // Update Obstacles
+            for (let i = 0; i < obstacles.length; i++) {
+                let obs = obstacles[i];
+                obs.x -= speed;
+
+                // Draw Obstacle
+                ctxGame.font = "30px Arial";
+                ctxGame.fillText(obs.type, obs.x, obs.y + 30);
+
+                // Collision Detection (Simple Box)
+                // Chicken box: x, y, 30, 30
+                // Obs box: obs.x, obs.y, 30, 30
+                if (
+                    chicken.x < obs.x + 20 &&
+                    chicken.x + 20 > obs.x &&
+                    chicken.y < obs.y + 20 &&
+                    chicken.y + 20 > obs.y
+                ) {
+                    stopRunGame();
                     return;
+                }
+
+                // Score
+                if (obs.x + 30 < chicken.x && !obs.passed) {
+                    score++;
+                    obs.passed = true;
                 }
             }
 
-            snake.unshift(head);
-
-            // Eat Food
-            if (head.x === food.x && head.y === food.y) {
-                score += 10;
-                spawnFood(cvs);
-            } else {
-                snake.pop();
-            }
-
-            // Draw Food
-            ctxGame.fillStyle = '#dc2626';
-            ctxGame.beginPath();
-            ctxGame.arc(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2, gridSize/2 - 1, 0, Math.PI*2);
-            ctxGame.fill();
-
-            // Draw Snake
-            ctxGame.fillStyle = '#10b981';
-            snake.forEach(part => {
-                ctxGame.fillRect(part.x * gridSize, part.y * gridSize, gridSize - 1, gridSize - 1);
-            });
+            // Cleanup off-screen obstacles
+            obstacles = obstacles.filter(obs => obs.x > -50);
 
             // Draw Score
-            ctxGame.fillStyle = '#fff';
-            ctxGame.font = '12px monospace';
-            ctxGame.fillText(`Score: ${score}`, 10, 15);
+            ctxGame.fillStyle = "#fff";
+            ctxGame.font = "16px monospace";
+            ctxGame.fillText(`Score: ${score}`, gameCanvas.width - 100, 30);
+
+            gameAnimationFrame = requestAnimationFrame(updateGameLoop);
         }
 
     </script>
